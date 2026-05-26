@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스토리움 장소 예약</title>
+  <!-- 꼬리바람(Tailwind) CSS 불러오기 (디자인용) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 폰트어썸 아이콘 불러오기 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* 웹폰트 적용 */
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    body { font-family: 'Pretendard', sans-serif; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- 헤더 -->
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">스토리움</h1>
+        <p class="text-xs text-gray-500 mt-1">공간 대여 예약 시스템</p>
+      </div>
+      <button id="adminToggleBtn" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors" title="관리자 로그인">
+        <i class="fas fa-cog text-lg"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 메인 컨텐츠 -->
+  <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+    
+    <!-- 왼쪽: 달력 및 장소 정보 -->
+    <div class="md:col-span-1 space-y-6">
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-semibold flex items-center mb-4 text-gray-800">
+          <i class="fas fa-calendar-alt w-5 text-indigo-500 mr-2"></i> 날짜 선택
+        </h2>
+        <input type="date" id="datePicker" class="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-semibold flex items-center mb-4 text-gray-800">
+          <i class="fas fa-info-circle w-5 text-indigo-500 mr-2"></i> 이용 안내
+        </h2>
+        <div class="space-y-4 text-sm text-gray-600">
+          <div class="flex items-start">
+            <i class="fas fa-credit-card w-5 mt-0.5 text-gray-400"></i>
+            <div>
+              <p class="font-medium text-gray-800">이용 요금</p>
+              <p>1시간 당 12,000원</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-money-check w-5 mt-0.5 text-gray-400"></i>
+            <div>
+              <p class="font-medium text-gray-800">입금 계좌</p>
+              <p class="font-mono text-indigo-600 font-medium">신한 110-228-159665</p>
+              <p class="text-xs">예금주: 롤에듀</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-map-marker-alt w-5 mt-0.5 text-gray-400"></i>
+            <div>
+              <p class="font-medium text-gray-800">오시는 길</p>
+              <a href="https://naver.me/FAALevRb" target="_blank" class="text-indigo-500 hover:underline">
+                네이버 지도로 보기
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 오른쪽: 시간 선택 및 관리자 뷰 -->
+    <div class="md:col-span-2 space-y-6">
+      
+      <!-- 고객용 시간 선택 뷰 -->
+      <div id="customerView" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-semibold flex items-center mb-6 text-gray-800">
+          <i class="fas fa-clock w-5 text-indigo-500 mr-2"></i> 시간 선택 <span id="displayDate" class="ml-2 text-sm font-normal text-gray-500"></span>
+        </h2>
+        <div id="timeSlotContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <!-- 시간 버튼들이 자바스크립트로 여기에 생성됩니다 -->
+        </div>
+      </div>
+
+      <!-- 관리자용 예약 현황 뷰 -->
+      <div id="adminView" class="hidden bg-indigo-50 p-6 rounded-2xl shadow-sm border border-indigo-100">
+        <h2 class="text-lg font-semibold flex items-center mb-6 text-indigo-800">
+          <i class="fas fa-shield-alt w-5 text-indigo-600 mr-2"></i> 관리자 예약 현황 <span id="adminDisplayDate" class="ml-2 text-sm font-normal text-indigo-500"></span>
+        </h2>
+        <div id="adminReservationList" class="space-y-4">
+          <!-- 관리자 예약 리스트가 여기에 생성됩니다 -->
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 관리자 로그인 모달 -->
+  <div id="loginModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl">
+      <div class="bg-gray-800 p-4 text-white flex justify-between items-center">
+        <h3 class="font-bold flex items-center"><i class="fas fa-lock mr-2"></i> 관리자 로그인</h3>
+        <button id="closeLoginBtn" class="text-white/80 hover:text-white"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">아이디</label>
+          <input type="text" id="adminId" class="w-full p-3 border border-gray-200 rounded-xl outline-none focus:border-gray-800" placeholder="admin">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">비밀번호</label>
+          <input type="password" id="adminPw" class="w-full p-3 border border-gray-200 rounded-xl outline-none focus:border-gray-800" placeholder="비밀번호">
+        </div>
+        <p id="loginError" class="text-red-500 text-sm font-medium hidden">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+        <button id="loginSubmitBtn" class="w-full p-3 rounded-xl bg-gray-800 text-white font-medium hover:bg-gray-900 transition-colors">로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 예약 신청 모달 -->
+  <div id="reservationModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+      <div class="bg-indigo-600 p-4 text-white flex justify-between items-center">
+        <h3 class="font-bold">예약 신청</h3>
+        <button id="closeResBtn" class="text-white/80 hover:text-white"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div class="flex bg-indigo-50 p-3 rounded-lg text-indigo-800 text-sm mb-4 items-center">
+          <i class="fas fa-calendar-check mr-2"></i>
+          <span id="resModalTimeInfo" class="font-medium"></span>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">예약자 성함</label>
+          <input type="text" id="resName" class="w-full p-3 border border-gray-200 rounded-xl outline-none focus:border-indigo-500" placeholder="홍길동">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">연락처 (- 없이 입력)</label>
+          <input type="tel" id="resContact" class="w-full p-3 border border-gray-200 rounded-xl outline-none focus:border-indigo-500" placeholder="01012345678">
+        </div>
+        <div class="pt-4 border-t border-gray-100">
+          <label class="flex items-center cursor-pointer p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+            <input type="checkbox" id="resDeposit" class="w-5 h-5 text-indigo-600 rounded border-gray-300">
+            <span class="ml-3 text-sm font-medium text-gray-800">
+              신한 110-228-159665 롤에듀 (12,000원) <br/>
+              <span class="text-indigo-600">입금을 완료했습니다.</span>
+            </span>
+          </label>
+        </div>
+        <p id="resError" class="text-red-500 text-sm text-center font-medium hidden">이름과 연락처를 모두 입력해주세요.</p>
+        <div class="pt-4 flex gap-3">
+          <button id="cancelResBtn" class="flex-1 p-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50">취소</button>
+          <button id="submitResBtn" class="flex-1 p-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 shadow-sm">예약 완료하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 설정 변수 ---
+    // 에러의 원인이었던 빈 문자열과 하단 잘못된 조건문을 수정했습니다.
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwj35oZTkKRbZsS_hUGqxBOSygaRqK_obmz17iTQtXbj8oslKnJB7tI_rYVn27Tt5WE7A/exec"; 
+    
+    // 상태 변수
+    let isAdmin = false;
+    let selectedDate = new Date().toISOString().split('T')[0];
+    let selectedTimeForRes = "";
+    const timeSlots = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
+    
+    // 예약 데이터 (로컬 메모리)
+    let reservations = [];
+
+    // --- DOM 요소 가져오기 ---
+    const datePicker = document.getElementById('datePicker');
+    const displayDate = document.getElementById('displayDate');
+    const adminDisplayDate = document.getElementById('adminDisplayDate');
+    const timeSlotContainer = document.getElementById('timeSlotContainer');
+    const customerView = document.getElementById('customerView');
+    const adminView = document.getElementById('adminView');
+    const adminReservationList = document.getElementById('adminReservationList');
+    const adminToggleBtn = document.getElementById('adminToggleBtn');
+
+    // 모달 요소
+    const loginModal = document.getElementById('loginModal');
+    const reservationModal = document.getElementById('reservationModal');
+
+    // 초기화
+    datePicker.value = selectedDate;
+    updateUI();
+
+    // 날짜 변경 이벤트
+    datePicker.addEventListener('change', (e) => {
+      selectedDate = e.target.value;
+      updateUI();
+    });
+
+    // 화면 렌더링 함수
+    function updateUI() {
+      displayDate.textContent = `(${selectedDate})`;
+      adminDisplayDate.textContent = `(${selectedDate})`;
+      
+      if (isAdmin) {
+        customerView.classList.add('hidden');
+        adminView.classList.remove('hidden');
+        adminToggleBtn.classList.add('bg-indigo-100', 'text-indigo-700');
+        adminToggleBtn.classList.remove('bg-gray-100', 'text-gray-600');
+        renderAdminList();
+      } else {
+        customerView.classList.remove('hidden');
+        adminView.classList.add('hidden');
+        adminToggleBtn.classList.remove('bg-indigo-100', 'text-indigo-700');
+        adminToggleBtn.classList.add('bg-gray-100', 'text-gray-600');
+        renderTimeSlots();
+      }
+    }
+
+    // 고객용 시간표 렌더링
+    function renderTimeSlots() {
+      timeSlotContainer.innerHTML = '';
+      const dailyRes = reservations.filter(r => r.date === selectedDate);
+
+      timeSlots.forEach(time => {
+        const booking = dailyRes.find(r => r.time === time);
+        const isBooked = !!booking;
+        const last4 = isBooked && booking.contact ? booking.contact.slice(-4) : "";
+
+        const btn = document.createElement('button');
+        btn.className = `p-3 rounded-xl border flex flex-col items-center justify-center transition-all ${
+          isBooked 
+            ? 'bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed' 
+            : 'bg-white border-indigo-100 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300'
+        }`;
+        
+        btn.innerHTML = `
+          <span class="font-semibold">${time}</span>
+          <span class="text-xs mt-1">${isBooked ? `마감 (${last4})` : '예약 가능'}</span>
+        `;
+
+        if (!isBooked) {
+          btn.onclick = () => openReservationModal(time);
+        }
+        
+        timeSlotContainer.appendChild(btn);
+      });
+    }
+
+    // 관리자용 리스트 렌더링
+    function renderAdminList() {
+      adminReservationList.innerHTML = '';
+      const dailyRes = reservations.filter(r => r.date === selectedDate).sort((a, b) => a.time.localeCompare(b.time));
+
+      if (dailyRes.length === 0) {
+        adminReservationList.innerHTML = `<p class="text-center text-gray-500 py-8">선택하신 날짜에 예약이 없습니다.</p>`;
+        return;
+      }
+
+      dailyRes.forEach(r => {
+        const div = document.createElement('div');
+        div.className = "bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4";
+        div.innerHTML = `
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="bg-indigo-100 text-indigo-800 text-sm font-bold px-2 py-1 rounded">${r.time}</span>
+              <span class="font-semibold">${r.name}</span>
+            </div>
+            <p class="text-sm text-gray-600 mt-2 flex items-center">
+              <i class="fas fa-phone fa-sm mr-1"></i> ${r.contact}
+            </p>
+            <p class="text-xs text-gray-500 mt-1">신청: <span class="${r.depositReady ? 'text-indigo-600 font-bold' : ''}">${r.depositReady ? '입금함 체크됨' : '미체크'}</span></p>
+          </div>
+          <div class="flex items-center space-x-2 w-full sm:w-auto">
+            <button onclick="toggleDeposit('${r.id}')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center ${
+              r.isConfirmedByAdmin ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }">
+              <i class="fas fa-check mr-1"></i> ${r.isConfirmedByAdmin ? '입금 확인됨' : '입금 확인하기'}
+            </button>
+            <button onclick="deleteRes('${r.id}')" class="px-3 py-2 bg-red-50 text-red-600 rounded-lg text-sm hover:bg-red-100 transition-colors">
+              취소
+            </button>
+          </div>
+        `;
+        adminReservationList.appendChild(div);
+      });
+    }
+
+    // --- 예약 로직 ---
+    function openReservationModal(time) {
+      selectedTimeForRes = time;
+      document.getElementById('resModalTimeInfo').textContent = `${selectedDate} / ${time} (1시간)`;
+      document.getElementById('resName').value = "";
+      document.getElementById('resContact').value = "";
+      document.getElementById('resDeposit').checked = false;
+      document.getElementById('resError').classList.add('hidden');
+      reservationModal.classList.remove('hidden');
+    }
+
+    document.getElementById('closeResBtn').onclick = () => reservationModal.classList.add('hidden');
+    document.getElementById('cancelResBtn').onclick = () => reservationModal.classList.add('hidden');
+    
+    document.getElementById('submitResBtn').onclick = () => {
+      const name = document.getElementById('resName').value;
+      const contact = document.getElementById('resContact').value;
+      const depositReady = document.getElementById('resDeposit').checked;
+      
+      if (!name || !contact) {
+        document.getElementById('resError').classList.remove('hidden');
+        return;
+      }
+
+      const newRes = {
+        id: Date.now().toString(),
+        date: selectedDate,
+        time: selectedTimeForRes,
+        name: name,
+        contact: contact,
+        depositReady: depositReady,
+        isConfirmedByAdmin: false
+      };
+
+      reservations.push(newRes);
+
+      // 구글 시트 연동 (URL이 설정된 경우)
+      // 에러가 나던 문법을 올바른 if 조건문으로 수정했습니다.
+      if (GOOGLE_SCRIPT_URL) {
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newRes)
+        }).catch(e => console.error(e));
+      }
+
+      reservationModal.classList.add('hidden');
+      updateUI();
+    };
+
+    // --- 관리자 로직 ---
+    window.toggleDeposit = function(id) {
+      const res = reservations.find(r => r.id === id);
+      if(res) {
+        res.isConfirmedByAdmin = !res.isConfirmedByAdmin;
+        updateUI();
+      }
+    };
+
+    window.deleteRes = function(id) {
+      if(confirm('정말 예약을 취소하시겠습니까?')) {
+        reservations = reservations.filter(r => r.id !== id);
+        updateUI();
+      }
+    };
+
+    // 관리자 로그인 토글 버튼
+    adminToggleBtn.onclick = () => {
+      if (isAdmin) {
+        isAdmin = false;
+        updateUI();
+      } else {
+        document.getElementById('adminId').value = '';
+        document.getElementById('adminPw').value = '';
+        document.getElementById('loginError').classList.add('hidden');
+        loginModal.classList.remove('hidden');
+      }
+    };
+
+    document.getElementById('closeLoginBtn').onclick = () => loginModal.classList.add('hidden');
+    
+    // 로그인 실행
+    function doLogin() {
+      const id = document.getElementById('adminId').value;
+      const pw = document.getElementById('adminPw').value;
+      if (id === 'admin' && pw === 'rall1234') {
+        isAdmin = true;
+        loginModal.classList.add('hidden');
+        updateUI();
+      } else {
+        document.getElementById('loginError').classList.remove('hidden');
+      }
+    }
+    
+    document.getElementById('loginSubmitBtn').onclick = doLogin;
+    
+    // 엔터키 로그인 지원
+    document.getElementById('adminPw').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        doLogin();
+      }
+    });
+
+  </script>
+</body>
+</html>
