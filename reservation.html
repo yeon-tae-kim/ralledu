@@ -34,8 +34,14 @@
   <!-- 메인 컨텐츠 -->
   <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
     
-    <!-- 왼쪽: 달력 및 장소 정보 -->
+    <!-- 왼쪽: 공간 이미지, 달력 및 장소 정보 -->
     <div class="md:col-span-1 space-y-6">
+      
+      <!-- 스토리움 이미지 추가 영역 -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <img src="스토리움 이미지.jpg" alt="스토리움 내부 전경" class="w-full h-auto object-cover" onerror="this.src='https://placehold.co/400x300/e2e8f0/64748b?text=Image+Not+Found'">
+      </div>
+
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h2 class="text-lg font-semibold flex items-center mb-4 text-gray-800">
           <i class="fas fa-calendar-alt w-5 text-indigo-500 mr-2"></i> 날짜 선택
@@ -164,7 +170,6 @@
 
   <script>
     // --- 설정 변수 ---
-    // 에러의 원인이었던 빈 문자열과 하단 잘못된 조건문을 수정했습니다.
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwj35oZTkKRbZsS_hUGqxBOSygaRqK_obmz17iTQtXbj8oslKnJB7tI_rYVn27Tt5WE7A/exec"; 
     
     // 상태 변수
@@ -326,7 +331,6 @@
       reservations.push(newRes);
 
       // 구글 시트 연동 (URL이 설정된 경우)
-      // 에러가 나던 문법을 올바른 if 조건문으로 수정했습니다.
       if (GOOGLE_SCRIPT_URL) {
         fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
