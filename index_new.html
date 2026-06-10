@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>롤에듀 (RoleEdu) - 함께 배우는 힘</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Quill Rich Text Editor (워드프레스형 에디터) -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#1D4ED8',   // 로고의 파란색 (Blue-700)
+                            orange: '#F97316', // 로고의 주황색 (Orange-500)
+                            green: '#16A34A',  // 로고의 연두색 (Green-600)
+                            dark: '#334155',   // 텍스트용 진회색
+                            light: '#F8FAFC'   // 아주 연한 배경
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #ffffff; }
+        
+        /* 추가적인 커스텀 CSS (애니메이션 등) */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        
+        /* 갤러리 이미지 호버 효과 */
+        .gallery-img-container {
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .gallery-img-container img {
+            transition: transform 0.4s ease;
+        }
+        .gallery-img-container:hover img {
+            transform: scale(1.08);
+        }
+        
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #ffffff; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="font-sans text-brand-dark bg-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm transition-all duration-300">
+        <!-- 상단 3색 포인트 라인 -->
+        <div class="h-1 w-full flex">
+            <div class="h-full w-1/3 bg-brand-blue"></div>
+            <div class="h-full w-1/3 bg-brand-orange"></div>
+            <div class="h-full w-1/3 bg-brand-green"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex flex-col items-center justify-center cursor-pointer group pt-1" onclick="window.scrollTo(0,0)">
+                    <span class="text-[22px] md:text-2xl font-black text-gray-700 tracking-tighter leading-none group-hover:text-gray-900 transition-colors">롤에듀</span>
+                    <div class="flex space-x-1 md:space-x-1.5 mt-1">
+                        <div class="w-3.5 h-1 md:w-5 md:h-1.5 bg-brand-blue rounded-full"></div>
+                        <div class="w-3.5 h-1 md:w-5 md:h-1.5 bg-brand-orange rounded-full"></div>
+                        <div class="w-3.5 h-1 md:w-5 md:h-1.5 bg-brand-green rounded-full"></div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-gray-700 hover:text-brand-blue font-medium transition-colors">브랜드 소개</a>
+                    <a href="#program" class="text-gray-700 hover:text-brand-orange font-medium transition-colors">대표 프로그램</a>
+                    <a href="#tools" class="text-gray-700 hover:text-brand-green font-medium transition-colors">핵심 툴</a>
+                    <a href="#community" class="text-gray-700 hover:text-brand-blue font-medium transition-colors">커뮤니티</a>
+                    <a href="#contact" class="bg-brand-blue text-white px-5 py-2.5 rounded-lg font-bold hover:bg-blue-800 transition-colors shadow-sm border border-transparent">제휴/출강 문의</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-800 hover:text-brand-blue focus:outline-none">
+                        <i data-lucide="menu" class="h-7 w-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#about" class="block px-4 py-3 text-base font-medium text-gray-800 hover:text-brand-blue hover:bg-blue-50 rounded-lg">브랜드 소개</a>
+                <a href="#program" class="block px-4 py-3 text-base font-medium text-gray-800 hover:text-brand-orange hover:bg-orange-50 rounded-lg">대표 프로그램</a>
+                <a href="#tools" class="block px-4 py-3 text-base font-medium text-gray-800 hover:text-brand-green hover:bg-green-50 rounded-lg">핵심 툴</a>
+                <a href="#community" class="block px-4 py-3 text-base font-medium text-gray-800 hover:text-brand-blue hover:bg-blue-50 rounded-lg">커뮤니티</a>
+                <a href="#contact" class="block px-4 py-3 text-base font-bold text-white bg-brand-blue rounded-lg text-center mt-4">제휴 및 강사 지원</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Banner Section -->
+    <section id="hero" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto fade-in-up">
+                <div class="flex justify-center items-center space-x-2 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue"></span>
+                    <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+                    <span class="w-2 h-2 rounded-full bg-brand-green"></span>
+                    <span class="ml-2 text-gray-500 font-bold text-sm tracking-widest uppercase">ralledu</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                    학습 능력은 기본, <br/>
+                    <span class="relative inline-block text-brand-blue">
+                        함께 배우는 힘
+                        <svg class="absolute w-full h-3 -bottom-2 left-0 text-brand-orange/30" viewBox="0 0 100 10" preserveAspectRatio="none">
+                            <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="4" fill="transparent"/>
+                        </svg>
+                    </span>이 핵심입니다.
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-10 leading-relaxed font-medium">
+                    '성취에서 시작해 공동체로 자라는 교육'<br class="hidden md:block"/>
+                    우리 아이의 잠재력과 사회성을 동시에 깨우는 롤에듀를 만나보세요.
+                </p>
+
+                <!-- Quick Links (Pills) -->
+                <div class="flex flex-wrap justify-center gap-3 mb-12">
+                    <a href="#program" class="px-6 py-3 bg-white border border-gray-200 rounded-full text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-brand-blue hover:shadow-md transition-all flex items-center group">
+                        <i data-lucide="play-circle" class="w-4 h-4 mr-2 text-gray-400 group-hover:text-brand-blue"></i> 뮤지컬 영어 인형극
+                    </a>
+                    <a href="#tools" class="px-6 py-3 bg-white border border-gray-200 rounded-full text-sm font-bold text-gray-700 hover:border-brand-orange hover:text-brand-orange hover:shadow-md transition-all flex items-center group">
+                        <i data-lucide="layout" class="w-4 h-4 mr-2 text-gray-400 group-hover:text-brand-orange"></i> 4대 교육 툴
+                    </a>
+                    <a href="#contact" class="px-6 py-3 bg-white border border-gray-200 rounded-full text-sm font-bold text-gray-700 hover:border-brand-green hover:text-brand-green hover:shadow-md transition-all flex items-center group">
+                        <i data-lucide="users" class="w-4 h-4 mr-2 text-gray-400 group-hover:text-brand-green"></i> 기관 출강 문의
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Image -->
+            <div class="mt-8 relative max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-gray-100 fade-in-up delay-200 group bg-white">
+                <div class="aspect-w-16 aspect-h-9 flex items-center justify-center relative min-h-[300px] md:min-h-[500px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-900/10 to-transparent z-10"></div>
+                    <img src="english_main.png" alt="아이들이 직접 만든 인형으로 뮤지컬 영어 인형극을 발표하는 모습" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="relative z-20 text-white p-8 w-full h-full flex items-end justify-start">
+                        <div>
+                            <span class="bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">현장 스케치</span>
+                            <h3 class="text-2xl md:text-3xl font-bold">뮤지컬 영어 인형극 발표회</h3>
+                            <p class="text-white/80 mt-2 font-medium">아이들이 직접 무대를 완성하며 성취감을 배웁니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. About Us - 3대 교육 철학 -->
+    <section id="about" class="py-24 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-brand-blue font-bold tracking-wider mb-2 block uppercase text-sm">Brand Story</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+                    "무언가를 해냈다는 성취감에서 시작해,<br/>함께 살아가는 힘을 배웁니다."
+                </h2>
+                <div class="w-16 h-1 bg-gray-200 mx-auto rounded-full"></div>
+                <p class="mt-6 text-gray-600 text-lg max-w-2xl mx-auto">
+                    단순한 지식 전달을 넘어, 아이들의 올바른 성장을 이끄는 롤에듀의 3가지 교육 철학입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 철학 1 (Blue) -->
+                <div class="bg-white rounded-2xl p-10 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 border-t-4 border-t-brand-blue group">
+                    <div class="w-16 h-16 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-brand-blue group-hover:scale-110 transition-transform">
+                        <i data-lucide="brain" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">학습 능력과<br/>함께 배우는 힘</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                        스스로 고민하는 <strong class="text-brand-blue">생각하는 힘</strong>과, 친구들과 머리를 맞대어 해결하는 <strong class="text-brand-blue">협력하는 힘</strong>을 동시에 기릅니다.
+                    </p>
+                </div>
+                <!-- 철학 2 (Orange) -->
+                <div class="bg-white rounded-2xl p-10 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 border-t-4 border-t-brand-orange group">
+                    <div class="w-16 h-16 mx-auto bg-orange-50 rounded-2xl flex items-center justify-center mb-6 text-brand-orange group-hover:scale-110 transition-transform">
+                        <i data-lucide="users" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">공동체로<br/>자라는 교육</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                        질서를 지키고, 감정을 조절하는 <strong class="text-brand-orange">자기조절 능력</strong>을 배양하여 훌륭한 공동체의 일원으로 성장합니다.
+                    </p>
+                </div>
+                <!-- 철학 3 (Green) -->
+                <div class="bg-white rounded-2xl p-10 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 border-t-4 border-t-brand-green group">
+                    <div class="w-16 h-16 mx-auto bg-green-50 rounded-2xl flex items-center justify-center mb-6 text-brand-green group-hover:scale-110 transition-transform">
+                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">함께할 때 더<br/>재미있는 교육</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                        친구를 <strong class="text-brand-green">기다리는 힘</strong>, 서로 <strong class="text-brand-green">양보하는 힘</strong>, 타인을 존중하는 따뜻한 태도를 배웁니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 대표 프로그램 -->
+    <section id="program" class="py-24 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-blue font-bold tracking-wider mb-2 block uppercase text-sm">Signature Programs</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">롤에듀 대표 프로그램</h2>
+                <div class="w-16 h-1 bg-gray-200 mx-auto rounded-full mt-6"></div>
+                <p class="mt-6 text-gray-600 text-lg max-w-3xl mx-auto">
+                    아이들의 발달 단계와 흥미에 맞춘 4가지 프리미엄 협력 놀이 교육을 만나보세요.
+                </p>
+            </div>
+
+            <!-- Program Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-16">
+                <button class="program-tab-btn px-6 py-3 rounded-full text-sm font-bold transition-all border-2 border-brand-green bg-brand-green text-white shadow-md" data-target="prog-block" data-theme="brand-green">1. 블록동화</button>
+                <button class="program-tab-btn px-6 py-3 rounded-full text-sm font-bold transition-all border-2 border-gray-200 bg-white text-gray-600 hover:border-brand-orange hover:text-brand-orange" data-target="prog-musical" data-theme="brand-orange">2. 뮤지컬 영어 인형극</button>
+                <button class="program-tab-btn px-6 py-3 rounded-full text-sm font-bold transition-all border-2 border-gray-200 bg-white text-gray-600 hover:border-brand-blue hover:text-brand-blue" data-target="prog-board" data-theme="brand-blue">3. 스토리 보드게임</button>
+                <button class="program-tab-btn px-6 py-3 rounded-full text-sm font-bold transition-all border-2 border-gray-200 bg-white text-gray-600 hover:border-brand-blue hover:text-brand-blue" data-target="prog-science" data-theme="brand-blue">4. 블록과학 창의놀이</button>
+            </div>
+
+            <!-- Tab Contents Container -->
+            <div id="program-contents">
+                
+                <!-- Prog 1: 블록동화 (수정됨: 3단계 도입-전개-마무리) -->
+                <div id="prog-block" class="program-content-panel fade-in-up">
+                    <div class="text-center mb-16">
+                        <h3 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">블록동화</h3>
+                        <p class="text-xl text-gray-500 font-medium mb-6 flex items-center justify-center">
+                            Block Storybook 
+                            <span class="text-brand-green ml-3 text-xs md:text-sm border border-brand-green bg-green-50 rounded-full px-3 py-1 font-bold">50~70분 과정</span>
+                        </p>
+                        <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+                            동화 속 세계를 블록으로 직접 만들며 상상력과 문제해결력을 기르는 <strong>창의 스토리텔링 놀이</strong>입니다.
+                        </p>
+                    </div>
+
+                    <div class="max-w-5xl mx-auto relative mb-20">
+                        <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-gray-200"></div>
+                        <div class="space-y-12 relative">
+                            <!-- 도입 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-green font-bold text-sm bg-green-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-green-100">도입</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">동화 속으로 풍덩</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">세계의 명작동화를 듣고 상황을 경험하며, 인물들이 겪는 문제 상황을 블럭으로 해결할 목표를 인지합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-green rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-green rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="blockstory1.png" alt="동화 읽기" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 전개 -->
+                            <div class="relative flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 md:pl-16 text-center md:text-left mb-6 md:mb-0">
+                                    <span class="text-brand-green font-bold text-sm bg-green-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-green-100">전개</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">내가 만드는 움직이는 동화</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">단순한 블록 쌓기가 아닌, 기어와 축 등을 활용해 실제 움직이는 기계 장치를 구현하는 시간입니다. 동화 속 위기 상황을 해결할 아이디어를 2D 도면에서 찾아 3D 모형으로 발전시키는 기하학적 과정을 경험합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-green rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-green rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pr-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="block_2week.png" alt="블록 조립" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 마무리 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-green font-bold text-sm bg-green-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-green-100">마무리</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">성취감 쑥쑥, 책임감 있는 정리</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">완성된 블럭의 작동방법을 읽히고 과학을 경험하며 성취감이 극대화된 아이들은 부모님의 초대시간을 기다립니다. 부모님의 칭찬을 받기 위해 신나게 설명하며 부모님과 함께 정리까지 마무리하며 자기효용감도 성장합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-green rounded-full flex items-center justify-center z-10 hidden md:flex"><i data-lucide="award" class="w-5 h-5 text-brand-green"></i></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="block_3week.png" alt="정리 및 발표" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-6xl mx-auto bg-green-50/50 rounded-2xl p-8 md:p-12 border border-green-100">
+                        <h3 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-10">프로그램 기대 효과</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-green-50 text-brand-green rounded-lg flex items-center justify-center mr-3"><i data-lucide="lightbulb" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">창의적 문제해결력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">스스로 생각하고 블록으로 구현하는 과정을 통해 문제 해결 능력이 향상됩니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-green-50 text-brand-green rounded-lg flex items-center justify-center mr-3"><i data-lucide="box" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">공간 지각능력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">2D의 도면과 동화를 3D 모형으로 재구성하며 입체적인 사고와 공간 지각력을 기릅니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-green-50 text-brand-green rounded-lg flex items-center justify-center mr-3"><i data-lucide="message-circle" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">의사소통 능력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">부모님과 친구들에게 작동 방법을 논리적으로 설명하며 표현력과 자신감을 기릅니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prog 2: 뮤지컬 영어 인형극 (기존 유지) -->
+                <div id="prog-musical" class="program-content-panel hidden fade-in-up">
+                    <div class="text-center mb-16">
+                        <h3 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">뮤지컬 영어 인형극</h3>
+                        <p class="text-xl text-gray-500 font-medium mb-6 flex items-center justify-center">
+                            Musical English Puppet Show
+                            <span class="text-brand-orange ml-3 text-xs md:text-sm border border-brand-orange bg-orange-50 rounded-full px-3 py-1 font-bold">4주 완성</span>
+                        </p>
+                        <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+                            아이들이 직접 손으로 꿰매어 인형을 만들고, 영어 뮤지컬의 주인공이 되어 무대를 펼치는 <strong>4주 완성 협동 프로젝트</strong>입니다.
+                        </p>
+                    </div>
+
+                    <div class="max-w-5xl mx-auto relative mb-20">
+                        <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-gray-200"></div>
+                        <div class="space-y-12 relative">
+                            <!-- 1주차 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-orange font-bold text-sm bg-orange-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-orange-100">1주차</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">스토리와 친해지기</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">영어 동화책을 함께 읽으며 인물들의 감정을 이해하고, 캐릭터의 성격에 깊이 빠져듭니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-orange rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-orange rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="english_1week.jpg" alt="동화책 읽기" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 2주차 -->
+                            <div class="relative flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 md:pl-16 text-center md:text-left mb-6 md:mb-0">
+                                    <span class="text-brand-orange font-bold text-sm bg-orange-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-orange-100">2주차</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">노래와 대사 체화하기</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">스토리 속 주인공이 되어 영어 노래와 핵심 대사를 입 밖으로 내어보며 리듬을 익힙니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-orange rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-orange rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pr-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="english_2week.png" alt="노래 부르기" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 3주차 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-orange font-bold text-sm bg-orange-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-orange-100">3주차</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">안무 및 호흡 맞추기</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">친구들과 무대 동선을 맞춥니다. 혼자 튀는 것이 아닌 서로의 타이밍을 기다리는 협동심을 배웁니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-orange rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-orange rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="english_3week.png" alt="안무 연습" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 4주차 -->
+                            <div class="relative flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 md:pl-16 text-center md:text-left mb-6 md:mb-0">
+                                    <span class="text-brand-orange font-bold text-sm bg-orange-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-orange-100">4주차</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">무대 공연 및 성취감</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">관객 앞에서 인형극을 선보이고, 무대를 마친 후 엄청난 성취감을 다 함께 공유합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-orange rounded-full flex items-center justify-center z-10 hidden md:flex"><i data-lucide="award" class="w-5 h-5 text-brand-orange"></i></div>
+                                <div class="md:w-1/2 md:pr-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="english_4week.png" alt="무대 공연" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-6xl mx-auto bg-orange-50/50 rounded-2xl p-8 md:p-12 border border-orange-100">
+                        <h3 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-10">프로그램 기대 효과</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center mr-3"><i data-lucide="message-circle" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">스토리텔링 언어</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">역할극 대화 속에서 자연스럽게 영어 표현과 협동심을 동시에 익힙니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center mr-3"><i data-lucide="scissors" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">안전한 소근육 발달</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">안전 규칙을 배우고 직접 인형을 꿰매며 소근육 발달과 주도성을 기릅니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center mr-3"><i data-lucide="heart" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">공동체 에티켓</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">역할 분배 시 양보를 배우고, 친구의 공연에 박수 치는 관람 에티켓을 배웁니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prog 3: 스토리 보드게임 (수정됨: 3단계 도입-전개-마무리) -->
+                <div id="prog-board" class="program-content-panel hidden fade-in-up">
+                    <div class="text-center mb-16">
+                        <h3 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">스토리 보드게임</h3>
+                        <p class="text-xl text-gray-500 font-medium mb-6 flex items-center justify-center">
+                            Story Board Game
+                            <span class="text-brand-blue ml-3 text-xs md:text-sm border border-brand-blue bg-blue-50 rounded-full px-3 py-1 font-bold">50~70분 과정</span>
+                        </p>
+                        <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+                            규칙을 지키고 전략을 세우는 과정을 통해 <strong>사회성과 인지 능력을 동시에 발달시키는</strong> 게임 기반 교육입니다.
+                        </p>
+                    </div>
+
+                    <div class="max-w-5xl mx-auto relative mb-20">
+                        <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-gray-200"></div>
+                        <div class="space-y-12 relative">
+                            <!-- 도입 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-blue font-bold text-sm bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-blue-100">도입 (10분)</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">스토리 속으로 풍덩</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed"><strong>동화적 상황 몰입:</strong> 세계 명작 동화나 테마가 담긴 이야기를 듣고, 게임의 배경이 되는 사건과 인물들의 갈등 상황을 이해합니다.<br><br><strong>게임 목표 설정:</strong> 이야기 속 주인공이 겪는 문제를 해결하기 위해 보드게임을 플레이해야 하는 구체적인 목표(예: 피라냐로부터 탈출하기, 잉카의 보물 찾기 등)를 인지합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-blue rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-blue rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="boardgame1.png" alt="동화적 상황 몰입" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 전개 -->
+                            <div class="relative flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 md:pl-16 text-center md:text-left mb-6 md:mb-0">
+                                    <span class="text-brand-blue font-bold text-sm bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-blue-100">전개 (40분)</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">전략으로 해결하는 동화 속 위기</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed"><strong>전략적 사고 경험:</strong> 2D 게임판 위에서 규칙을 준수하며 승리 전략을 구상하고, 상대방과 상호작용하며 문제를 해결해 나가는 기하학적·논리적 과정을 경험합니다.<br><br><strong>사회성 및 규칙 습득:</strong> "피라냐", "잉카골드" 등 다양한 보드게임을 통해 규칙과 질서, 존중과 예절을 자연스럽게 체득합니다.<br><br><strong>핵심 가치 실천:</strong> 게임 과정에서 자기조절, 책임, 배려와 도움 등 인성 교육의 핵심 가치를 직접 경험하며 실천합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-blue rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-blue rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pr-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="storyboardgame_2week.png" alt="전략적 보드게임" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 마무리 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-blue font-bold text-sm bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-blue-100">마무리</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">성취감 쑥쑥, 책임감 있는 정리</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed"><strong>스토리의 완성:</strong> 게임의 결과가 동화 속 문제 해결로 이어지는 과정을 확인하며 정서적 성취감을 극대화합니다.<br><br><strong>자기효용감 성장:</strong> 수업 후 부모님께 오늘 진행한 게임의 전략과 배운 점을 신나게 설명하며 자신감을 얻습니다.<br><br><strong>책임 있는 마무리:</strong> 사용한 게임 교구를 스스로 분류하고 정돈하며 활동을 마무리함으로써 책임감 있는 습관을 형성합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-blue rounded-full flex items-center justify-center z-10 hidden md:flex"><i data-lucide="award" class="w-5 h-5 text-brand-blue"></i></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="storyboardgame_3week.png" alt="마무리 및 정리" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-6xl mx-auto bg-blue-50/50 rounded-2xl p-8 md:p-12 border border-blue-100">
+                        <h3 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-10">프로그램 기대 효과</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center mr-3"><i data-lucide="users" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">사회성 발달</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">규칙을 지키고 차례를 기다리는 경험을 통해 건강한 또래 관계와 사회성을 형성합니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center mr-3"><i data-lucide="heart" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">감정 조절 능력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">승리했을 때 겸손하고, 패배했을 때 결과를 수용하는 성숙한 감정 대처법을 배웁니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center mr-3"><i data-lucide="brain" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">논리적 사고력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">주어진 조건 안에서 최선의 수를 생각하고 예측하며 논리적인 두뇌 회전을 자극합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prog 4: 블록과학 창의놀이 (수정됨: 3단계 도입-전개-마무리) -->
+                <div id="prog-science" class="program-content-panel hidden fade-in-up">
+                    <div class="text-center mb-16">
+                        <h3 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">블록과학 창의놀이</h3>
+                        <p class="text-xl text-gray-500 font-medium mb-6 flex items-center justify-center">
+                            Block Science Creative Play
+                            <span class="text-brand-blue ml-3 text-xs md:text-sm border border-brand-blue bg-blue-50 rounded-full px-3 py-1 font-bold">50~70분 과정</span>
+                        </p>
+                        <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+                            재미있는 블록 놀이에 기초 과학 원리를 접목하여 <strong>호기심을 탐구하는 융합 인재 교육</strong>입니다.
+                        </p>
+                    </div>
+
+                    <div class="max-w-5xl mx-auto relative mb-20">
+                        <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-gray-200"></div>
+                        <div class="space-y-12 relative">
+                            <!-- 도입 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-blue font-bold text-sm bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-blue-100">도입</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">일상 속 과학 호기심으로 풍덩!</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">아이들의 시선을 사로잡는 흥미있는 주제로 시작합니다. 우리 주변에서 일어나는 신기한 현상(중력, 마찰력 등)들을 함께 이야기 나누며, 오늘 테크닉 블록을 이용해 어떤 과학적 원리를 알아가고 만들어볼지 즐겁게 목표를 인지합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-blue rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-blue rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="blockscience_1week.png" alt="호기심 관찰" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 전개 -->
+                            <div class="relative flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 md:pl-16 text-center md:text-left mb-6 md:mb-0">
+                                    <span class="text-brand-blue font-bold text-sm bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-blue-100">전개</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">내 손으로 깨우는 움직이는 과학</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">단순한 형태를 만드는 블록 쌓기가 아닌, 기어와 축, 핀 등 테크닉 블록을 활용해 실제 작동하는 기계 장치를 구현하는 시간입니다. 호기심을 해결할 아이디어를 2D 도면에서 찾아 3D 모형으로 발전시키며 힘의 전달과 회전 같은 기하학적·과학적 과정을 직접 경험합니다. 정해진 시간 동안 스스로 규칙을 지키고 굳건히 집중하여 자신만의 장치를 완성해 내는 과정을 통해 문제 해결력과 책임감이 자라납니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-blue rounded-full flex items-center justify-center z-10 hidden md:flex"><div class="w-3 h-3 bg-brand-blue rounded-full"></div></div>
+                                <div class="md:w-1/2 md:pr-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="blockscience_2week.png" alt="설계 및 블록 조립" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 마무리 -->
+                            <div class="relative flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 md:pr-16 text-center md:text-right mb-6 md:mb-0">
+                                    <span class="text-brand-blue font-bold text-sm bg-blue-50 px-4 py-1.5 rounded-full mb-3 inline-block border border-blue-100">마무리</span>
+                                    <h4 class="text-2xl font-bold text-gray-900">자신감 쑥쑥, 꼬마 과학자의 발표 시간</h4>
+                                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">스스로 완성한 블록 장치를 직접 작동해 보며 과학의 원리를 손끝으로 확인하고, 성취감이 극대화된 아이들은 부모님의 초대 시간을 기다립니다. 내 장치가 어떻게 움직이는지 부모님께 신나게 설명하며 칭찬을 받는 경험을 통해 자기효용감이 크게 성장합니다. 활동 후에는 부모님과 함께 사용한 부품을 스스로 정리하며 질서와 책임감으로 수업을 마무리합니다.</p>
+                                </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-[3px] border-brand-blue rounded-full flex items-center justify-center z-10 hidden md:flex"><i data-lucide="award" class="w-5 h-5 text-brand-blue"></i></div>
+                                <div class="md:w-1/2 md:pl-16 w-full">
+                                    <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                                        <img src="blockscience_3week.png" alt="과학 발표 시간" class="w-full h-48 md:h-56 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-6xl mx-auto bg-blue-50/50 rounded-2xl p-8 md:p-12 border border-blue-100">
+                        <h3 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-10">프로그램 기대 효과</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center mr-3"><i data-lucide="search" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">과학적 탐구력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">일상을 관찰하고 원리를 궁금해하는 자발적인 호기심과 탐구 능력이 생깁니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center mr-3"><i data-lucide="git-merge" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">논리적 설계 능력</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">원리를 실제 모형으로 구현하기 위해 계획하고 구조를 짜는 논리력이 발달합니다.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center mr-3"><i data-lucide="rocket" class="w-5 h-5"></i></div>
+                                    <h4 class="font-bold text-gray-900">도전하는 용기</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed">실패를 두려워하지 않고 원인을 찾아 다시 시도하는 끈기와 도전 정신을 기릅니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 교육 시스템: 4가지 핵심 툴 -->
+    <section id="tools" class="py-24 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-brand-green font-bold tracking-wider mb-2 block uppercase text-sm">Edu System</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">롤에듀 4대 핵심 툴 (Core Tools)</h2>
+                <div class="w-16 h-1 bg-gray-200 mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand-blue hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-gray-50 text-gray-600 rounded-xl flex items-center justify-center mb-6 border border-gray-100">
+                        <i data-lucide="book" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">① 스토리가 이끄는 몰입</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        단어 암기가 아닌 세계관 속으로 빠져들게 하여 학습 동기를 스스로 유발합니다.
+                    </p>
+                </div>
+                
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand-orange hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-gray-50 text-gray-600 rounded-xl flex items-center justify-center mb-6 border border-gray-100">
+                        <i data-lucide="repeat" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">② 자연스러운 언어 체화</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        핵심 문장과 긍정적인 메세지를 노래와 율동으로 반복하며 놀이하듯 흡수합니다.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand-green hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-gray-50 text-gray-600 rounded-xl flex items-center justify-center mb-6 border border-gray-100">
+                        <i data-lucide="award" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">③ 6가지 영역의 인성체험</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        친구들끼리 서로의 장점을 발견하고 칭찬해 주는 특별한 상호 작용 시스템입니다.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand-blue hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-gray-50 text-gray-600 rounded-xl flex items-center justify-center mb-6 border border-gray-100">
+                        <i data-lucide="home" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">④ Home-Link 가이드</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        부모님이 가정에서 던질 수 있는 코칭 질문 가이드를 제공하여 효과를 극대화합니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 6가지 영역의 인성체험 상세 추가 -->
+            <div class="mt-16 bg-white border border-gray-200 rounded-2xl p-8 md:p-12 shadow-sm">
+                <div class="text-center mb-10">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">멋짐 스티커판</h3>
+                    <p class="text-gray-600">6가지 영역의 인성체험을 통해 아이들의 올바른 성장을 돕습니다.</p>
+                </div>
+                <div class="flex flex-col lg:flex-row gap-10 items-center">
+                    <!-- 스티커판 이미지 -->
+                    <div class="lg:w-1/3 flex justify-center">
+                        <img src="6humanity.png" alt="6가지 영역의 인성체험 멋짐 스티커판" class="w-full max-w-sm h-auto object-contain drop-shadow-md">
+                    </div>
+                    <!-- 6가지 상세 내용 -->
+                    <div class="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xs mr-2 border border-red-200">1</span>
+                                자기조절
+                            </h4>
+                            <p class="text-brand-orange text-xs font-bold mb-2">"내 마음의 주인이 되는 힘"</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">충동적인 마음을 잠시 멈추고, 지금 나에게 가장 필요한 행동을 스스로 선택합니다. 감정을 다스리는 연습을 통해 아이는 단단한 내면을 가진 어른으로 성장합니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs mr-2 border border-orange-200">2</span>
+                                책임감
+                            </h4>
+                            <p class="text-brand-orange text-xs font-bold mb-2">"끝까지 해내는 기쁨"</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">내가 맡은 작은 역할이 얼마나 소중한지 깨닫습니다. 스스로 약속을 지키고 결과에 책임을 다하는 과정을 통해 아이는 성취감과 자신감을 배웁니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs mr-2 border border-green-200">3</span>
+                                배려와 도움
+                            </h4>
+                            <p class="text-brand-green text-xs font-bold mb-2">"함께 걷는 따뜻한 마음"</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">나를 넘어 주변을 살피고 손을 내미는 용기입니다. 친구의 어려움에 공감하고 도움을 나누는 행동은 아이를 세상을 밝히는 리더로 만듭니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs mr-2 border border-blue-200">4</span>
+                                경청과 존중
+                            </h4>
+                            <p class="text-brand-blue text-xs font-bold mb-2">"귀를 열어 마음을 얻는 소통"</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">상대방의 이야기에 귀 기울이는 것은 가장 깊은 존중의 표현입니다. 타인의 생각을 소중히 여기는 태도는 건강한 인간관계의 가장 소중한 밑거름이 됩니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-700 flex items-center justify-center text-xs mr-2 border border-yellow-300">5</span>
+                                규칙과 질서
+                            </h4>
+                            <p class="text-yellow-700 text-xs font-bold mb-2">"우리 모두를 위한 약속"</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">함께 사는 세상에서 규칙은 서로를 지켜주는 울타리입니다. 약속된 질서를 기쁘게 지키는 태도를 통해 아이는 올바른 사회성을 형성합니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs mr-2 border border-purple-200">6</span>
+                                겸손과 공감
+                            </h4>
+                            <p class="text-purple-600 text-xs font-bold mb-2">"낮은 마음으로 나누는 깊은 울림"</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">나의 뛰어남을 뽐내기보다 타인의 감정을 먼저 헤아립니다. 스스로를 낮추고 타인과 눈높이를 맞출 때, 아이의 인성은 가장 아름답게 빛납니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 & 6. 교육 서비스(B2B) & 강사 양성 (Clean White Layout) -->
+    <section id="contact" class="py-24 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">함께 성장할 파트너를 찾습니다</h2>
+                <p class="text-gray-600">롤에듀의 검증된 교육 프로그램을 도입하거나, 전문가로 성장해 보세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <!-- 5. 출강 문의 (B2B) -->
+                <div class="bg-white rounded-2xl p-8 lg:p-12 border border-gray-200 shadow-sm relative group transition-all hover:shadow-xl hover:border-brand-blue">
+                    <div class="absolute top-8 right-8 text-blue-50">
+                        <i data-lucide="building-2" class="w-20 h-20"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="inline-block py-1.5 px-3 rounded text-brand-blue bg-blue-50 text-xs font-bold tracking-wider mb-6 border border-blue-100">
+                            B2B / 제휴 및 출강
+                        </span>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-brand-blue transition-colors">교육기관 출강 의뢰</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+                            문화센터 정규 강좌, 유치원 특강, 방과후 프로그램에 롤에듀를 도입해 보세요. 영어 실력과 아이들의 협동심이 눈에 띄게 자라납니다.
+                        </p>
+                        <ul class="text-gray-600 text-sm space-y-3 mb-10">
+                            <li class="flex items-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-blue mr-2"></i> 대상: 유치원, 어린이집, 초등학교 등</li>
+                            <li class="flex items-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-blue mr-2"></i> 맞춤형 커리큘럼 및 교구 일체 제공</li>
+                        </ul>
+                        <button id="open-b2b-modal" class="inline-flex items-center px-6 py-3 bg-white border-2 border-brand-blue text-brand-blue font-bold rounded-lg hover:bg-brand-blue hover:text-white transition-all focus:outline-none w-full justify-center md:w-auto">
+                            제휴 문의하기 <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6. 강사 양성 Academy -->
+                <div class="bg-white rounded-2xl p-8 lg:p-12 border border-gray-200 shadow-sm relative group transition-all hover:shadow-xl hover:border-brand-orange">
+                    <div class="absolute top-8 right-8 text-orange-50">
+                        <i data-lucide="graduation-cap" class="w-20 h-20"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="inline-block py-1.5 px-3 rounded text-brand-orange bg-orange-50 text-xs font-bold tracking-wider mb-6 border border-orange-100">
+                            Academy / 강사 모집
+                        </span>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-brand-orange transition-colors">롤에듀 강사 양성 과정</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+                            아이의 주도성을 지키는 섬세한 코칭법을 전수합니다. 스스로 바느질하고 노래하며 성취감을 느끼도록 이끄는 중재 기법을 배웁니다.
+                        </p>
+                        <ul class="text-gray-600 text-sm space-y-3 mb-10">
+                            <li class="flex items-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-orange mr-2"></i> 커리큘럼: 뮤지컬 영어 인형극 코칭법, 갈등 중재법</li>
+                            <li class="flex items-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-brand-orange mr-2"></i> 수료 후 공식 파트너 강사 활동 지원</li>
+                        </ul>
+                        <button id="open-academy-modal" class="inline-flex items-center px-6 py-3 bg-white border-2 border-brand-orange text-brand-orange font-bold rounded-lg hover:bg-brand-orange hover:text-white transition-all focus:outline-none w-full justify-center md:w-auto">
+                            아카데미 지원하기 <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. 커뮤니티 (Community) -->
+    <section id="community" class="py-24 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">커뮤니티 & 리뷰</h2>
+                <div class="w-16 h-1 bg-gray-200 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- 공지사항 및 뉴스 -->
+                <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm flex flex-col h-full max-h-[500px]">
+                    <div class="flex items-center justify-between mb-6 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-gray-900">공지 & 뉴스</h3>
+                            <!-- 관리자용 글쓰기 버튼 (기본 숨김) -->
+                            <button id="admin-write-notice-btn" class="hidden text-[11px] bg-gray-800 text-white px-2 py-1 rounded hover:bg-brand-blue transition-colors shadow-sm">글쓰기</button>
+                        </div>
+                        <button id="open-notice-list-btn" class="text-xs text-gray-500 hover:text-brand-blue font-medium focus:outline-none">더보기 +</button>
+                    </div>
+                    <!-- 동적 렌더링 영역 -->
+                    <ul id="notice-list" class="space-y-4 overflow-y-auto flex-grow pr-2 custom-scrollbar">
+                        <!-- JS에서 렌더링 됨 -->
+                    </ul>
+                </div>
+
+                <!-- 생생 리뷰 -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-8 border border-gray-200 shadow-sm flex flex-col h-full max-h-[500px]">
+                    <div class="flex items-center justify-between mb-6 shrink-0">
+                        <h3 class="text-lg font-bold text-gray-900">생생 후기</h3>
+                        <button id="open-review-modal-btn" class="text-[12px] font-bold bg-brand-orange text-white px-4 py-1.5 rounded-full hover:bg-orange-600 transition-colors shadow-sm">
+                            <i data-lucide="pencil" class="w-3 h-3 inline-block mr-1"></i>리뷰 남기기
+                        </button>
+                    </div>
+                    <!-- 동적 렌더링 영역 -->
+                    <div id="review-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow overflow-y-auto pr-2 content-start custom-scrollbar">
+                        <!-- JS에서 렌더링 됨 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 갤러리 -->
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <h3 class="text-lg font-bold text-gray-900">현장 갤러리</h3>
+                        <!-- 관리자용 사진 추가 버튼 -->
+                        <button id="admin-add-gallery-btn" class="hidden text-[11px] bg-gray-800 text-white px-2 py-1 rounded hover:bg-brand-blue transition-colors shadow-sm ml-3">사진 추가</button>
+                    </div>
+                </div>
+                
+                <!-- 동적 렌더링 될 갤러리 컨테이너 -->
+                <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- JS에서 렌더링 됨 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start">
+                <div class="mb-8 md:mb-0 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start mb-4 cursor-pointer grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" onclick="window.scrollTo(0,0)">
+                        <!-- Footer Logo: CSS 텍스트로 대체 -->
+                        <div class="flex-shrink-0 flex flex-col items-center justify-center">
+                            <span class="text-xl font-black text-gray-700 tracking-tighter leading-none">롤에듀</span>
+                            <div class="flex space-x-1 mt-1">
+                                <div class="w-3 h-1 bg-brand-blue rounded-full"></div>
+                                <div class="w-3 h-1 bg-brand-orange rounded-full"></div>
+                                <div class="w-3 h-1 bg-brand-green rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-xs mt-4">
+                        "혼자 하는 학습을 넘어, 함께 성장하는 즐거움" <br/>
+                        유치원/초등학생 프리미엄 협력 놀이 교육 기관
+                    </p>
+                </div>
+                <div class="flex space-x-4">
+                    <!-- 유튜브 -->
+                    <a href="https://youtube.com/channel/UCE57HDej25z39nqPH1bTG8w?si=EdqQc7038PdLxSFC" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:text-red-500 hover:border-red-500 transition-all">
+                        <span class="sr-only">YouTube</span>
+                        <svg class="h-[18px] w-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                    <!-- 인스타그램 -->
+                    <a href="https://www.instagram.com/rall.playedu?igsh=OGFreTh1azhkNGoz" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:text-brand-orange hover:border-brand-orange transition-all">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-[18px] w-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <!-- 네이버 블로그 -->
+                    <a href="https://m.blog.naver.com/PostList.naver?blogId=visionforkids&tab=1" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:text-green-500 hover:border-green-500 transition-all">
+                        <span class="sr-only">Naver Blog</span>
+                        <svg class="h-[15px] w-[15px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg>
+                    </a>
+                    <!-- 카카오톡 추가 -->
+                    <a href="http://qr.kakao.com/talk/nyjJhereafVEUX4ZUSV2BTVTqiA-?utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:text-[#3A2929] hover:bg-[#FEE500] hover:border-[#FEE500] transition-all">
+                        <span class="sr-only">KakaoTalk</span>
+                        <svg class="h-[18px] w-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-5.523 0-10 3.582-10 8 0 2.862 1.83 5.373 4.545 6.814-.42 1.543-1.528 5.222-1.564 5.352-.047.164.058.261.168.188.136-.089 4.316-2.822 6.04-4.045.922.127 1.874.191 2.811.191 5.523 0 10-3.582 10-8s-4.477-8-10-8z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-xs text-center md:text-left leading-relaxed">
+                    <!-- 하단 카피라이트 기호를 클릭하여 관리자 모드 토글 -->
+                    <span id="admin-toggle" class="cursor-pointer hover:text-brand-blue transition-colors" title="관리자 모드 켜기/끄기">&copy;</span> 2026 RallEdu. All rights reserved. <br class="md:hidden"/>
+                    대표자: 김연태 | 사업자등록번호: 452-73-00132 | 이메일: visionforkids@naver.com <br/>
+                    주소: 서울특별시 노원구 화랑로 425-47 지하 1층
+                </p>
+                <div class="mt-4 md:mt-0 space-x-4 text-xs font-medium text-gray-400">
+                    <a href="https://docs.google.com/document/d/1ekBCHBSYNvLn73iLk6nQiqtlRNF8TwdY-Cnn_XB9FKw/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="hover:text-gray-700 transition-colors">이용약관</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="https://docs.google.com/document/d/1TCq-sf8wusO2qG6U6HF29tWz-IdCySLxe8aUtIMVgng/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="hover:text-gray-700 transition-colors">개인정보처리방침</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Academy Application Modal (팝업 폼) -->
+    <div id="academy-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-md relative z-10 shadow-2xl overflow-hidden transform transition-all border border-gray-100">
+            <!-- Header -->
+            <div class="bg-white border-b border-gray-100 p-6 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                    <div class="w-2 h-6 bg-brand-orange rounded-full mr-2"></div> 강사 양성 지원
+                </h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors focus:outline-none">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Form -->
+            <form id="academy-form" class="p-6 space-y-4 bg-gray-50/50">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">이름</label>
+                    <input type="text" name="name" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none transition-all text-sm" placeholder="홍길동">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">연락처</label>
+                    <input type="tel" name="phone" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none transition-all text-sm" placeholder="010-0000-0000">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">지원 분야</label>
+                    <select name="field" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none transition-all bg-white cursor-pointer text-sm">
+                        <option value="" disabled selected>선택해주세요</option>
+                        <option value="뮤지컬 영어 인형극 강사">뮤지컬 영어 인형극 강사</option>
+                        <option value="유아 미술/놀이 강사">유아 미술/놀이 강사</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-3 bg-brand-orange text-white text-sm font-bold rounded-lg hover:bg-orange-600 transition-colors shadow-sm focus:outline-none">
+                        지원서 제출하기
+                    </button>
+                </div>
+            </form>
+            <!-- Success Message -->
+            <div id="academy-success" class="hidden p-8 text-center bg-white">
+                <div class="w-12 h-12 bg-green-50 text-brand-green rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="check" class="w-6 h-6"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-900 mb-2">지원이 완료되었습니다</h4>
+                <p class="text-gray-500 mb-6 text-sm">빠른 시일 내에 연락드리겠습니다.</p>
+                <button class="modal-close w-full py-2.5 bg-gray-100 text-gray-700 font-bold rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- B2B Application Modal (기관 제휴 팝업 폼) -->
+    <div id="b2b-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-md relative z-10 shadow-2xl overflow-hidden transform transition-all border border-gray-100">
+            <!-- Header -->
+            <div class="bg-white border-b border-gray-100 p-6 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                    <div class="w-2 h-6 bg-brand-blue rounded-full mr-2"></div> 기관 제휴/출강 문의
+                </h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors focus:outline-none">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Form -->
+            <form id="b2b-form" class="p-6 space-y-4 bg-gray-50/50">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">담당자 이름</label>
+                    <input type="text" name="name" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue outline-none transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">연락처</label>
+                    <input type="tel" name="phone" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue outline-none transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">제휴 내용</label>
+                    <textarea name="details" required rows="3" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue outline-none transition-all resize-none text-sm" placeholder="간단히 적어주세요."></textarea>
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-3 bg-brand-blue text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition-colors shadow-sm focus:outline-none">
+                        문의 접수하기
+                    </button>
+                </div>
+            </form>
+            <!-- Success Message -->
+            <div id="b2b-success" class="hidden p-8 text-center bg-white">
+                <div class="w-12 h-12 bg-green-50 text-brand-green rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="check" class="w-6 h-6"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-900 mb-2">접수가 완료되었습니다</h4>
+                <p class="text-gray-500 mb-6 text-sm">담당자가 확인 후 연락드리겠습니다.</p>
+                <button class="modal-close w-full py-2.5 bg-gray-100 text-gray-700 font-bold rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공지사항 작성 및 수정 모달 (관리자 전용 / 에디터 탑재) -->
+    <div id="notice-write-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-3xl relative z-10 shadow-2xl overflow-hidden flex flex-col h-[85vh]">
+            <div class="bg-white border-b border-gray-100 p-5 flex justify-between items-center shrink-0">
+                <h3 id="notice-modal-title" class="text-lg font-bold text-gray-900 flex items-center">
+                    <div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 공지 및 뉴스 작성
+                </h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form id="notice-write-form" class="p-6 flex-grow flex flex-col gap-4 overflow-hidden bg-gray-50/50">
+                <div class="flex gap-4 shrink-0">
+                    <select id="notice-type" class="px-4 py-2 rounded-lg border border-gray-200 outline-none text-sm w-32 bg-white">
+                        <option value="공지">공지</option>
+                        <option value="모집">모집</option>
+                        <option value="프로그램">프로그램</option>
+                        <option value="소식">소식</option>
+                    </select>
+                    <input type="text" id="notice-title" required class="flex-grow px-4 py-2 rounded-lg border border-gray-200 outline-none text-sm" placeholder="제목을 입력하세요">
+                </div>
+                <!-- Quill 에디터 영역 -->
+                <div class="flex-grow flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div id="editor-container" class="flex-grow"></div>
+                </div>
+                <div class="pt-2 shrink-0">
+                    <button type="submit" class="w-full py-3 bg-gray-800 text-white text-sm font-bold rounded-lg hover:bg-gray-900 transition-colors shadow-sm">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 공지사항 전체보기 모달 (카테고리 필터 포함) -->
+    <div id="notice-list-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-3xl relative z-10 shadow-2xl overflow-hidden flex flex-col h-[80vh] md:h-[70vh]">
+            <div class="bg-white border-b border-gray-100 p-6 flex justify-between items-center shrink-0">
+                <h3 class="text-lg font-bold text-gray-900">공지 & 뉴스 전체보기</h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- 카테고리 필터 -->
+            <div class="p-4 border-b border-gray-100 bg-gray-50 flex gap-2 overflow-x-auto shrink-0 custom-scrollbar">
+                <button class="filter-btn active px-4 py-1.5 rounded-full text-sm font-bold bg-gray-800 text-white transition-colors" data-filter="전체">전체</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-600 border border-gray-200 hover:bg-gray-100 transition-colors whitespace-nowrap" data-filter="공지">공지</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-600 border border-gray-200 hover:bg-gray-100 transition-colors whitespace-nowrap" data-filter="모집">모집</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-600 border border-gray-200 hover:bg-gray-100 transition-colors whitespace-nowrap" data-filter="프로그램">프로그램</button>
+                <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-bold bg-white text-gray-600 border border-gray-200 hover:bg-gray-100 transition-colors whitespace-nowrap" data-filter="소식">소식</button>
+            </div>
+            <!-- 전체 리스트 렌더링 영역 -->
+            <div class="p-6 overflow-y-auto flex-grow custom-scrollbar">
+                <ul id="full-notice-list" class="space-y-4">
+                    <!-- JS에서 렌더링 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공지사항 상세 보기 모달 -->
+    <div id="notice-view-modal" class="hidden fixed inset-0 z-[110] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-2xl relative z-10 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="bg-white border-b border-gray-100 p-6 flex justify-between items-start shrink-0">
+                <div>
+                    <span id="view-notice-badge" class="text-[11px] font-bold px-2 py-1 rounded mb-2 inline-block"></span>
+                    <h3 id="view-notice-title" class="text-xl font-bold text-gray-900"></h3>
+                    <p id="view-notice-date" class="text-xs text-gray-400 mt-1"></p>
+                </div>
+                <div class="flex items-center">
+                    <!-- 관리자용 수정/삭제 버튼 -->
+                    <div id="admin-notice-actions" class="hidden mr-4 flex space-x-2">
+                        <button id="edit-notice-btn" class="text-[11px] font-bold bg-gray-100 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-200 transition-colors">수정</button>
+                        <button id="delete-notice-btn" class="text-[11px] font-bold bg-red-50 text-red-600 px-3 py-1.5 rounded hover:bg-red-100 transition-colors">삭제</button>
+                    </div>
+                    <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- 에디터 결과물 렌더링 영역 -->
+            <div id="view-notice-content" class="p-6 overflow-y-auto text-sm text-gray-700 leading-relaxed ql-editor">
+                <!-- 내용 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 생생 리뷰 작성 모달 (게스트용) -->
+    <div id="review-write-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-md relative z-10 shadow-2xl overflow-hidden transform transition-all border border-gray-100">
+            <div class="bg-white border-b border-gray-100 p-6 flex justify-between items-center">
+                <h3 id="review-modal-title" class="text-lg font-bold text-gray-900 flex items-center">
+                    <div class="w-2 h-6 bg-brand-orange rounded-full mr-2"></div> 생생 리뷰 남기기
+                </h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form id="review-write-form" class="p-6 space-y-4 bg-gray-50/50">
+                <div class="flex gap-4">
+                    <div class="w-1/3">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">구분</label>
+                        <select id="review-author-type" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 outline-none text-sm bg-white">
+                            <option value="학부모">학부모</option>
+                            <option value="기관">기관</option>
+                        </select>
+                    </div>
+                    <div class="w-2/3">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">작성자 정보</label>
+                        <input type="text" id="review-author-name" required class="w-full px-3 py-2.5 rounded-lg border border-gray-200 outline-none text-sm" placeholder="예: 7세 어머님">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">만족도 별점</label>
+                    <div id="star-rating-selector" class="flex space-x-1 cursor-pointer">
+                        <i data-lucide="star" data-val="1" class="w-8 h-8 text-brand-orange fill-current star-icon transition-colors"></i>
+                        <i data-lucide="star" data-val="2" class="w-8 h-8 text-brand-orange fill-current star-icon transition-colors"></i>
+                        <i data-lucide="star" data-val="3" class="w-8 h-8 text-brand-orange fill-current star-icon transition-colors"></i>
+                        <i data-lucide="star" data-val="4" class="w-8 h-8 text-brand-orange fill-current star-icon transition-colors"></i>
+                        <i data-lucide="star" data-val="5" class="w-8 h-8 text-brand-orange fill-current star-icon transition-colors"></i>
+                    </div>
+                    <input type="hidden" id="review-rating" value="5">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">리뷰 내용</label>
+                    <textarea id="review-content" required rows="4" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 outline-none resize-none text-sm" placeholder="롤에듀와 함께한 소중한 경험을 들려주세요."></textarea>
+                </div>
+                <div class="pt-4">
+                    <button type="submit" id="review-submit-btn" class="w-full py-3 bg-brand-orange text-white text-sm font-bold rounded-lg hover:bg-orange-600 transition-colors shadow-sm">리뷰 등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 관리자 로그인 모달 -->
+    <div id="admin-login-modal" class="hidden fixed inset-0 z-[120] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-sm relative z-10 shadow-2xl overflow-hidden transform transition-all border border-gray-100">
+            <div class="bg-white border-b border-gray-100 p-5 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                    <div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 관리자 로그인
+                </h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors focus:outline-none">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form id="admin-login-form" class="p-6 space-y-4 bg-gray-50/50">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">아이디</label>
+                    <input type="text" id="admin-id" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-gray-800 focus:ring-1 focus:ring-gray-800 outline-none transition-all text-sm" placeholder="아이디를 입력하세요">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">비밀번호</label>
+                    <input type="password" id="admin-pw" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-gray-800 focus:ring-1 focus:ring-gray-800 outline-none transition-all text-sm" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-3 bg-gray-800 text-white text-sm font-bold rounded-lg hover:bg-gray-900 transition-colors shadow-sm focus:outline-none">
+                        로그인
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 갤러리 추가 및 수정 모달 (관리자 전용) -->
+    <div id="gallery-write-modal" class="hidden fixed inset-0 z-[110] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm modal-overlay"></div>
+        <div class="bg-white rounded-2xl w-full max-w-md relative z-10 shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-white border-b border-gray-100 p-5 flex justify-between items-center shrink-0">
+                <h3 id="gallery-modal-title" class="text-lg font-bold text-gray-900 flex items-center">
+                    <div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 갤러리 사진 추가
+                </h3>
+                <button class="modal-close text-gray-400 hover:text-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form id="gallery-write-form" class="p-6 flex flex-col gap-4 bg-gray-50/50">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">이미지 파일 직접 업로드</label>
+                    <input type="file" id="gallery-file" accept="image/*" class="w-full px-4 py-2 rounded-lg border border-gray-200 outline-none text-sm bg-white file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-gray-800 file:text-white file:text-xs file:font-bold hover:file:bg-gray-900">
+                    <p id="gallery-current-file" class="text-[10px] text-gray-400 mt-1">※ 선택한 파일은 GitHub 저장소의 gallery 폴더에 업로드됩니다.</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">사진 설명 (캡션 - 선택사항)</label>
+                    <input type="text" id="gallery-caption" class="w-full px-4 py-2 rounded-lg border border-gray-200 outline-none text-sm" placeholder="예: 감동의 무대 🎭">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">강조 크기</label>
+                    <select id="gallery-size" class="w-full px-4 py-2 rounded-lg border border-gray-200 outline-none text-sm bg-white">
+                        <option value="normal">기본 (1칸)</option>
+                        <option value="large">크게 (가로 2칸)</option>
+                    </select>
+                </div>
+
+                <div class="rounded-xl border border-blue-100 bg-blue-50/60 p-4 space-y-3">
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="github" class="w-4 h-4 text-brand-blue mt-0.5"></i>
+                        <div>
+                            <p class="text-xs font-bold text-gray-800">GitHub 업로드 설정</p>
+                            <p class="text-[10px] text-gray-500 leading-relaxed mt-1">처음 1회만 입력하면 브라우저에 저장됩니다. 토큰은 외부에 공개하지 말고 관리자 PC에서만 사용하세요.</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <input type="text" id="github-owner" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none text-xs" placeholder="GitHub 아이디/조직명">
+                        <input type="text" id="github-repo" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none text-xs" placeholder="저장소 이름">
+                        <input type="text" id="github-branch" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none text-xs" placeholder="브랜치명 (예: main)">
+                        <input type="text" id="github-folder" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none text-xs" placeholder="업로드 폴더 (예: gallery)">
+                    </div>
+                    <input type="password" id="github-token" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none text-xs" placeholder="GitHub Fine-grained token 또는 Personal access token">
+                    <p class="text-[10px] text-gray-500 leading-relaxed">필요 권한: 해당 저장소 Contents 읽기/쓰기. GitHub Pages 배포 저장소에서 사용하세요.</p>
+                </div>
+
+                <div class="pt-4 shrink-0">
+                    <button type="submit" id="gallery-submit-btn" class="w-full py-3 bg-gray-800 text-white text-sm font-bold rounded-lg hover:bg-gray-900 transition-colors shadow-sm">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Nav Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+                nav.classList.remove('shadow-sm');
+            } else {
+                nav.classList.add('shadow-sm');
+                nav.classList.remove('shadow-md');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // --- 프로그램 탭 (Tab) 전환 로직 ---
+        const programTabs = document.querySelectorAll('.program-tab-btn');
+        const programContents = document.querySelectorAll('.program-content-panel');
+
+        // 테마별 클래스 정의 (활성/비활성 상태)
+        const tabStyles = {
+            'brand-green': { 
+                active: ['border-brand-green', 'bg-brand-green', 'text-white', 'shadow-md'], 
+                inactive: ['border-gray-200', 'bg-white', 'text-gray-600', 'hover:border-brand-green', 'hover:text-brand-green'] 
+            },
+            'brand-orange': { 
+                active: ['border-brand-orange', 'bg-brand-orange', 'text-white', 'shadow-md'], 
+                inactive: ['border-gray-200', 'bg-white', 'text-gray-600', 'hover:border-brand-orange', 'hover:text-brand-orange'] 
+            },
+            'brand-blue': { 
+                active: ['border-brand-blue', 'bg-brand-blue', 'text-white', 'shadow-md'], 
+                inactive: ['border-gray-200', 'bg-white', 'text-gray-600', 'hover:border-brand-blue', 'hover:text-brand-blue'] 
+            }
+        };
+
+        programTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 1. 모든 탭 초기화 (inactive 적용)
+                programTabs.forEach(t => {
+                    const theme = t.getAttribute('data-theme');
+                    t.classList.remove(...tabStyles[theme].active, 'active');
+                    t.classList.add(...tabStyles[theme].inactive);
+                });
+
+                // 2. 모든 콘텐츠 숨기기
+                programContents.forEach(content => {
+                    content.classList.add('hidden');
+                    // 애니메이션 재시작을 위해 클래스 토글
+                    content.classList.remove('fade-in-up'); 
+                });
+
+                // 3. 클릭된 탭 활성화 (active 적용)
+                const targetId = tab.getAttribute('data-target');
+                const theme = tab.getAttribute('data-theme');
+                
+                tab.classList.remove(...tabStyles[theme].inactive);
+                tab.classList.add(...tabStyles[theme].active, 'active');
+
+                // 4. 클릭된 콘텐츠 보이기
+                const targetContent = document.getElementById(targetId);
+                targetContent.classList.remove('hidden');
+                // reflow 강제 실행 후 애니메이션 클래스 추가
+                void targetContent.offsetWidth; 
+                targetContent.classList.add('fade-in-up');
+            });
+        });
+
+        // --- Common Modal Logic ---
+        function closeAllModals() {
+            document.querySelectorAll('.fixed.inset-0').forEach(m => m.classList.add('hidden'));
+            document.body.style.overflow = ''; 
+        }
+
+        const closeBtns = document.querySelectorAll('.modal-close');
+        const overlays = document.querySelectorAll('.modal-overlay');
+
+        function handleModalClose(e) {
+            e.preventDefault();
+            const modal = e.target.closest('.fixed.inset-0');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            checkBodyOverflow();
+        }
+
+        function checkBodyOverflow() {
+            // 열려있는 모달이 하나라도 있는지 확인
+            const anyOpen = Array.from(document.querySelectorAll('.fixed.inset-0')).some(m => !m.classList.contains('hidden'));
+            if (!anyOpen) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        closeBtns.forEach(btn => btn.addEventListener('click', handleModalClose));
+        overlays.forEach(overlay => overlay.addEventListener('click', handleModalClose));
+
+        // --- 게시판 및 리뷰 데이터 연동 (In-Memory 기능) ---
+        // 초기 공지사항 데이터 세팅
+        let notices = [
+            { id: 1, type: '모집', title: '2026 하반기 강사 양성 아카데미 모집', date: '2026. 03. 10', content: '<p>2026 하반기 롤에듀와 함께 성장할 열정적인 강사님들을 모집합니다!</p>' },
+            { id: 2, type: '프로그램', title: "차기작 '피터팬과 네버랜드의 친구들' 사전 공개", date: '2026. 02. 28', content: '<p>새롭게 선보일 흥미진진한 뮤지컬 인형극을 기대해주세요.</p>' },
+            { id: 3, type: '소식', title: '서울 OO초등학교 방과후 인형극 특강 스케치', date: '2026. 02. 15', content: '<p>아이들의 웃음이 가득했던 서울 OO초등학교 특강 스케치입니다.</p><br><img src="https://images.unsplash.com/photo-1544365558-35aa4afcf11f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80">' }
+        ];
+
+        // 초기 리뷰 데이터 세팅
+        let reviews = [
+            { id: 1, authorType: '학부모', authorName: '7세 인형극 수강생 어머님', rating: 5, content: '"영어 학원 가기 싫어하던 아이가 매주 롤에듀 가는 날만 기다려요! 마지막 발표회 때 친구 대사까지 기다려주는 모습에 정말 감동했어요."' },
+            { id: 2, authorType: '기관', authorName: 'OO문화센터 교육담당자', rating: 5, content: '"단순한 놀이 영어를 넘어 인성 교육이 함께 이루어지는 점이 매우 만족스럽습니다. 매 시간 교실 분위기가 눈에 띄게 밝아졌습니다."' }
+        ];
+
+        // 초기 갤러리 데이터 세팅
+        let galleries = [
+            { id: 1, url: 'https://postfiles.pstatic.net/MjAyNjA0MTVfMTQz/MDAxNzc2MjQwNTM4MDcy.5dA9MJibpIa4v2ZzATlP4XYI2Z06E7hE6NmtyqcySgQg.uI01pqHxgJ1Ag7UN3JxD6fDUSqCOufTZbTu0OWBcT44g.PNG/%EB%AE%A4%EC%A7%80%EC%BB%AC_%EC%98%81%EC%96%B4_%EC%9D%B8%ED%98%95%EA%B7%B9_-_2.PNG?type=w773', caption: '', size: 'normal' },
+            { id: 2, url: 'https://postfiles.pstatic.net/MjAyNjA0MTVfMTIz/MDAxNzc2MjQwNTU1MDcx.AHki7A-T6Py2_7vJRwaUEBafNixZj-P2L7berGv87gUg.pPkAitoukhsLcG_9c9_UEA-uAGZJDOfqxl_5TR6y8gYg.PNG/%EB%AE%A4%EC%A7%80%EC%BB%AC%EC%98%81%EC%96%B4%EC%9D%B8%ED%98%95%EA%B7%B9_%ED%98%84%EC%9E%A5%EA%B0%A4%EB%9F%AC%EB%A6%AC2.PNG?type=w773', caption: '감동의 무대 🎭', size: 'large' },
+            { id: 3, url: 'https://postfiles.pstatic.net/MjAyNjA0MTVfMjkx/MDAxNzc2MjQwNTgwOTYx.MiYINukfL4Smk8dMaYjDY-zuVNEj7Hzk9jnJwwuZjb4g.s1GpvieAM6HWjPyZfuGEYHDdyCXHPb-YZqFoPKSJTgEg.PNG/%EC%BA%A1%EC%B2%98.PNG?type=w773', caption: '', size: 'normal' }
+        ];
+
+        let isAdmin = false;
+        let isEditing = false; // 공지글 수정 모드 여부
+        let currentNoticeId = null; // 현재 선택된 공지글 ID
+
+        let isReviewEditing = false; // 리뷰 수정 모드 여부
+        let currentReviewId = null; // 현재 선택된 리뷰 ID
+
+        let isGalleryEditing = false; // 갤러리 수정 모드 여부
+        let currentGalleryId = null; // 현재 선택된 갤러리 ID
+
+        // 타입별 뱃지 스타일 매핑
+        function getBadgeClass(type) {
+            if (type === '모집') return 'text-brand-orange bg-orange-50';
+            if (type === '프로그램') return 'text-brand-blue bg-blue-50';
+            if (type === '소식') return 'text-brand-green bg-green-50';
+            return 'text-gray-600 bg-gray-100';
+        }
+
+        // 공지 리스트 렌더링 (메인 대시보드 - 최신 4개만 노출)
+        function renderNotices() {
+            const list = document.getElementById('notice-list');
+            list.innerHTML = '';
+            notices.slice(0, 4).forEach(notice => {
+                const li = document.createElement('li');
+                li.className = 'border-b border-gray-100 pb-4 cursor-pointer group';
+                li.onclick = () => openNotice(notice.id);
+                li.innerHTML = `
+                    <span class="text-[11px] font-bold px-2 py-1 rounded mb-2 inline-block ${getBadgeClass(notice.type)}">${notice.type}</span>
+                    <p class="text-gray-800 text-sm font-medium group-hover:text-brand-blue transition-colors line-clamp-1">${notice.title}</p>
+                    <span class="text-[11px] text-gray-400 mt-1 block">${notice.date}</span>
+                `;
+                list.appendChild(li);
+            });
+            renderFullNotices(); // 변경사항 발생 시 전체 모달용 리스트도 함께 렌더링
+        }
+
+        // 전체 공지 리스트 렌더링 (모달용)
+        let currentFilter = '전체';
+        
+        function renderFullNotices() {
+            const list = document.getElementById('full-notice-list');
+            list.innerHTML = '';
+            
+            const filteredNotices = currentFilter === '전체' ? notices : notices.filter(n => n.type === currentFilter);
+            
+            if (filteredNotices.length === 0) {
+                list.innerHTML = '<li class="text-center text-gray-500 py-8 text-sm font-medium">해당 카테고리의 게시글이 없습니다.</li>';
+                return;
+            }
+
+            filteredNotices.forEach(notice => {
+                const li = document.createElement('li');
+                li.className = 'border-b border-gray-100 pb-4 cursor-pointer group flex justify-between items-center';
+                li.onclick = () => openNotice(notice.id);
+                li.innerHTML = `
+                    <div class="flex-grow pr-4">
+                        <span class="text-[11px] font-bold px-2 py-1 rounded mb-2 inline-block ${getBadgeClass(notice.type)}">${notice.type}</span>
+                        <p class="text-gray-800 text-sm font-medium group-hover:text-brand-blue transition-colors line-clamp-1">${notice.title}</p>
+                    </div>
+                    <span class="text-xs text-gray-400 whitespace-nowrap shrink-0">${notice.date}</span>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // 전체보기 모달 열기
+        document.getElementById('open-notice-list-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('notice-list-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            renderFullNotices();
+        });
+
+        // 카테고리 필터 버튼 클릭 로직
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 디자인 갱신
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('bg-gray-800', 'text-white');
+                    b.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+                });
+                e.target.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+                e.target.classList.add('bg-gray-800', 'text-white');
+                
+                // 데이터 갱신
+                currentFilter = e.target.getAttribute('data-filter');
+                renderFullNotices();
+            });
+        });
+
+        // 리뷰 리스트 렌더링
+        function renderReviews() {
+            const list = document.getElementById('review-list');
+            list.innerHTML = '';
+            reviews.forEach(review => {
+                const starsHtml = '<i data-lucide="star" class="w-3 h-3 fill-current"></i>'.repeat(review.rating);
+                const bgType = review.authorType === '기관' ? 'bg-brand-green' : 'bg-brand-blue';
+                
+                let adminActionsHtml = '';
+                if (isAdmin) {
+                    adminActionsHtml = `
+                        <div class="absolute top-4 right-12 flex space-x-1">
+                            <button onclick="editReview(${review.id})" class="text-[10px] bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300 transition-colors">수정</button>
+                            <button onclick="deleteReview(${review.id})" class="text-[10px] bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200 transition-colors">삭제</button>
+                        </div>
+                    `;
+                }
+
+                const div = document.createElement('div');
+                div.className = 'bg-gray-50 rounded-xl p-6 border border-gray-100 relative';
+                div.innerHTML = `
+                    <i data-lucide="quote" class="absolute top-4 right-4 w-6 h-6 text-gray-200"></i>
+                    ${adminActionsHtml}
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 ${bgType} text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 shrink-0">${review.authorType}</div>
+                        <div>
+                            <div class="text-brand-orange text-xs flex">${starsHtml}</div>
+                            <p class="text-[11px] text-gray-500 mt-0.5">${review.authorName}</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">${review.content}</p>
+                `;
+                list.appendChild(div);
+            });
+            lucide.createIcons(); // 아이콘 활성화
+        }
+
+        // 갤러리 리스트 렌더링
+        function renderGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '';
+            galleries.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `gallery-img-container aspect-square bg-gray-100 relative group cursor-pointer rounded-xl ${item.size === 'large' ? 'md:col-span-2' : ''}`;
+                
+                let captionHtml = '';
+                if (item.caption) {
+                    captionHtml = `
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4 z-10 pointer-events-none">
+                            <span class="text-white font-bold text-sm">${item.caption}</span>
+                        </div>
+                    `;
+                }
+
+                let adminHtml = '';
+                if (isAdmin) {
+                    adminHtml = `
+                        <div class="absolute top-3 right-3 flex space-x-1.5 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="editGallery(${item.id}, event)" class="bg-gray-800/90 text-white p-2 rounded hover:bg-brand-blue backdrop-blur-sm transition-colors shadow-sm"><i data-lucide="edit" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="deleteGallery(${item.id}, event)" class="bg-red-600/90 text-white p-2 rounded hover:bg-red-700 backdrop-blur-sm transition-colors shadow-sm"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    `;
+                }
+
+                div.innerHTML = `
+                    <img src="${item.url}" alt="${item.caption || '갤러리 이미지'}" class="w-full h-full object-cover">
+                    ${captionHtml}
+                    ${adminHtml}
+                `;
+                container.appendChild(div);
+            });
+            lucide.createIcons();
+        }
+
+        // 공지사항 팝업 보기
+        function openNotice(id) {
+            const notice = notices.find(n => n.id === id);
+            if (!notice) return;
+            
+            currentNoticeId = id; // 전역 변수에 현재 ID 저장
+
+            const badge = document.getElementById('view-notice-badge');
+            badge.className = `text-[11px] font-bold px-2 py-1 rounded mb-2 inline-block ${getBadgeClass(notice.type)}`;
+            badge.innerText = notice.type;
+            
+            document.getElementById('view-notice-title').innerText = notice.title;
+            document.getElementById('view-notice-date').innerText = notice.date;
+            document.getElementById('view-notice-content').innerHTML = notice.content;
+            
+            // 관리자 모드일 경우 수정/삭제 버튼 노출
+            const adminActions = document.getElementById('admin-notice-actions');
+            if (isAdmin) {
+                adminActions.classList.remove('hidden');
+            } else {
+                adminActions.classList.add('hidden');
+            }
+
+            document.getElementById('notice-view-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // --- 관리자 모드 토글 (하단 Copyright 기호 클릭) ---
+        const adminToggle = document.getElementById('admin-toggle');
+        const adminWriteBtn = document.getElementById('admin-write-notice-btn');
+        const adminAddGalleryBtn = document.getElementById('admin-add-gallery-btn');
+        
+        adminToggle.addEventListener('click', () => {
+            if (isAdmin) {
+                if (confirm("관리자 모드를 종료하시겠습니까?")) {
+                    isAdmin = false;
+                    adminWriteBtn.classList.add('hidden');
+                    adminAddGalleryBtn.classList.add('hidden');
+                    alert("관리자 모드가 해제되었습니다.");
+                    renderNotices();
+                    renderReviews(); 
+                    renderGallery();
+                }
+            } else {
+                // 로그인 모달 띄우기
+                document.getElementById('admin-login-modal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('admin-login-form').reset();
+                setTimeout(() => document.getElementById('admin-id').focus(), 100);
+            }
+        });
+
+        // 관리자 로그인 폼 제출
+        document.getElementById('admin-login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const idInput = document.getElementById('admin-id').value;
+            const pwInput = document.getElementById('admin-pw').value;
+
+            if (idInput === 'admin' && pwInput === 'rall1234') {
+                isAdmin = true;
+                adminWriteBtn.classList.remove('hidden');
+                adminAddGalleryBtn.classList.remove('hidden');
+                closeAllModals();
+                alert("관리자 모드로 로그인되었습니다.");
+                renderNotices();
+                renderReviews();
+                renderGallery();
+            } else {
+                alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+                document.getElementById('admin-pw').value = '';
+                document.getElementById('admin-pw').focus();
+            }
+        });
+
+        // --- 게시판 워드프레스형 에디터 (Quill) 초기화 함수 ---
+        let quill;
+        function initQuill() {
+            if (!quill) {
+                quill = new Quill('#editor-container', {
+                    theme: 'snow',
+                    placeholder: '자유롭게 글을 작성하세요! (이미지 드래그 앤 드롭 지원, 유튜브 영상 링크 지원)',
+                    modules: {
+                        toolbar: [
+                            [{ 'header': [1, 2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'color': [] }, { 'background': [] }],
+                            ['link', 'image', 'video'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['clean']
+                        ]
+                    }
+                });
+            }
+        }
+
+        // 새 글 쓰기 버튼 클릭
+        adminWriteBtn.addEventListener('click', () => {
+            isEditing = false;
+            currentNoticeId = null;
+
+            document.getElementById('notice-modal-title').innerHTML = '<div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 공지 및 뉴스 작성';
+            document.getElementById('notice-write-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            initQuill();
+            quill.root.innerHTML = '';
+            document.getElementById('notice-write-form').reset();
+        });
+
+        // 공지글 수정 버튼 클릭
+        document.getElementById('edit-notice-btn').addEventListener('click', () => {
+            const notice = notices.find(n => n.id === currentNoticeId);
+            if (!notice) return;
+            
+            isEditing = true;
+            
+            // 보기 모달 닫고 쓰기 모달 열기
+            document.getElementById('notice-view-modal').classList.add('hidden');
+            document.getElementById('notice-write-modal').classList.remove('hidden');
+            
+            document.getElementById('notice-modal-title').innerHTML = '<div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 공지 및 뉴스 수정';
+            
+            // 기존 데이터 채워넣기
+            document.getElementById('notice-type').value = notice.type;
+            document.getElementById('notice-title').value = notice.title;
+            
+            initQuill();
+            quill.root.innerHTML = notice.content;
+        });
+
+        // 공지글 삭제 버튼 클릭
+        document.getElementById('delete-notice-btn').addEventListener('click', () => {
+            if (confirm('정말 이 게시글을 삭제하시겠습니까?')) {
+                notices = notices.filter(n => n.id !== currentNoticeId);
+                renderNotices();
+                closeAllModals();
+            }
+        });
+
+        // 공지사항 등록 및 수정 제출
+        document.getElementById('notice-write-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const type = document.getElementById('notice-type').value;
+            const title = document.getElementById('notice-title').value;
+            const content = quill.root.innerHTML; 
+            
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}. ${String(today.getMonth()+1).padStart(2,'0')}. ${String(today.getDate()).padStart(2,'0')}`;
+
+            if (isEditing && currentNoticeId) {
+                // 기존 글 수정
+                const index = notices.findIndex(n => n.id === currentNoticeId);
+                if (index !== -1) {
+                    notices[index] = { ...notices[index], type, title, content };
+                    // 수정일 경우 날짜는 기존 작성일을 유지합니다. 
+                    // 필요 시 notices[index].date = dateStr; 로 변경 가능합니다.
+                }
+            } else {
+                // 새 글 등록
+                notices.unshift({ id: Date.now(), type, title, date: dateStr, content });
+            }
+            
+            renderNotices();
+            closeAllModals();
+        });
+
+        // --- 리뷰 수정 및 삭제 함수 (전역) ---
+        window.editReview = function(id) {
+            const review = reviews.find(r => r.id === id);
+            if (!review) return;
+
+            isReviewEditing = true;
+            currentReviewId = id;
+
+            document.getElementById('review-modal-title').innerHTML = '<div class="w-2 h-6 bg-brand-orange rounded-full mr-2"></div> 생생 리뷰 수정';
+            document.getElementById('review-submit-btn').innerText = '리뷰 수정하기';
+
+            document.getElementById('review-author-type').value = review.authorType;
+            document.getElementById('review-author-name').value = review.authorName;
+            
+            // 앞뒤에 붙은 큰따옴표 제거 후 텍스트 세팅
+            const content = review.content.replace(/^"|"$/g, '');
+            document.getElementById('review-content').value = content;
+            updateStars(review.rating);
+
+            document.getElementById('review-write-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.deleteReview = function(id) {
+            if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
+                reviews = reviews.filter(r => r.id !== id);
+                renderReviews();
+            }
+        }
+
+        // --- GitHub 갤러리 업로드/동기화 설정 ---
+        const GITHUB_SETTINGS_KEY = 'roleedu_gallery_github_settings';
+
+        function encodeBase64Unicode(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        function sanitizeGalleryFileName(fileName) {
+            const parts = fileName.split('.');
+            const ext = parts.length > 1 ? parts.pop().toLowerCase().replace(/[^a-z0-9]/g, '') : 'jpg';
+            const base = parts.join('.') || 'gallery-image';
+            const safeBase = base
+                .normalize('NFKD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9_-]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .toLowerCase() || 'gallery-image';
+            return `${Date.now()}-${safeBase}.${ext}`;
+        }
+
+        function getGalleryGithubSettings() {
+            const saved = JSON.parse(localStorage.getItem(GITHUB_SETTINGS_KEY) || '{}');
+            return {
+                owner: document.getElementById('github-owner')?.value.trim() || saved.owner || '',
+                repo: document.getElementById('github-repo')?.value.trim() || saved.repo || '',
+                branch: document.getElementById('github-branch')?.value.trim() || saved.branch || 'main',
+                folder: (document.getElementById('github-folder')?.value.trim() || saved.folder || 'gallery').replace(/^\/+|\/+$/g, ''),
+                token: document.getElementById('github-token')?.value.trim() || saved.token || ''
+            };
+        }
+
+        function setGalleryGithubSettingsFields() {
+            const saved = JSON.parse(localStorage.getItem(GITHUB_SETTINGS_KEY) || '{}');
+            document.getElementById('github-owner').value = saved.owner || '';
+            document.getElementById('github-repo').value = saved.repo || '';
+            document.getElementById('github-branch').value = saved.branch || 'main';
+            document.getElementById('github-folder').value = saved.folder || 'gallery';
+            document.getElementById('github-token').value = saved.token || '';
+        }
+
+        function saveGalleryGithubSettings(settings) {
+            localStorage.setItem(GITHUB_SETTINGS_KEY, JSON.stringify(settings));
+        }
+
+        function validateGalleryGithubSettings(settings) {
+            if (!settings.owner || !settings.repo || !settings.branch || !settings.folder || !settings.token) {
+                throw new Error('GitHub 업로드 설정을 모두 입력해주세요.');
+            }
+        }
+
+        async function githubContentsRequest(path, options = {}) {
+            const settings = getGalleryGithubSettings();
+            validateGalleryGithubSettings(settings);
+            const apiUrl = `https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${encodeURIComponent(path).replace(/%2F/g, '/')}`;
+            const response = await fetch(apiUrl, {
+                ...options,
+                headers: {
+                    'Accept': 'application/vnd.github+json',
+                    'Authorization': `Bearer ${settings.token}`,
+                    'X-GitHub-Api-Version': '2022-11-28',
+                    ...(options.headers || {})
+                }
+            });
+
+            if (response.status === 404 && options.allow404) return null;
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.message || 'GitHub 요청 중 오류가 발생했습니다.');
+            }
+            return data;
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result).split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function uploadGalleryFileToGithub(file) {
+            const settings = getGalleryGithubSettings();
+            validateGalleryGithubSettings(settings);
+            saveGalleryGithubSettings(settings);
+
+            const fileName = sanitizeGalleryFileName(file.name);
+            const filePath = `${settings.folder}/${fileName}`;
+            const content = await fileToBase64(file);
+
+            await githubContentsRequest(filePath, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    message: `Add gallery image: ${fileName}`,
+                    content,
+                    branch: settings.branch
+                })
+            });
+
+            // GitHub Pages에서 바로 불러올 수 있도록 상대 경로를 저장합니다.
+            return filePath;
+        }
+
+        async function saveGalleryJsonToGithub() {
+            const settings = getGalleryGithubSettings();
+            validateGalleryGithubSettings(settings);
+            saveGalleryGithubSettings(settings);
+
+            const jsonPath = `${settings.folder}/gallery.json`;
+            const currentFile = await githubContentsRequest(jsonPath, { allow404: true });
+            const content = encodeBase64Unicode(JSON.stringify(galleries, null, 2));
+
+            await githubContentsRequest(jsonPath, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    message: 'Update gallery list',
+                    content,
+                    branch: settings.branch,
+                    ...(currentFile?.sha ? { sha: currentFile.sha } : {})
+                })
+            });
+        }
+
+        async function loadRemoteGalleryJson() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(GITHUB_SETTINGS_KEY) || '{}');
+                const folder = (saved.folder || 'gallery').replace(/^\/+|\/+$/g, '');
+                const response = await fetch(`${folder}/gallery.json?ts=${Date.now()}`, { cache: 'no-store' });
+                if (!response.ok) return;
+                const remoteGalleries = await response.json();
+                if (Array.isArray(remoteGalleries)) {
+                    galleries = remoteGalleries;
+                    renderGallery();
+                }
+            } catch (error) {
+                console.warn('원격 갤러리 목록을 불러오지 못했습니다.', error);
+            }
+        }
+
+        // --- 관리자 갤러리 추가/수정 로직 ---
+        adminAddGalleryBtn.addEventListener('click', () => {
+            isGalleryEditing = false;
+            currentGalleryId = null;
+
+            document.getElementById('gallery-modal-title').innerHTML = '<div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 갤러리 사진 추가';
+            document.getElementById('gallery-submit-btn').innerText = '등록하기';
+
+            document.getElementById('gallery-write-form').reset();
+            setGalleryGithubSettingsFields();
+            document.getElementById('gallery-current-file').innerText = '※ 선택한 파일은 GitHub 저장소의 gallery 폴더에 업로드됩니다.';
+            document.getElementById('gallery-write-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        window.editGallery = function(id, event) {
+            event.stopPropagation(); // 부모 엘리먼트 클릭 방지
+            const item = galleries.find(g => g.id === id);
+            if (!item) return;
+
+            isGalleryEditing = true;
+            currentGalleryId = id;
+
+            document.getElementById('gallery-modal-title').innerHTML = '<div class="w-2 h-6 bg-gray-800 rounded-full mr-2"></div> 갤러리 사진 수정';
+            document.getElementById('gallery-submit-btn').innerText = '수정하기';
+
+            document.getElementById('gallery-write-form').reset();
+            setGalleryGithubSettingsFields();
+            document.getElementById('gallery-caption').value = item.caption || '';
+            document.getElementById('gallery-size').value = item.size || 'normal';
+            document.getElementById('gallery-current-file').innerText = `현재 이미지: ${item.url} / 새 파일을 선택하면 이미지가 교체됩니다.`;
+
+            document.getElementById('gallery-write-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.deleteGallery = async function(id, event) {
+            event.stopPropagation();
+            if (!confirm('정말 이 사진을 갤러리에서 삭제하시겠습니까?')) return;
+
+            const previousGalleries = [...galleries];
+            galleries = galleries.filter(g => g.id !== id);
+            renderGallery();
+
+            try {
+                await saveGalleryJsonToGithub();
+                alert('갤러리 목록에서 삭제되었습니다.\n※ GitHub에 업로드된 원본 이미지 파일은 보존됩니다.');
+            } catch (error) {
+                galleries = previousGalleries;
+                renderGallery();
+                alert(`삭제 내용을 GitHub에 저장하지 못했습니다.\n${error.message}`);
+            }
+        }
+
+        // 갤러리 등록/수정 폼 제출
+        document.getElementById('gallery-write-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('gallery-submit-btn');
+            const originalText = submitBtn.innerText;
+            const file = document.getElementById('gallery-file').files[0];
+            const caption = document.getElementById('gallery-caption').value;
+            const size = document.getElementById('gallery-size').value;
+            const previousGalleries = [...galleries];
+
+            try {
+                const settings = getGalleryGithubSettings();
+                validateGalleryGithubSettings(settings);
+                saveGalleryGithubSettings(settings);
+
+                submitBtn.innerText = 'GitHub 업로드 중...';
+                submitBtn.disabled = true;
+
+                let uploadedUrl = null;
+                if (file) {
+                    uploadedUrl = await uploadGalleryFileToGithub(file);
+                }
+
+                if (isGalleryEditing && currentGalleryId) {
+                    const index = galleries.findIndex(g => g.id === currentGalleryId);
+                    if (index !== -1) {
+                        galleries[index] = {
+                            ...galleries[index],
+                            ...(uploadedUrl ? { url: uploadedUrl } : {}),
+                            caption,
+                            size
+                        };
+                    }
+                } else {
+                    if (!uploadedUrl) {
+                        throw new Error('추가할 이미지 파일을 선택해주세요.');
+                    }
+                    galleries.push({
+                        id: Date.now(),
+                        url: uploadedUrl,
+                        caption,
+                        size
+                    });
+                }
+
+                submitBtn.innerText = '갤러리 목록 저장 중...';
+                await saveGalleryJsonToGithub();
+
+                renderGallery();
+                closeAllModals();
+                alert('갤러리 사진이 GitHub gallery 폴더에 저장되고 사이트에 반영되었습니다.');
+            } catch (error) {
+                galleries = previousGalleries;
+                renderGallery();
+                alert(`갤러리 저장 중 오류가 발생했습니다.\n${error.message}`);
+            } finally {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // --- 게스트 리뷰 작성 로직 ---
+        document.getElementById('open-review-modal-btn').addEventListener('click', () => {
+            isReviewEditing = false;
+            currentReviewId = null;
+
+            document.getElementById('review-modal-title').innerHTML = '<div class="w-2 h-6 bg-brand-orange rounded-full mr-2"></div> 생생 리뷰 남기기';
+            document.getElementById('review-submit-btn').innerText = '리뷰 등록하기';
+
+            document.getElementById('review-write-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('review-write-form').reset();
+            updateStars(5); // 기본 별점 5점
+        });
+
+        // 별점 UI 클릭 제어
+        const starIcons = document.querySelectorAll('.star-icon');
+        const ratingInput = document.getElementById('review-rating');
+
+        function updateStars(rating) {
+            ratingInput.value = rating;
+            starIcons.forEach(star => {
+                if (parseInt(star.getAttribute('data-val')) <= rating) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-brand-orange', 'fill-current');
+                } else {
+                    star.classList.add('text-gray-300');
+                    star.classList.remove('text-brand-orange', 'fill-current');
+                }
+            });
+        }
+
+        starIcons.forEach(star => {
+            star.addEventListener('click', (e) => {
+                updateStars(parseInt(e.target.closest('i').getAttribute('data-val')));
+            });
+        });
+
+        // 리뷰 등록
+        document.getElementById('review-write-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const authorType = document.getElementById('review-author-type').value;
+            const authorName = document.getElementById('review-author-name').value;
+            const rating = parseInt(document.getElementById('review-rating').value);
+            const content = document.getElementById('review-content').value;
+
+            if (isReviewEditing && currentReviewId) {
+                // 기존 리뷰 수정
+                const index = reviews.findIndex(r => r.id === currentReviewId);
+                if (index !== -1) {
+                    reviews[index] = { ...reviews[index], authorType, authorName, rating, content: `"${content}"` };
+                }
+            } else {
+                // 새 리뷰 등록
+                reviews.unshift({
+                    id: Date.now(),
+                    authorType,
+                    authorName,
+                    rating,
+                    content: `"${content}"`
+                });
+            }
+
+            renderReviews();
+            closeAllModals();
+        });
+
+        // 렌더링 초기화
+        renderNotices();
+        renderReviews();
+        renderGallery();
+        loadRemoteGalleryJson();
+
+        // --- Academy Modal Logic ---
+        const academyModal = document.getElementById('academy-modal');
+        const openModalBtn = document.getElementById('open-academy-modal');
+        const academyForm = document.getElementById('academy-form');
+        const academySuccess = document.getElementById('academy-success');
+
+        openModalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            academyModal.classList.remove('hidden');
+            academyForm.reset();
+            academyForm.classList.remove('hidden');
+            academySuccess.classList.add('hidden');
+            document.body.style.overflow = 'hidden'; 
+        });
+
+        academyForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            const submitBtn = academyForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '전송 중...';
+            submitBtn.disabled = true;
+
+            // 👇 아카데미 구글 시트 연동을 위한 Apps Script 웹앱 URL을 이곳에 붙여넣으세요
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxKPOA8AkDsqMkZd9hQPTXHlQYxqy-jtUMHO0__rFWPhuMh8W78OB-Iv1mkuK6Rn0KaxA/exec';
+            const formData = new FormData(academyForm);
+
+            // URL이 아직 입력되지 않은 상태 (테스트용 작동)
+            if (scriptURL === 'YOUR_ACADEMY_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+                alert("알림: 코드 내에 발급받은 scriptURL을 입력해야 실제 구글 시트로 전송됩니다.\n(안내해드린 연동 가이드를 참고해주세요)");
+                setTimeout(() => {
+                    academyForm.classList.add('hidden');
+                    academySuccess.classList.remove('hidden');
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }, 800);
+                return;
+            }
+
+            // 구글 시트로 실제 데이터 전송
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: new URLSearchParams(formData)
+            })
+            .then(response => {
+                academyForm.classList.add('hidden');
+                academySuccess.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // --- B2B Modal Logic ---
+        const b2bModal = document.getElementById('b2b-modal');
+        const openB2bBtn = document.getElementById('open-b2b-modal');
+        const b2bForm = document.getElementById('b2b-form');
+        const b2bSuccess = document.getElementById('b2b-success');
+
+        openB2bBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            b2bModal.classList.remove('hidden');
+            b2bForm.reset();
+            b2bForm.classList.remove('hidden');
+            b2bSuccess.classList.add('hidden');
+            document.body.style.overflow = 'hidden'; 
+        });
+
+        b2bForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            const submitBtn = b2bForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '전송 중...';
+            submitBtn.disabled = true;
+
+            // 👇 구글 시트 연동을 위한 Apps Script 웹앱 URL을 이곳에 붙여넣으세요
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxct-Akgw733txS1CM_NOFiJyDoa1PQ2Jrhx1M5-t-Gd2SfaoV3U3IxSSEsWYQUirTD_A/exec';
+            const formData = new FormData(b2bForm);
+
+            // URL이 아직 입력되지 않은 상태 (테스트용 작동)
+            if (scriptURL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+                alert("알림: 코드 내에 발급받은 scriptURL을 입력해야 실제 구글 시트로 전송됩니다.\n(안내해드린 연동 가이드를 참고해주세요)");
+                setTimeout(() => {
+                    b2bForm.classList.add('hidden');
+                    b2bSuccess.classList.remove('hidden');
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }, 800);
+                return;
+            }
+
+            // 구글 시트로 실제 데이터 전송
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: new URLSearchParams(formData)
+            })
+            .then(response => {
+                b2bForm.classList.add('hidden');
+                b2bSuccess.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
