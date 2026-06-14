@@ -37,7 +37,7 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* FAQ 가속도 애니메이션 */
+        /* FAQ 및 학기별 탭 애니메이션 */
         .faq-answer {
             max-height: 0;
             overflow: hidden;
@@ -50,6 +50,8 @@
         .faq-item.active .faq-icon {
             transform: rotate(180deg);
         }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInUp 0.4s ease-out forwards; }
     </style>
 </head>
 <body class="font-sans text-brand-dark bg-white antialiased">
@@ -96,6 +98,9 @@
                 <a href="#curriculum" class="px-6 py-3 bg-white border border-gray-200 text-gray-600 font-bold rounded-xl shadow-sm hover:border-gray-300 transition-all text-sm">
                     3단계 수업 흐름
                 </a>
+                <a href="#annual" class="px-6 py-3 bg-orange-50 text-brand-orange border border-orange-200 font-bold rounded-xl shadow-sm hover:bg-orange-100 transition-all text-sm">
+                    연간 커리큘럼
+                </a>
             </div>
         </div>
         <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
@@ -105,7 +110,7 @@
         <div class="max-w-4xl mx-auto px-4">
             <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
                 <div class="absolute -right-10 -top-10 text-white/5 pointer-events-none">
-                    <i data-lucide="heart" class="w-48 h-48"></i>
+                    <i data-lucide="heart" class="w-44 h-44"></i>
                 </div>
                 <span class="text-brand-orange font-bold text-xs uppercase tracking-wider mb-3 block">
                     Brand Philosophy
@@ -122,41 +127,256 @@
         </div>
     </section>
 
-    <section class="py-20 bg-brand-light">
+    <section id="curriculum" class="py-20 bg-brand-light">
         <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-14">
-                <span class="text-brand-blue font-bold text-xs uppercase tracking-widest block mb-2">Core Values</span>
-                <h2 class="text-3xl font-extrabold text-gray-900">프로그램 3대 핵심 가치</h2>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-black text-gray-900 mb-3">늘봄 블록과학교실 개요</h2>
+                <p class="text-sm text-gray-500 font-bold tracking-wider uppercase">Neulbom Block Science Class Flow</p>
+                <p class="mt-4 text-gray-600 text-base md:text-lg max-w-2xl mx-auto font-medium">
+                    교과 원리를 직관적으로 이해하는 <span class="text-brand-blue font-bold">과학 활동</span>과 관계와 조율을 배우는 <span class="text-brand-green font-bold">정서·사회성 활동</span>이 입체적으로 결합된 3단계 프로세스입니다.
+                </p>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-2xl border border-gray-200/80 shadow-sm transition-all hover:shadow-md group">
-                    <div class="w-12 h-12 bg-blue-50 text-brand-blue rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-                        <i data-lucide="flask-conical" class="w-6 h-6"></i>
+
+            <div class="space-y-10">
+                <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-100 pb-4 mb-6 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-md">1단계</span>
+                            <h3 class="text-xl md:text-2xl font-black text-gray-950">도입 — 과학원리를 신기한 장치로 상상하기</h3>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">🔬 과학적 탐구</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        기어, 축, 핀 등 테크닉 블록으로 실제 작동하는 장치를 만들며 과학의 원리를 눈과 손끝으로 직접 익힙니다. <strong class="text-brand-blue font-medium">"왜 움직이지?"</strong>라는 호기심이 탐구의 시작입니다.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-2xl border border-gray-200/80 shadow-sm transition-all hover:shadow-md group">
-                    <div class="w-12 h-12 bg-orange-50 text-brand-orange rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-                        <i data-lucide="lightbulb" class="w-6 h-6"></i>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                            <h4 class="font-bold text-brand-blue flex items-center gap-2 mb-3 text-base">
+                                <i data-lucide="flask-conical" class="w-5 h-5"></i> 🔬 과학 활동
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                교과서 속 어려운 과학 용어가 아이들 눈높이에 맞춘 재미있는 원리장치와 실험도구로 변환됩니다. 신기한 현상을 관찰하며 호기심과 기대감으로 블록 조립을 시작합니다.
+                            </p>
+                        </div>
+                        <div class="bg-emerald-50/50 p-5 rounded-xl border border-emerald-100/60">
+                            <h4 class="font-bold text-brand-green flex items-center gap-2 mb-3 text-base">
+                                <i data-lucide="smile" class="w-5 h-5"></i> 🤝 정서·사회성
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                오늘 만들 장치에 대해 서로 어떤 부분이 궁금한지 이야기를 나누며 활동을 시작합니다. 친구의 생각을 듣고 내 생각을 표현하는 첫 소통의 시간입니다.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">🌟 창의와 상상력</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        동화 속 문제를 해결하는 도구를 직접 구현하며 아이만의 아이디어와 표현력이 자랍니다. 정해진 답이 없는 열린 설계 과정 속에서 아이들의 창의력은 가장 크게 자라납니다.
-                    </p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl border border-gray-200/80 shadow-sm transition-all hover:shadow-md group">
-                    <div class="w-12 h-12 bg-green-50 text-brand-green rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-                        <i data-lucide="users" class="w-6 h-6"></i>
+
+                <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-100 pb-4 mb-6 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-md">2단계</span>
+                            <h3 class="text-xl md:text-2xl font-black text-gray-950">전개 — 내 손으로 만드는 움직이는 과학</h3>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">🤝 함께 자라는 공동체</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        친구와 순서를 나누고, 의견을 조율하고, 무언가를 함께 완성해내는 경험. 블록과학교실은 단순한 교구 조립 활동이 아닌 <strong class="text-brand-green font-medium">함께 살아가는 연대의 힘</strong>을 배우는 시간입니다.
-                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                            <h4 class="font-bold text-brand-blue flex items-center gap-2 mb-3 text-base">
+                                <i data-lucide="cpu" class="w-5 h-5"></i> 🔬 과학 활동
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                평면의 2D 도면을 판독하여 3D 정밀 입체 블록 장치로 직접 구현합니다. 기어와 축이 정교하게 맞물려 장치가 실제로 움직이는 순간, 과학 원리를 손끝의 직관으로 이해합니다.
+                            </p>
+                        </div>
+                        <div class="bg-emerald-50/50 p-5 rounded-xl border border-emerald-100/60">
+                            <h4 class="font-bold text-brand-green flex items-center gap-2 mb-3 text-base">
+                                <i data-lucide="users" class="w-5 h-5"></i> 🤝 정서·사회성
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                하나의 재료를 함께 사용하기 때문에, 누가 먼저 할지 순서를 정하고 역할을 번갈아가며 조립합니다. 기다림, 양보, 협력의 경험이 자연스럽게 쌓이는 시간입니다.
+                            </p>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-100 pb-4 mb-6 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-md">3단계</span>
+                            <h3 class="text-xl md:text-2xl font-black text-gray-950">마무리 — 꼬마 과학자의 연구 시간 & 수업 정리</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                            <h4 class="font-bold text-brand-blue flex items-center gap-2 mb-3 text-base">
+                                <i data-lucide="award" class="w-5 h-5"></i> 🔬 과학 활동
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                스스로 장치를 구동해보며 "이렇게 다르게도 해볼까?"라는 능동적 변형 동기가 살아납니다. 습득한 원리를 활용해 주도적으로 발표하며 자신감과 책임감을 가슴에 새깁니다.
+                            </p>
+                        </div>
+                        <div class="bg-emerald-50/50 p-5 rounded-xl border border-emerald-100/60">
+                            <h4 class="font-bold text-brand-green flex items-center gap-2 mb-3 text-base">
+                                <i data-lucide="archive" class="w-5 h-5"></i> 🤝 정서·사회성
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                "더 만들고 싶어!"라는 마음이 들 때, 친구에게 이야기하고 동의를 구하거나 합의를 이끌어내는 경험을 합니다. 수업이 끝나면 함께 교구를 정리하며 공동체 의식과 생활 질서를 기릅니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="annual" class="py-20 bg-white border-t border-gray-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-brand-orange font-bold text-xs uppercase tracking-widest block mb-2">Annual Curriculum</span>
+                <h2 class="text-3xl font-black text-gray-900 mb-4">연간 학기별 커리큘럼</h2>
+                <p class="text-gray-600 text-base md:text-lg font-medium">
+                    학기별로 체계적으로 구성된 12차시의 흥미진진한 블럭 과학/동화 여행을 만나보세요!
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 mb-8 bg-slate-100 p-1.5 rounded-2xl max-w-2xl mx-auto">
+                <button onclick="openTab('spring')" id="btn-spring" class="tab-btn flex-1 min-w-[100px] text-center py-3 px-4 font-bold rounded-xl text-sm transition-all bg-white text-brand-blue shadow-sm">
+                    🌸 봄학기
+                </button>
+                <button onclick="openTab('summer')" id="btn-summer" class="tab-btn flex-1 min-w-[100px] text-center py-3 px-4 font-bold rounded-xl text-sm transition-all text-gray-500 hover:text-gray-800">
+                    ☀️ 여름학기
+                </button>
+                <button onclick="openTab('autumn')" id="btn-autumn" class="tab-btn flex-1 min-w-[100px] text-center py-3 px-4 font-bold rounded-xl text-sm transition-all text-gray-500 hover:text-gray-800">
+                    🍁 가을학기
+                </button>
+                <button onclick="openTab('winter')" id="btn-winter" class="tab-btn flex-1 min-w-[100px] text-center py-3 px-4 font-bold rounded-xl text-sm transition-all text-gray-500 hover:text-gray-800">
+                    ❄️ 겨울학기
+                </button>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+                
+                <div id="spring" class="tab-content active">
+                    <div class="bg-blue-50/50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <span class="font-bold text-brand-blue text-base">🌸 봄학기: 스토리텔링 블럭창의놀이 (블럭동화교실)</span>
+                        <span class="text-xs bg-blue-100 text-brand-blue font-bold px-2.5 py-1 rounded-full">총 12차시</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-gray-400 font-bold text-xs uppercase tracking-wider border-b border-gray-200">
+                                    <th class="py-3.5 px-6 w-24">차시</th>
+                                    <th class="py-3.5 px-6 w-1/2">💡 과학체험 내용</th>
+                                    <th class="py-3.5 px-6">🧱 블럭놀이 주제</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">1차시</td><td class="py-3.5 px-6">무게중심</td><td class="py-3.5 px-6 font-medium text-brand-blue">밸런스카</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">2차시</td><td class="py-3.5 px-6">도르레</td><td class="py-3.5 px-6 font-medium text-brand-blue">컨베이어벨트</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">3차시</td><td class="py-3.5 px-6">순간적인 힘, 압력</td><td class="py-3.5 px-6 font-medium text-brand-blue">펑로켓</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">4차시</td><td class="py-3.5 px-6">압력의 차이</td><td class="py-3.5 px-6 font-medium text-brand-blue">주사기 로봇손</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">5차시</td><td class="py-3.5 px-6">풀리와 벨트</td><td class="py-3.5 px-6 font-medium text-brand-blue">발달린 바퀴</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">6차시</td><td class="py-3.5 px-6">움직 도르레</td><td class="py-3.5 px-6 font-medium text-brand-blue">구조크레인</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">7차시</td><td class="py-3.5 px-6">무게중심</td><td class="py-3.5 px-6 font-medium text-brand-blue">케이블카</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">8차시</td><td class="py-3.5 px-6">작용, 반작용</td><td class="py-3.5 px-6 font-medium text-brand-blue">금메달 사격총</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">9차시</td><td class="py-3.5 px-6">포물선</td><td class="py-3.5 px-6 font-medium text-brand-blue">종이컵 농구</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">10차시</td><td class="py-3.5 px-6">진동원리</td><td class="py-3.5 px-6 font-medium text-brand-blue">댄서 돼지</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">11차시</td><td class="py-3.5 px-6">고정구조(삼각형), 움직구조(사각형)</td><td class="py-3.5 px-6 font-medium text-brand-blue">트러스트 다리</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">12차시</td><td class="py-3.5 px-6">지레</td><td class="py-3.5 px-6 font-medium text-brand-blue">로봇손</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="summer" class="tab-content">
+                    <div class="bg-orange-50/50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <span class="font-bold text-brand-orange text-base">☀️ 여름학기: 스토리텔링 블럭창의놀이 (블럭동화교실)</span>
+                        <span class="text-xs bg-orange-100 text-brand-orange font-bold px-2.5 py-1 rounded-full">총 12차시</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-gray-400 font-bold text-xs uppercase tracking-wider border-b border-gray-200">
+                                    <th class="py-3.5 px-6 w-24">차시</th>
+                                    <th class="py-3.5 px-6 w-1/2">💡 과학체험 내용</th>
+                                    <th class="py-3.5 px-6">🧱 블럭놀이 주제</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">1차시</td><td class="py-3.5 px-6">관성</td><td class="py-3.5 px-6 font-medium text-brand-orange">왔다갔다 짚라인</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">2차시</td><td class="py-3.5 px-6">회전, 착시현상</td><td class="py-3.5 px-6 font-medium text-brand-orange">그림을 움직이는 기계</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">3차시</td><td class="py-3.5 px-6">지레</td><td class="py-3.5 px-6 font-medium text-brand-orange">움직이는 날개</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">4차시</td><td class="py-3.5 px-6">회전, 착시현상</td><td class="py-3.5 px-6 font-medium text-brand-orange">빙글빙글 쌩쌩</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">5차시</td><td class="py-3.5 px-6">포물선, 탄성력</td><td class="py-3.5 px-6 font-medium text-brand-orange">석궁</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">6차시</td><td class="py-3.5 px-6">위치에너지, 각도</td><td class="py-3.5 px-6 font-medium text-brand-orange">핀볼</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">7차시</td><td class="py-3.5 px-6">반응속도, 탄성력</td><td class="py-3.5 px-6 font-medium text-brand-orange">펀치건</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">8차시</td><td class="py-3.5 px-6">마찰력, 회전</td><td class="py-3.5 px-6 font-medium text-brand-orange">바이킹</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">9차시</td><td class="py-3.5 px-6">내 맘대로 기린</td><td class="py-3.5 px-6 font-medium text-brand-orange">기린 각도 체험</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">10차시</td><td class="py-3.5 px-6">반짝반짝 하늘별자리</td><td class="py-3.5 px-6 font-medium text-brand-orange">하늘별자리 만들기</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">11차시</td><td class="py-3.5 px-6">뱅글뱅글 불빛놀이</td><td class="py-3.5 px-6 font-medium text-brand-orange">닥터스트레인져</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">12차시</td><td class="py-3.5 px-6">무지개만들기</td><td class="py-3.5 px-6 font-medium text-brand-orange">무지개만들기 실험</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="autumn" class="tab-content">
+                    <div class="bg-emerald-50/50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <span class="font-bold text-brand-green text-base">🍁 가을학기: 신기한 과학체험 블럭창의놀이 (블럭과학교실)</span>
+                        <span class="text-xs bg-emerald-100 text-brand-green font-bold px-2.5 py-1 rounded-full">총 12차시</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-gray-400 font-bold text-xs uppercase tracking-wider border-b border-gray-200">
+                                    <th class="py-3.5 px-6 w-24">차시</th>
+                                    <th class="py-3.5 px-6 w-1/2">💡 과학체험 내용</th>
+                                    <th class="py-3.5 px-6">🧱 블럭놀이 주제</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">1차시</td><td class="py-3.5 px-6">회전, 착시</td><td class="py-3.5 px-6 font-medium text-brand-green">고속회전</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">2차시</td><td class="py-3.5 px-6">위치에너지, 가속도</td><td class="py-3.5 px-6 font-medium text-brand-green">위치 레이싱</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">3차시</td><td class="py-3.5 px-6">지레, 악력</td><td class="py-3.5 px-6 font-medium text-brand-green">인형뽑기의 함정</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">4차시</td><td class="py-3.5 px-6">지레, 지렛대, 포물선</td><td class="py-3.5 px-6 font-medium text-brand-green">중세시대의 탱크 투석기</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">5차시</td><td class="py-3.5 px-6">착시, 회전</td><td class="py-3.5 px-6 font-medium text-brand-green">변신장치</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">6차시</td><td class="py-3.5 px-6">색의혼합, 고속회전</td><td class="py-3.5 px-6 font-medium text-brand-green">단풍회전판</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">7차시</td><td class="py-3.5 px-6">압력</td><td class="py-3.5 px-6 font-medium text-brand-green">골판지 인쇄기</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">8차시</td><td class="py-3.5 px-6">풍력</td><td class="py-3.5 px-6 font-medium text-brand-green">풍력모빌</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">9차시</td><td class="py-3.5 px-6">탄성력, 마찰력</td><td class="py-3.5 px-6 font-medium text-brand-green">레이싱 발사대</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">10차시</td><td class="py-3.5 px-6">지레</td><td class="py-3.5 px-6 font-medium text-brand-green">우산</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">11차시</td><td class="py-3.5 px-6">회전, 탄성력, 풍력</td><td class="py-3.5 px-6 font-medium text-brand-green">풍력카</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">12차시</td><td class="py-3.5 px-6">지레, 왕복</td><td class="py-3.5 px-6 font-medium text-brand-green">와이퍼</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="winter" class="tab-content">
+                    <div class="bg-indigo-50/50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <span class="font-bold text-indigo-700 text-base">❄️ 겨울학기: 스토리텔링 블럭창의놀이 (블럭동화교실)</span>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-full">총 12차시</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-gray-400 font-bold text-xs uppercase tracking-wider border-b border-gray-200">
+                                    <th class="py-3.5 px-6 w-24">차시</th>
+                                    <th class="py-3.5 px-6 w-1/2">💡 과학체험 내용</th>
+                                    <th class="py-3.5 px-6">🧱 블럭놀이 주제</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">1차시</td><td class="py-3.5 px-6">탄성력1</td><td class="py-3.5 px-6 font-medium text-indigo-600">항공모함</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">2차시</td><td class="py-3.5 px-6">무게중심</td><td class="py-3.5 px-6 font-medium text-indigo-600">오뚜기카</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">3차시</td><td class="py-3.5 px-6">입사각과 반사각</td><td class="py-3.5 px-6 font-medium text-indigo-600">테이블 테니스</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">4차시</td><td class="py-3.5 px-6">관성과 톱니바퀴</td><td class="py-3.5 px-6 font-medium text-indigo-600">시간아 멈춰라</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">5차시</td><td class="py-3.5 px-6">무게중심</td><td class="py-3.5 px-6 font-medium text-indigo-600">거미</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">6차시</td><td class="py-3.5 px-6">마찰력</td><td class="py-3.5 px-6 font-medium text-indigo-600">회전카</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">7차시</td><td class="py-3.5 px-6">진자운동</td><td class="py-3.5 px-6 font-medium text-indigo-600">똑딱똑딱 시계</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">8차시</td><td class="py-3.5 px-6">균형</td><td class="py-3.5 px-6 font-medium text-indigo-600">매직카펫</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">9차시</td><td class="py-3.5 px-6">척력</td><td class="py-3.5 px-6 font-medium text-indigo-600">버스</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">10차시</td><td class="py-3.5 px-6">인력, 척력</td><td class="py-3.5 px-6 font-medium text-indigo-600">자석 공중 그네</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">11차시</td><td class="py-3.5 px-6">반복과 톱니바퀴</td><td class="py-3.5 px-6 font-medium text-indigo-600">드림캐쳐</td></tr>
+                                <tr><td class="py-3.5 px-6 font-bold text-gray-900">12차시</td><td class="py-3.5 px-6">자력과 도르레</td><td class="py-3.5 px-6 font-medium text-indigo-600">자석낚시</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -174,62 +394,6 @@
         </div>
         <div class="absolute -left-16 -bottom-16 text-white/5 pointer-events-none">
             <i data-lucide="sparkles" class="w-44 h-44"></i>
-        </div>
-    </section>
-
-    <section id="curriculum" class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-black text-gray-900 mb-3">늘봄 블록과학교실 개요</h2>
-                <p class="text-sm text-gray-500 font-bold tracking-wider uppercase">Neulbom Block Science Class</p>
-                <p class="mt-4 text-gray-600 text-base md:text-lg max-w-2xl mx-auto font-medium">
-                    어려운 과학 현상과 용어를 재미있는 원리 장치와 실험 도구로 구현하며 공동체 감각과 정서적 성장을 동시에 조율하는 <span class="text-brand-blue font-bold">메이커 기반 스팀(STEAM) 교육</span>입니다.
-                </p>
-            </div>
-
-            <div class="relative border-l-2 border-gray-200 ml-4 md:ml-32 space-y-12">
-                <div class="relative pl-6 md:pl-10">
-                    <div class="absolute -left-[11px] top-1.5 w-5 h-5 bg-white border-4 border-brand-blue rounded-full"></div>
-                    <div class="absolute -left-4 md:-left-32 top-0 hidden md:block w-24 text-right">
-                        <span class="text-brand-blue font-bold text-sm tracking-wide bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">1단계</span>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <span class="text-brand-blue font-bold text-xs md:hidden block mb-1">1단계 : 도입</span>
-                        <h4 class="text-xl font-bold text-gray-900 mb-2">도입 — 과학원리를 신기한 장치로 상상하기</h4>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            교과서 속 어려운 과학 용어가 아이들의 눈높이에 맞춘 <strong class="text-brand-blue font-medium">재미있는 원리장치와 실험도구</strong>로 마법처럼 변환됩니다. 아이들은 눈앞의 신기한 현상을 관찰하며 풍부한 호기심과 기대감으로 블록 조립을 즐겁게 기획하고 시작합니다.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="relative pl-6 md:pl-10">
-                    <div class="absolute -left-[11px] top-1.5 w-5 h-5 bg-white border-4 border-brand-blue rounded-full"></div>
-                    <div class="absolute -left-4 md:-left-32 top-0 hidden md:block w-24 text-right">
-                        <span class="text-brand-blue font-bold text-sm tracking-wide bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">2단계</span>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <span class="text-brand-blue font-bold text-xs md:hidden block mb-1">2단계 : 전개</span>
-                        <h4 class="text-xl font-bold text-gray-900 mb-2">전개 — 내 손으로 만드는 움직이는 과학</h4>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            평면의 2D 도면을 판독하여 3D 정밀 입체 블록 장치로 직접 구현합니다. 기어와 축이 서로 정교하게 맞물려 장치가 실제로 움직이는 순간, 아이들은 과학 원리를 머리가 아닌 <strong class="text-brand-blue font-medium">손끝의 직관</strong>으로 완벽히 이해합니다. 특히 친구와 함께 순서와 역할을 나누고 치열하게 조율하며 완성해가는 과정 속에서 <strong class="text-brand-blue font-medium">공동체 감각과 정서적 성장</strong>이 조화롭게 형성됩니다.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="relative pl-6 md:pl-10">
-                    <div class="absolute -left-[11px] top-1.5 w-5 h-5 bg-white border-4 border-brand-blue rounded-full"></div>
-                    <div class="absolute -left-4 md:-left-32 top-0 hidden md:block w-24 text-right">
-                        <span class="text-brand-blue font-bold text-sm tracking-wide bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">3단계</span>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <span class="text-brand-blue font-bold text-xs md:hidden block mb-1">3단계 : 마무리</span>
-                        <h4 class="text-xl font-bold text-gray-900 mb-2">마무리 — 꼬마 과학자의 연구 시간 & 수업 정리</h4>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            스스로 장치를 구동해 보며 "이렇게 다르게도 해볼까?"라는 능동적 변형 동기가 살아납니다. 습득한 과학 원리를 활용해 주도적으로 발표하며 <strong class="text-brand-blue font-medium">자신감과 단단한 책임감</strong>을 가슴에 새깁니다. 수업이 끝나면 사용한 교구를 분류 시스템에 맞춰 스스로 정돈하며 <strong class="text-brand-blue font-medium">공동체 의식과 규칙적인 생활 질서</strong>로 아름답게 마침표를 찍습니다.
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -275,7 +439,7 @@
     <footer class="bg-white border-t border-gray-200 py-10">
         <div class="max-w-4xl mx-auto px-4 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-gray-400 text-xs leading-relaxed">
-                &copy; 2026 RallEdu. All rights reserved. <br/>
+                &copy; 2026 RoleEdu. All rights reserved. <br/>
                 대표자: 김연태 | 사업자등록번호: 452-73-00132 | 이메일: visionforkids@naver.com <br/>
                 주소: 서울특별시 노원구 화랑로 425-47 지하 1층
             </p>
@@ -294,16 +458,34 @@
         faqItems.forEach(item => {
             item.addEventListener('click', () => {
                 const isActive = item.classList.contains('active');
-                
-                // 다른 열려있는 항목들 닫기
                 faqItems.forEach(i => i.classList.remove('active'));
-                
-                // 클릭한 항목 상태 전환
                 if (!isActive) {
                     item.classList.add('active');
                 }
             });
         });
+
+        // 학기별 탭 전환 스크립트
+        function openTab(tabId) {
+            // 모든 탭 내용 숨기기
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // 모든 버튼 초기화
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-white', 'text-brand-blue', 'shadow-sm');
+                btn.classList.add('text-gray-500', 'hover:text-gray-800');
+            });
+            
+            // 선택한 탭 열기
+            document.getElementById(tabId).classList.add('active');
+            
+            // 선택한 버튼 활성화 스타일 적용
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-gray-500', 'hover:text-gray-800');
+            activeBtn.classList.add('bg-white', 'text-brand-blue', 'shadow-sm');
+        }
     </script>
 </body>
 </html>
