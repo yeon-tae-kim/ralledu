@@ -52,6 +52,10 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInUp 0.4s ease-out forwards; }
+
+        /* 모바일 가로 슬라이더 스크롤바 숨기기 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="font-sans text-brand-dark bg-white antialiased">
@@ -106,7 +110,20 @@
         <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
     </section>
 
-    <section id="philosophy" class="py-20 bg-white border-t border-gray-100">
+    <section class="pt-10 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-slate-50">
+                    <img src="NB_Class/Main.png" alt="늘봄 블록과학교실 메인 이미지 1" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='2rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Main.png</p>'">
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-slate-50">
+                    <img src="NB_Class/main2.png" alt="늘봄 블록과학교실 메인 이미지 2" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='2rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/main2.png</p>'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="philosophy" class="py-16 bg-white">
         <div class="max-w-4xl mx-auto px-4">
             <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
                 <div class="absolute -right-10 -top-10 text-white/5 pointer-events-none">
@@ -137,15 +154,34 @@
                 </p>
             </div>
 
-            <div class="space-y-10">
+            <div class="space-y-14">
+                
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 md:p-8">
+                    
+                    <div class="mb-8">
+                        <p class="text-xs font-bold text-gray-400 mb-2 flex items-center gap-1 md:hidden">
+                            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 옆으로 넘겨서 보세요
+                        </p>
+                        <div class="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
+                            <div class="w-[85%] md:w-auto shrink-0 snap-center rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                                <img src="NB_Class/IntroV1.png" alt="도입 비주얼 1" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">IntroV1.png</p>'\">
+                            </div>
+                            <div class="w-[85%] md:w-auto shrink-0 snap-center rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                                <img src="NB_Class/IntroV2.png" alt="도입 비주얼 2" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">IntroV2.png</p>'\">
+                            </div>
+                            <div class="w-[85%] md:w-auto shrink-0 snap-center rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                                <img src="NB_Class/IntroV3.png" alt="도입 비주얼 3" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">IntroV3.png</p>'\">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-100 pb-4 mb-6 gap-2">
                         <div class="flex items-center gap-3">
                             <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-md">1단계</span>
                             <h3 class="text-xl md:text-2xl font-black text-gray-950">도입 — 과학원리를 신기한 장치로 상상하기</h3>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
                             <h4 class="font-bold text-brand-blue flex items-center gap-2 mb-3 text-base">
                                 <i data-lucide="flask-conical" class="w-5 h-5"></i> 🔬 과학 활동
@@ -163,6 +199,15 @@
                             </p>
                         </div>
                     </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50">
+                        <div class="rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                            <img src="NB_Class/Intro.png" alt="도입 상세 이미지 1" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Intro.png</p>'\">
+                        </div>
+                        <div class="rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                            <img src="NB_Class/Intro2.png" alt="도입 상세 이미지 2" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Intro2.png</p>'\">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 md:p-8">
@@ -172,7 +217,7 @@
                             <h3 class="text-xl md:text-2xl font-black text-gray-950">전개 — 내 손으로 만드는 움직이는 과학</h3>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
                             <h4 class="font-bold text-brand-blue flex items-center gap-2 mb-3 text-base">
                                 <i data-lucide="cpu" class="w-5 h-5"></i> 🔬 과학 활동
@@ -190,6 +235,15 @@
                             </p>
                         </div>
                     </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50">
+                        <div class="rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                            <img src="NB_Class/Process.png" alt="전개 상세 이미지 1" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Process.png</p>'\">
+                        </div>
+                        <div class="rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                            <img src="NB_Class/Process2.png" alt="전개 상세 이미지 2" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Process2.png</p>'\">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 md:p-8">
@@ -199,7 +253,7 @@
                             <h3 class="text-xl md:text-2xl font-black text-gray-950">마무리 — 꼬마 과학자의 연구 시간 & 수업 정리</h3>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
                             <h4 class="font-bold text-brand-blue flex items-center gap-2 mb-3 text-base">
                                 <i data-lucide="award" class="w-5 h-5"></i> 🔬 과학 활동
@@ -217,7 +271,17 @@
                             </p>
                         </div>
                     </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50">
+                        <div class="rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                            <img src="NB_Class/Ending.png" alt="마무리 상세 이미지 1" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Ending.png</p>'\">
+                        </div>
+                        <div class="rounded-xl overflow-hidden border border-gray-100 bg-slate-50">
+                            <img src="NB_Class/Ending2.png" alt="마무리 상세 이미지 2" class="w-full h-auto object-cover block" onerror="this.parentNode.style.padding='1.5rem'; this.style.display='none'; this.parentNode.innerHTML='<p class="text-xs text-gray-400 text-center font-mono">NB_Class/Ending2.png</p>'\">
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -467,21 +531,17 @@
 
         // 학기별 탭 전환 스크립트
         function openTab(tabId) {
-            // 모든 탭 내용 숨기기
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
             
-            // 모든 버튼 초기화
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => {
                 btn.classList.remove('bg-white', 'text-brand-blue', 'shadow-sm');
                 btn.classList.add('text-gray-500', 'hover:text-gray-800');
             });
             
-            // 선택한 탭 열기
             document.getElementById(tabId).classList.add('active');
             
-            // 선택한 버튼 활성화 스타일 적용
             const activeBtn = document.getElementById('btn-' + tabId);
             activeBtn.classList.remove('text-gray-500', 'hover:text-gray-800');
             activeBtn.classList.add('bg-white', 'text-brand-blue', 'shadow-sm');
