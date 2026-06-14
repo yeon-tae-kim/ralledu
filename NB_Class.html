@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>늘봄 블록과학교실 - 롤에듀 (RoleEdu)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#1D4ED8',   // 롤에듀 파란색
+                            orange: '#F97316', // 롤에듀 주황색
+                            green: '#16A34A',  // 롤에듀 연두색
+                            dark: '#334155',   // 텍스트 진회색
+                            light: '#F8FAFC'   // 밝은 배경색
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #ffffff; }
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* FAQ 가속도 애니메이션 */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-top: 1rem;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-dark bg-white antialiased">
+
+    <header class="w-full bg-white border-b border-gray-100 fixed top-0 z-50 backdrop-blur-md bg-white/90">
+        <div class="h-1 w-full flex">
+            <div class="h-full w-1/3 bg-brand-blue"></div>
+            <div class="h-full w-1/3 bg-brand-orange"></div>
+            <div class="h-full w-1/3 bg-brand-green"></div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex flex-col cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <span class="text-xl font-black text-gray-700 tracking-tighter leading-none">롤에듀</span>
+                <span class="text-[10px] text-gray-400 font-bold tracking-wider mt-0.5">ROLEEDU</span>
+            </div>
+            <span class="bg-blue-50 text-brand-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-100">
+                늘봄학교 맞춤 프로그램
+            </span>
+        </div>
+    </header>
+
+    <section class="relative pt-36 pb-20 md:pt-44 md:pb-28 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10 fade-in-up">
+            <span class="text-brand-blue font-bold tracking-widest text-xs uppercase bg-blue-50 px-3 py-1 rounded-md border border-blue-100 mb-4 inline-block">
+                Neulbom Block Science Class
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight mb-6">
+                "만들고, 탐구하고, <br class="md:hidden"/>
+                <span class="text-brand-blue relative inline-block">
+                    함께 해냈다!
+                    <svg class="absolute w-full h-2.5 -bottom-1 left-0 text-brand-orange/30" viewBox="0 0 100 10" preserveAspectRatio="none">
+                        <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="4" fill="transparent"/>
+                    </svg>
+                </span>"
+            </h1>
+            <p class="text-base md:text-lg lg:text-xl text-gray-600 font-medium leading-relaxed max-w-2xl mx-auto">
+                블록과 과학으로 상상력을 깨우고, 친구와 함께 완성하는 성취의 경험. <br class="hidden md:block"/>
+                롤에듀 블록과학 프로그램이 늘봄학교로 직접 찾아갑니다.
+            </p>
+            <div class="mt-8 flex justify-center gap-3">
+                <a href="#philosophy" class="px-6 py-3 bg-brand-blue text-white font-bold rounded-xl shadow-md hover:bg-blue-700 transition-all text-sm">
+                    브랜드 철학 보기
+                </a>
+                <a href="#curriculum" class="px-6 py-3 bg-white border border-gray-200 text-gray-600 font-bold rounded-xl shadow-sm hover:border-gray-300 transition-all text-sm">
+                    3단계 수업 흐름
+                </a>
+            </div>
+        </div>
+        <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
+    </section>
+
+    <section id="philosophy" class="py-20 bg-white border-t border-gray-100">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-white/5 pointer-events-none">
+                    <i data-lucide="heart" class="w-48 h-48"></i>
+                </div>
+                <span class="text-brand-orange font-bold text-xs uppercase tracking-wider mb-3 block">
+                    Brand Philosophy
+                </span>
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-white leading-tight">
+                    교실은 아이들이 사회적 경험을 가장 효과적으로 할 수 있는 최적의 공간입니다.
+                </h2>
+                <div class="w-12 h-1 bg-brand-orange rounded-full mb-6"></div>
+                <p class="text-slate-300 text-sm md:text-base leading-relaxed font-light space-y-4">
+                    다양한 친구들과의 관계 속에서, 아이들은 자기조절력을 입체적으로 경험하게 됩니다. <br/><br/>
+                    늘봄 블록과학교실은 이 교실이라는 공간의 가능성을 최대한 살린 프로그램입니다. 단순한 과학적 탐구와 창의 활동에 머무는 것이 아니라, <strong class="text-white font-semibold">친구와 함께 협동하여 만들어가는 과정 속에서 아이들은 자연스럽게 사회성과 자기조절력</strong>을 탄탄하게 키워나갑니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-brand-light">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-14">
+                <span class="text-brand-blue font-bold text-xs uppercase tracking-widest block mb-2">Core Values</span>
+                <h2 class="text-3xl font-extrabold text-gray-900">프로그램 3대 핵심 가치</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl border border-gray-200/80 shadow-sm transition-all hover:shadow-md group">
+                    <div class="w-12 h-12 bg-blue-50 text-brand-blue rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">🔬 과학적 탐구</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        기어, 축, 핀 등 테크닉 블록으로 실제 작동하는 장치를 만들며 과학의 원리를 눈과 손끝으로 직접 익힙니다. <strong class="text-brand-blue font-medium">"왜 움직이지?"</strong>라는 호기심이 탐구의 시작입니다.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-gray-200/80 shadow-sm transition-all hover:shadow-md group">
+                    <div class="w-12 h-12 bg-orange-50 text-brand-orange rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="lightbulb" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">🌟 창의와 상상력</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        동화 속 문제를 해결하는 도구를 직접 구현하며 아이만의 아이디어와 표현력이 자랍니다. 정해진 답이 없는 열린 설계 과정 속에서 아이들의 창의력은 가장 크게 자라납니다.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-gray-200/80 shadow-sm transition-all hover:shadow-md group">
+                    <div class="w-12 h-12 bg-green-50 text-brand-green rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">🤝 함께 자라는 공동체</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        친구와 순서를 나누고, 의견을 조율하고, 무언가를 함께 완성해내는 경험. 블록과학교실은 단순한 교구 조립 활동이 아닌 <strong class="text-brand-green font-medium">함께 살아가는 연대의 힘</strong>을 배우는 시간입니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-gradient-to-r from-blue-700 to-blue-900 text-white relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <span class="bg-white/20 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full mb-4 inline-block tracking-widest uppercase border border-white/10">
+                Achievement Moment
+            </span>
+            <h3 class="text-2xl md:text-3xl font-black mb-4">"오 작동한다! 우리가 해냈어!"</h3>
+            <p class="text-sm md:text-base text-white/90 leading-relaxed max-w-2xl mx-auto font-medium">
+                완성된 장치를 친구와 함께 작동하는 아이의 눈이 가장 반짝이며 <span class="text-brand-orange font-bold">자기효용감과 자신감 그리고 친구와 유대감</span>이 가장 크게 자라납니다. <br class="hidden md:block"/>
+                늘봄 블록과학교실의 모든 수업은 이 성취의 순간과 '우리'를 향해 체계적으로 설계되어 있습니다.
+            </p>
+        </div>
+        <div class="absolute -left-16 -bottom-16 text-white/5 pointer-events-none">
+            <i data-lucide="sparkles" class="w-44 h-44"></i>
+        </div>
+    </section>
+
+    <section id="curriculum" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-black text-gray-900 mb-3">늘봄 블록과학교실 개요</h2>
+                <p class="text-sm text-gray-500 font-bold tracking-wider uppercase">Neulbom Block Science Class</p>
+                <p class="mt-4 text-gray-600 text-base md:text-lg max-w-2xl mx-auto font-medium">
+                    어려운 과학 현상과 용어를 재미있는 원리 장치와 실험 도구로 구현하며 공동체 감각과 정서적 성장을 동시에 조율하는 <span class="text-brand-blue font-bold">메이커 기반 스팀(STEAM) 교육</span>입니다.
+                </p>
+            </div>
+
+            <div class="relative border-l-2 border-gray-200 ml-4 md:ml-32 space-y-12">
+                <div class="relative pl-6 md:pl-10">
+                    <div class="absolute -left-[11px] top-1.5 w-5 h-5 bg-white border-4 border-brand-blue rounded-full"></div>
+                    <div class="absolute -left-4 md:-left-32 top-0 hidden md:block w-24 text-right">
+                        <span class="text-brand-blue font-bold text-sm tracking-wide bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">1단계</span>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <span class="text-brand-blue font-bold text-xs md:hidden block mb-1">1단계 : 도입</span>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">도입 — 과학원리를 신기한 장치로 상상하기</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            교과서 속 어려운 과학 용어가 아이들의 눈높이에 맞춘 <strong class="text-brand-blue font-medium">재미있는 원리장치와 실험도구</strong>로 마법처럼 변환됩니다. 아이들은 눈앞의 신기한 현상을 관찰하며 풍부한 호기심과 기대감으로 블록 조립을 즐겁게 기획하고 시작합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-6 md:pl-10">
+                    <div class="absolute -left-[11px] top-1.5 w-5 h-5 bg-white border-4 border-brand-blue rounded-full"></div>
+                    <div class="absolute -left-4 md:-left-32 top-0 hidden md:block w-24 text-right">
+                        <span class="text-brand-blue font-bold text-sm tracking-wide bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">2단계</span>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <span class="text-brand-blue font-bold text-xs md:hidden block mb-1">2단계 : 전개</span>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">전개 — 내 손으로 만드는 움직이는 과학</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            평면의 2D 도면을 판독하여 3D 정밀 입체 블록 장치로 직접 구현합니다. 기어와 축이 서로 정교하게 맞물려 장치가 실제로 움직이는 순간, 아이들은 과학 원리를 머리가 아닌 <strong class="text-brand-blue font-medium">손끝의 직관</strong>으로 완벽히 이해합니다. 특히 친구와 함께 순서와 역할을 나누고 치열하게 조율하며 완성해가는 과정 속에서 <strong class="text-brand-blue font-medium">공동체 감각과 정서적 성장</strong>이 조화롭게 형성됩니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-6 md:pl-10">
+                    <div class="absolute -left-[11px] top-1.5 w-5 h-5 bg-white border-4 border-brand-blue rounded-full"></div>
+                    <div class="absolute -left-4 md:-left-32 top-0 hidden md:block w-24 text-right">
+                        <span class="text-brand-blue font-bold text-sm tracking-wide bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">3단계</span>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <span class="text-brand-blue font-bold text-xs md:hidden block mb-1">3단계 : 마무리</span>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">마무리 — 꼬마 과학자의 연구 시간 & 수업 정리</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            스스로 장치를 구동해 보며 "이렇게 다르게도 해볼까?"라는 능동적 변형 동기가 살아납니다. 습득한 과학 원리를 활용해 주도적으로 발표하며 <strong class="text-brand-blue font-medium">자신감과 단단한 책임감</strong>을 가슴에 새깁니다. 수업이 끝나면 사용한 교구를 분류 시스템에 맞춰 스스로 정돈하며 <strong class="text-brand-blue font-medium">공동체 의식과 규칙적인 생활 질서</strong>로 아름답게 마침표를 찍습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-brand-light border-t border-gray-100">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-brand-orange font-bold text-xs uppercase tracking-widest block mb-2">FAQ</span>
+                <h2 class="text-3xl font-extrabold text-gray-900">자주 묻는 질문</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="faq-item bg-white rounded-2xl border border-gray-200 shadow-sm p-6 cursor-pointer transition-all hover:border-gray-300">
+                    <div class="flex justify-between items-center gap-4">
+                        <h4 class="text-base md:text-lg font-bold text-gray-900 flex items-start">
+                            <span class="text-brand-blue mr-2.5 font-extrabold">Q1.</span>
+                            왜 키트 하나를 두 명이 함께 사용하나요?
+                        </h4>
+                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300 shrink-0"></i>
+                    </div>
+                    <div class="faq-answer text-sm md:text-base text-gray-600 leading-relaxed border-t border-gray-50 mt-0">
+                        이 프로그램은 교구 자체가 목적이 아니라, <strong class="text-gray-900">두 아이가 함께 활동하는 소통 과정이 핵심 커리큘럼</strong>입니다. <br class="hidden md:block"/>
+                        순서를 정하고, 의견을 조율하고, 때로는 발생하는 갈등을 스스로 해결하는 사회적 경험이 수업 시스템 안에 정밀하게 설계되어 있습니다. 1인 1교구 방식으로는 이러한 공동체 경험 자체가 사라지게 됩니다.
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white rounded-2xl border border-gray-200 shadow-sm p-6 cursor-pointer transition-all hover:border-gray-300">
+                    <div class="flex justify-between items-center gap-4">
+                        <h4 class="text-base md:text-lg font-bold text-gray-900 flex items-start">
+                            <span class="text-brand-blue mr-2.5 font-extrabold">Q2.</span>
+                            아이들이 교구를 두고 다투지 않나요?
+                        </h4>
+                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300 shrink-0"></i>
+                    </div>
+                    <div class="faq-answer text-sm md:text-base text-gray-600 leading-relaxed border-t border-gray-50 mt-0">
+                        다툼이 생길 수 있습니다. <strong class="text-gray-900">그리고 그것도 중요한 수업의 일부입니다.</strong> <br class="hidden md:block"/>
+                        롤에듀의 전문 강사는 갈등이 일어난 바로 그 순간을 중재하며 아이들이 스스로 양보하고 조율하는 방법을 익히도록 직접 돕습니다. 갈등을 강제로 없애는 교육이 아니라, <strong class="text-brand-orange font-bold">발생한 갈등을 스스로 다루는 내면의 힘</strong>을 키우는 것이 롤에듀의 궁극적인 교육 목표입니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-gray-200 py-10">
+        <div class="max-w-4xl mx-auto px-4 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-gray-400 text-xs leading-relaxed">
+                &copy; 2026 RallEdu. All rights reserved. <br/>
+                대표자: 김연태 | 사업자등록번호: 452-73-00132 | 이메일: visionforkids@naver.com <br/>
+                주소: 서울특별시 노원구 화랑로 425-47 지하 1층
+            </p>
+            <div class="flex space-x-3 text-xs font-medium text-gray-400">
+                <span class="text-gray-600 font-bold">롤에듀 프리미엄 협력 놀이 교육</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 아이콘 초기화
+        lucide.createIcons();
+
+        // FAQ 인터랙티브 토글 아코디언 로직
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // 다른 열려있는 항목들 닫기
+                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // 클릭한 항목 상태 전환
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
