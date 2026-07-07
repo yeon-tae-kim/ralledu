@@ -14,6 +14,10 @@
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
     body { font-family: 'Pretendard', sans-serif; }
     .hidden { display: none !important; }
+    
+    /* 로딩 애니메이션 */
+    .sync-spin { animation: spin 1s linear infinite; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -25,9 +29,24 @@
         <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">스토리움</h1>
         <p class="text-xs text-gray-500 mt-1">공간 대여 예약 시스템</p>
       </div>
-      <button id="adminToggleBtn" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors" title="관리자 로그인">
-        <i class="fas fa-cog text-lg"></i>
-      </button>
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- 데이터 동기화 상태 표시기 -->
+        <span id="syncStatus" class="text-xs text-indigo-500 flex items-center hidden bg-indigo-50 px-2 py-1 rounded-md transition-all">
+          <i class="fas fa-sync-alt sync-spin mr-1"></i> 동기화...
+        </span>
+        <span id="syncError" class="text-xs text-red-500 flex items-center hidden bg-red-50 px-2 py-1 rounded-md" title="서버 연결 불안정">
+          <i class="fas fa-exclamation-triangle mr-1"></i> 오프라인
+        </span>
+        
+        <!-- 고객/관리자 모두 사용 가능한 수동 새로고침 버튼 -->
+        <button onclick="forceSync()" class="p-2 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors shadow-sm active:scale-95" title="최신 정보 불러오기">
+          <i class="fas fa-sync-alt text-lg"></i>
+        </button>
+
+        <button id="adminToggleBtn" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors" title="관리자 로그인">
+          <i class="fas fa-cog text-lg"></i>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -105,9 +124,11 @@
 
       <!-- 관리자용 예약 현황 뷰 -->
       <div id="adminView" class="hidden bg-indigo-50 p-6 rounded-2xl shadow-sm border border-indigo-100">
-        <h2 class="text-lg font-semibold flex items-center mb-6 text-indigo-800">
-          <i class="fas fa-shield-alt w-5 text-indigo-600 mr-2"></i> 관리자 예약 현황 <span id="adminDisplayDate" class="ml-2 text-sm font-normal text-indigo-500"></span>
-        </h2>
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-lg font-semibold flex items-center text-indigo-800">
+            <i class="fas fa-shield-alt w-5 text-indigo-600 mr-2"></i> 관리자 예약 현황 <span id="adminDisplayDate" class="ml-2 text-sm font-normal text-indigo-500"></span>
+          </h2>
+        </div>
         <div id="adminReservationList" class="space-y-4">
           <!-- 관리자 예약 리스트가 여기에 생성됩니다 -->
         </div>
@@ -277,14 +298,12 @@
     // --- 설정 변수 ---
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKTWfl5HpmqqfBIC2AE9QlpZ3Tf9-h8pDczDESy0YQSsoO8Y_EXGD3Ak-DqUZOGO07ow/exec"; 
     
-    // 한국 시간(KST) 객체를 반환하는 함수
     function getKstDate() {
       const now = new Date();
       const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
       return new Date(utc + (3600000 * 9)); // KST (UTC+9)
     }
 
-    // 타임존 버그 해결: KST 기준 YYYY-MM-DD 구하기
     function getLocalTodayDate() {
       const kst = getKstDate();
       const year = kst.getFullYear();
@@ -293,22 +312,16 @@
       return `${year}-${month}-${day}`;
     }
 
-    // 날짜와 시간이 한국 시간 기준으로 과거인지 판별하는 함수
     function isPastTime(dateStr, timeStr) {
       const todayStr = getLocalTodayDate();
-      
-      if (dateStr < todayStr) return true;  // 과거 날짜
-      if (dateStr > todayStr) return false; // 미래 날짜
-      
-      // 오늘 날짜인 경우 시간 비교
+      if (dateStr < todayStr) return true;
+      if (dateStr > todayStr) return false;
       const kstNow = getKstDate();
       const [hour, minute] = timeStr.split(':').map(Number);
       const currentHour = kstNow.getHours();
       const currentMinute = kstNow.getMinutes();
       
-      if (hour < currentHour || (hour === currentHour && minute <= currentMinute)) {
-        return true;
-      }
+      if (hour < currentHour || (hour === currentHour && minute <= currentMinute)) return true;
       return false;
     }
     
@@ -317,24 +330,110 @@
     let selectedTimeForRes = "";
     const timeSlots = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
     
-    // 데이터 초기화 방지: LocalStorage 연동 로직
     const STORAGE_KEY = 'storium_reservations_data';
-    function loadReservations() {
+    let reservations = [];
+    let activeBookingForCancel = null;
+    let isFetching = false;
+
+    // 1. 브라우저 캐시에서 가져오기
+    function loadReservationsFromLocal() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        try { return JSON.parse(saved); } catch (e) { console.error('LocalStorage 파싱 오류', e); }
+        try { reservations = JSON.parse(saved); } catch (e) { console.error(e); }
       }
-      return []; 
     }
     
-    function saveReservations() {
+    function saveReservationsLocally() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(reservations));
     }
 
-    let reservations = loadReservations();
-    let activeBookingForCancel = null;
+    // 2. 서버에서 데이터 가져오기 (데이터 병합 및 캐시 방지 극대화)
+    async function fetchFromServer() {
+      if (!GOOGLE_SCRIPT_URL || isFetching) return;
+      isFetching = true;
+      const syncStatus = document.getElementById('syncStatus');
+      const syncError = document.getElementById('syncError');
+      
+      try {
+        syncStatus.classList.remove('hidden');
+        syncError.classList.add('hidden');
+        
+        // [중요] 타임스탬프와 랜덤 난수를 조합해 사파리의 리다이렉트 캐시를 100% 무력화합니다.
+        const cacheBusterUrl = `${GOOGLE_SCRIPT_URL}?action=get&t=${new Date().getTime()}&r=${Math.random().toString(36).substring(7)}`;
 
-    // --- DOM 요소 가져오기 ---
+        const response = await fetch(cacheBusterUrl, { 
+            method: 'GET',
+            redirect: 'follow',
+            cache: 'no-store' 
+        });
+        
+        if (response.ok) {
+           const textData = await response.text();
+           try {
+             const data = JSON.parse(textData); // JSON 파싱 시도 (권한 문제로 HTML 리턴시 여기서 에러 발생)
+             
+             if (Array.isArray(data)) {
+               // [핵심] 서버 데이터와 로컬 데이터를 스마트하게 병합(Merge)합니다.
+               // 통신 딜레이로 인해 방금 예약한 정보가 서버 배열에 아직 안 담겨 왔을 경우를 대비하여
+               // 서버 배열에 없는 로컬 데이터(최근 5분 이내 생성)를 살려둡니다.
+               const serverIds = new Set(data.map(r => r.id));
+               const recentLocalOnly = reservations.filter(r => {
+                 if (serverIds.has(r.id)) return false; 
+                 const createdTime = parseInt(r.id); // id는 Date.now()로 생성됨
+                 return !isNaN(createdTime) && (Date.now() - createdTime) < (5 * 60 * 1000); // 5분 이내
+               });
+
+               reservations = [...data, ...recentLocalOnly];
+               saveReservationsLocally(); 
+               updateUI();
+             }
+           } catch (parseError) {
+             console.error("서버 응답 파싱 실패 (구글 앱스 스크립트 접근 권한 설정 확인 필요):", parseError);
+             throw new Error("Parse Error");
+           }
+        } else {
+          throw new Error("Network response was not ok");
+        }
+      } catch (e) {
+        // 통신이 막히거나 권한이 없어서 실패한 경우 에러 뱃지 노출 (로컬 데이터 유지)
+        console.log("구글 서버 통신 실패 (기기 로컬 데이터 사용 유지):", e);
+        syncError.classList.remove('hidden');
+      } finally {
+        syncStatus.classList.add('hidden');
+        isFetching = false;
+      }
+    }
+
+    // 데이터 보내기 (모바일 환경에서 차단 방지를 위해 Content-Type 텍스트화 및 후속 동기화)
+    function sendToGoogleSheets(payload) {
+      if (!GOOGLE_SCRIPT_URL) return;
+      const url = `${GOOGLE_SCRIPT_URL}?action=post&t=${new Date().getTime()}`;
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors', // CORS 에러 방지
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // 모바일 사파리에서 안전하게 전송되도록 text 처리
+        body: JSON.stringify(payload)
+      }).then(() => {
+        // 전송 성공 시 구글 시트에 기록될 시간을 약간 벌어준 후 최신화
+        setTimeout(fetchFromServer, 2000);
+      }).catch(e => {
+        console.log("Google Sheets 전송 중 오류 발생:", e);
+        document.getElementById('syncError').classList.remove('hidden');
+      });
+    }
+
+    // 새로고침 버튼 강제 동기화
+    window.forceSync = function() {
+       fetchFromServer();
+    };
+
+    // 모바일에서 다른 앱 보다가 돌아왔을 때 자동 동기화
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        fetchFromServer();
+      }
+    });
+
     const datePicker = document.getElementById('datePicker');
     const displayDate = document.getElementById('displayDate');
     const adminDisplayDate = document.getElementById('adminDisplayDate');
@@ -344,12 +443,10 @@
     const adminReservationList = document.getElementById('adminReservationList');
     const adminToggleBtn = document.getElementById('adminToggleBtn');
 
-    // 모달 요소들
     const loginModal = document.getElementById('loginModal');
     const reservationModal = document.getElementById('reservationModal');
     const cancelModal = document.getElementById('cancelModal');
 
-    // --- STREAMING_CHUNK:Implementing UI utilities and masking -->
     function customAlert(title, message, type = 'success') {
       const alertDiv = document.getElementById('customAlert');
       const iconDiv = document.getElementById('customAlertIcon');
@@ -380,7 +477,6 @@
       document.getElementById('customConfirm').classList.add('hidden');
       onConfirmCallback = null;
     };
-
     document.getElementById('customConfirmSubmitBtn').onclick = () => {
       document.getElementById('customConfirm').classList.add('hidden');
       if (onConfirmCallback) onConfirmCallback();
@@ -400,13 +496,11 @@
       return `****-${cleaned.slice(-4)}`;
     }
 
-    // --- STREAMING_CHUNK:Core Reservation Logic (Time and Date calculation) -->
     function getBookingForSlot(date, time) {
       const idx = timeSlots.indexOf(time);
       if (idx === -1) return null;
       
       return reservations.find(r => {
-        // 취소된 예약은 무시하여 막히지 않도록 처리
         if (r.status === '취소' || r.date !== date) return false; 
         const startIdx = timeSlots.indexOf(r.time);
         if (startIdx === -1) return false;
@@ -417,11 +511,9 @@
     function getMaxDuration(date, startTime) {
       const startIdx = timeSlots.indexOf(startTime);
       if (startIdx === -1) return 0;
-      
       let count = 0;
       for (let i = startIdx; i < timeSlots.length; i++) {
-        const booking = getBookingForSlot(date, timeSlots[i]);
-        if (booking) break;
+        if (getBookingForSlot(date, timeSlots[i])) break;
         count++;
       }
       return count;
@@ -430,34 +522,11 @@
     function getEndTime(startTime, duration) {
       const idx = timeSlots.indexOf(startTime);
       const endIdx = idx + duration;
-      if (endIdx < timeSlots.length) {
-        return timeSlots[endIdx];
-      } else {
-        const lastSlot = timeSlots[timeSlots.length - 1];
-        const [h, m] = lastSlot.split(':').map(Number);
-        return `${String(h + (endIdx - timeSlots.length + 1)).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-      }
+      if (endIdx < timeSlots.length) return timeSlots[endIdx];
+      const lastSlot = timeSlots[timeSlots.length - 1];
+      const [h, m] = lastSlot.split(':').map(Number);
+      return `${String(h + (endIdx - timeSlots.length + 1)).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     }
-
-    function sendToGoogleSheets(payload) {
-      if (!GOOGLE_SCRIPT_URL) return;
-      fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(e => console.error("Google Sheets 연동 오류:", e));
-    }
-
-    // --- STREAMING_CHUNK:Updating UI rendering based on state -->
-    datePicker.min = getLocalTodayDate(); // 과거 날짜 선택 방지
-    datePicker.value = selectedDate;
-    updateUI();
-
-    datePicker.addEventListener('change', (e) => {
-      selectedDate = e.target.value;
-      updateUI();
-    });
 
     function updateUI() {
       displayDate.textContent = `(${selectedDate})`;
@@ -480,14 +549,12 @@
 
     function renderTimeSlots() {
       timeSlotContainer.innerHTML = '';
-
       timeSlots.forEach(time => {
         const booking = getBookingForSlot(selectedDate, time);
-        const isBooked = !!booking;
-        const isPast = isPastTime(selectedDate, time); // 과거 시간인지 체크
+        const isPast = isPastTime(selectedDate, time);
         const btn = document.createElement('button');
         
-        if (isBooked) {
+        if (booking) {
           const last4 = booking.contact ? booking.contact.slice(-4) : "";
           btn.className = "p-3 rounded-xl border bg-slate-50 border-slate-200 text-slate-400 text-center flex flex-col items-center justify-center transition-all hover:bg-red-50 hover:border-red-200 group relative overflow-hidden";
           btn.innerHTML = `
@@ -497,19 +564,12 @@
           `;
           btn.onclick = () => openCancelModal(booking);
         } else if (isPast) {
-          // 시간이 이미 지났다면 예약 마감 처리
           btn.className = "p-3 rounded-xl border bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed flex flex-col items-center justify-center shadow-inner opacity-70";
-          btn.innerHTML = `
-            <span class="font-bold text-gray-400 line-through">${time}</span>
-            <span class="text-xs text-gray-400 font-semibold mt-1">예약 마감</span>
-          `;
-          btn.disabled = true; // 클릭 차단
+          btn.innerHTML = `<span class="font-bold text-gray-400 line-through">${time}</span><span class="text-xs text-gray-400 font-semibold mt-1">예약 마감</span>`;
+          btn.disabled = true;
         } else {
           btn.className = "p-3 rounded-xl border bg-white border-indigo-100 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 flex flex-col items-center justify-center transition-all shadow-sm";
-          btn.innerHTML = `
-            <span class="font-bold text-gray-800">${time}</span>
-            <span class="text-xs text-indigo-600 font-semibold mt-1">예약 가능</span>
-          `;
+          btn.innerHTML = `<span class="font-bold text-gray-800">${time}</span><span class="text-xs text-indigo-600 font-semibold mt-1">예약 가능</span>`;
           btn.onclick = () => openReservationModal(time);
         }
         timeSlotContainer.appendChild(btn);
@@ -544,9 +604,7 @@
             </div>
           </div>
           <div class="flex items-center space-x-2 w-full sm:w-auto pt-2 sm:pt-0">
-            <button onclick="toggleDeposit('${r.id}')" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-center ${
-              r.isConfirmedByAdmin ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }">
+            <button onclick="toggleDeposit('${r.id}')" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-center ${r.isConfirmedByAdmin ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}">
               <i class="fas fa-check-circle mr-1"></i> ${r.isConfirmedByAdmin ? '입금 승인됨' : '입금 대기중'}
             </button>
             <button onclick="deleteRes('${r.id}')" class="px-3.5 py-2.5 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-100 transition-colors"><i class="fas fa-trash-alt"></i></button>
@@ -556,7 +614,19 @@
       });
     }
 
-    // --- STREAMING_CHUNK:Handling Reservation Submissions -->
+    datePicker.min = getLocalTodayDate();
+    datePicker.value = selectedDate;
+    
+    // 페이지 초기화 
+    loadReservationsFromLocal(); 
+    updateUI(); 
+    fetchFromServer(); 
+
+    datePicker.addEventListener('change', (e) => {
+      selectedDate = e.target.value;
+      updateUI();
+    });
+
     function openReservationModal(time) {
       selectedTimeForRes = time;
       const maxAvailableHours = getMaxDuration(selectedDate, time);
@@ -579,7 +649,6 @@
       document.getElementById('resPassword').value = "";
       document.getElementById('resDeposit').checked = false;
       document.getElementById('resError').classList.add('hidden');
-      
       reservationModal.classList.remove('hidden');
     }
 
@@ -605,54 +674,38 @@
       if (!name || !contact || !password || password.length < 4) {
         const errSpan = document.getElementById('resError');
         errSpan.textContent = "성함, 연락처 및 4자리 비밀번호를 올바르게 입력해주세요.";
-        errSpan.classList.remove('hidden');
-        return;
+        errSpan.classList.remove('hidden'); return;
       }
 
-      // [이중 검증 로직] 모달 띄워둔 사이 시간이 점유되었는지 최종 확인
       let isConflict = false;
       for (let i = 0; i < duration; i++) {
-        const timeToCheck = timeSlots[timeSlots.indexOf(selectedTimeForRes) + i];
-        if (getBookingForSlot(selectedDate, timeToCheck)) {
-          isConflict = true;
-          break;
+        if (getBookingForSlot(selectedDate, timeSlots[timeSlots.indexOf(selectedTimeForRes) + i])) {
+          isConflict = true; break;
         }
       }
       
       if (isConflict) {
         reservationModal.classList.add('hidden');
-        customAlert('예약 불가', '죄송합니다. 예약 진행 중 해당 시간이 다른 사용자에 의해 점유되었습니다.\n새로고침되어 화면을 갱신합니다.', 'error');
-        updateUI();
+        customAlert('예약 불가', '선택하신 시간에 이미 다른 예약이 진행되었습니다.', 'error');
+        fetchFromServer(); // 남이 낚아챘을 수 있으니 화면 업데이트
         return;
       }
 
-      const calculatedEndTime = getEndTime(selectedTimeForRes, duration);
       const newRes = {
-        id: Date.now().toString(),
-        date: selectedDate,
-        time: selectedTimeForRes,
-        duration: duration,
-        name: name,
-        contact: contact,
-        password: password,
-        depositReady: depositReady,
-        isConfirmedByAdmin: false,
-        status: "예약",                        
-        startTime: selectedTimeForRes,         
-        endTime: calculatedEndTime,            
-        totalTime: `${duration}시간`            
+        id: Date.now().toString(), date: selectedDate, time: selectedTimeForRes, duration: duration, name: name, contact: contact, password: password, depositReady: depositReady, isConfirmedByAdmin: false, status: "예약", startTime: selectedTimeForRes, endTime: getEndTime(selectedTimeForRes, duration), totalTime: `${duration}시간`            
       };
 
       reservations.push(newRes);
-      saveReservations(); // 데이터 영구 저장
+      saveReservationsLocally(); 
+      updateUI();
+      
+      // 구글 시트로 백그라운드 전송
       sendToGoogleSheets(newRes);
 
       reservationModal.classList.add('hidden');
       customAlert('예약 신청 완료', `정상적으로 공간 예약 신청이 완료되었습니다.\n계좌 이체 대기 상태이며 입금 확인 후 확정됩니다.`);
-      updateUI();
     };
 
-    // --- STREAMING_CHUNK:Handling Reservation Cancellations and Admin Logins -->
     function openCancelModal(booking) {
       activeBookingForCancel = booking;
       document.getElementById('cancelInfoDateTime').textContent = `${booking.date}`;
@@ -673,22 +726,17 @@
 
       if (!enteredPassword || activeBookingForCancel.password !== enteredPassword) {
         errSpan.textContent = !enteredPassword ? "비밀번호를 입력해주세요." : "비밀번호가 일치하지 않습니다.";
-        errSpan.classList.remove('hidden');
-        return;
+        errSpan.classList.remove('hidden'); return;
       }
 
       cancelModal.classList.add('hidden');
       customConfirm('예약 취소', '정말 이 예약을 취소하시겠습니까?', () => {
-        const cancelPayload = {
-          ...activeBookingForCancel, status: "취소", 
-          startTime: activeBookingForCancel.time, endTime: getEndTime(activeBookingForCancel.time, activeBookingForCancel.duration), totalTime: `${activeBookingForCancel.duration}시간`
-        };
+        const cancelPayload = { ...activeBookingForCancel, status: "취소", startTime: activeBookingForCancel.time, endTime: getEndTime(activeBookingForCancel.time, activeBookingForCancel.duration), totalTime: `${activeBookingForCancel.duration}시간` };
         sendToGoogleSheets(cancelPayload);
         
         reservations = reservations.filter(r => r.id !== activeBookingForCancel.id);
-        saveReservations(); // 데이터 영구 저장
+        saveReservationsLocally(); 
         activeBookingForCancel = null;
-
         customAlert('취소 완료', '예약이 성공적으로 취소되었습니다.');
         updateUI();
       });
@@ -698,8 +746,7 @@
       const res = reservations.find(r => r.id === id);
       if(res) {
         res.isConfirmedByAdmin = !res.isConfirmedByAdmin;
-        saveReservations(); // 상태 변경 저장
-        updateUI();
+        saveReservationsLocally(); updateUI();
       }
     };
 
@@ -709,10 +756,8 @@
       customConfirm('예약 취소 처리', '관리자 권한으로 예약을 취소하시겠습니까?', () => {
         const cancelPayload = { ...targetRes, status: "취소", startTime: targetRes.time, endTime: getEndTime(targetRes.time, targetRes.duration), totalTime: `${targetRes.duration}시간` };
         sendToGoogleSheets(cancelPayload);
-        
         reservations = reservations.filter(r => r.id !== id);
-        saveReservations(); // 강제 취소 내역 저장
-        
+        saveReservationsLocally(); 
         customAlert('완료', '관리자 취소 처리가 완료되었습니다.');
         updateUI();
       });
@@ -729,7 +774,6 @@
     };
 
     document.getElementById('closeLoginBtn').onclick = () => loginModal.classList.add('hidden');
-    
     function doLogin() {
       if (document.getElementById('adminId').value === 'admin' && document.getElementById('adminPw').value === 'rall1234') {
         isAdmin = true; loginModal.classList.add('hidden'); updateUI(); customAlert('로그인 완료', '관리자 모드로 전환되었습니다.');
