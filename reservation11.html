@@ -30,7 +30,8 @@
                     <button id="refreshBtn" onclick="loadReservationsFromSheet()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition font-medium flex items-center gap-1">
                         <i class="fa-solid fa-rotate-right"></i> 동기화
                     </button>
-                    <button onclick="toggleAdminModal()" class="text-sm text-gray-500 hover:text-blue-600 transition font-medium">
+                    <!-- 변경됨: 관리자 보기 클릭 시 로그인 모달 먼저 띄우기 -->
+                    <button onclick="toggleLoginModal()" class="text-sm text-gray-500 hover:text-blue-600 transition font-medium">
                         <i class="fa-solid fa-lock mr-1"></i>관리자 보기
                     </button>
                 </div>
@@ -159,6 +160,28 @@
             </div>
         </div>
     </main>
+
+    <!-- 관리자 로그인 모달 추가 -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 z-[70] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 relative">
+            <button onclick="toggleLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h2 class="text-xl font-bold text-gray-800 mb-6 text-center"><i class="fa-solid fa-lock text-blue-600 mr-2"></i>관리자 로그인</h2>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">아이디</label>
+                    <input type="text" id="adminId" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="아이디를 입력하세요">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">비밀번호</label>
+                    <input type="password" id="adminPw" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="비밀번호를 입력하세요">
+                </div>
+                <p id="loginErrorMsg" class="text-red-500 text-xs hidden">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+                <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-lg mt-4 transition duration-200 shadow-md">
+                    로그인
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- 관리자 모달 -->
     <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden flex items-center justify-center p-4">
@@ -490,7 +513,36 @@
             document.body.appendChild(overlay);
         }
 
-        // 관리자 모달
+        // 로그인 모달 토글 함수
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal');
+            if(modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                // 모달 열 때 입력값 및 에러 메시지 초기화
+                document.getElementById('adminId').value = '';
+                document.getElementById('adminPw').value = '';
+                document.getElementById('loginErrorMsg').classList.add('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        // 로그인 처리 함수
+        function handleLogin(e) {
+            e.preventDefault();
+            const id = document.getElementById('adminId').value;
+            const pw = document.getElementById('adminPw').value;
+            const errorMsg = document.getElementById('loginErrorMsg');
+
+            if(id === 'admin' && pw === '1234') {
+                toggleLoginModal(); // 로그인 모달 닫기
+                toggleAdminModal(); // 관리자 모달 열기
+            } else {
+                errorMsg.classList.remove('hidden'); // 에러 메시지 표시
+            }
+        }
+
+        // 관리자 모달 토글
         function toggleAdminModal() {
             const modal = document.getElementById('adminModal');
             if(modal.classList.contains('hidden')) {
@@ -504,14 +556,14 @@
             }
         }
 
-        // 테이블 렌더링 (SyntaxError 해결 완료)
+        // 테이블 렌더링
         function renderAdminTable() {
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
 
             if(reservations.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">스프레드시트에 예약 내역이 없습니다.</td></tr>`;
-                return; // 에러의 원인이었던 누락된 return(종료) 및 닫는 괄호 처리 완료
+                return;
             }
 
             // 최신 예약이 위로 오도록 정렬
