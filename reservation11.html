@@ -410,13 +410,13 @@
             reservations.push(newReservation);
 
             // ==========================================
-            // [구글 스프레드시트 연동 방법 안내]
-            // Google Apps Script (doPost 함수) 웹앱 URL을 만들고 아래 fetch 주석을 해제하여 사용하세요.
-            /*
+            // [구글 스프레드시트 연동 실행 코드]
+            // 주석을 해제하고, 'application/json' 대신 'text/plain'을 사용하여 CORS 에러를 우회합니다.
             const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwH7NeAdkSyIVCwfpdolqsgg8ixjeiG1stq4M_2kWN4iAzK4rrzn5jlrn8gN6ujb7ngvg/exec';
+            
             fetch(GOOGLE_SHEET_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({
                     date: selectedDate,
                     day: dayName,
@@ -428,7 +428,6 @@
                 })
             }).then(response => console.log('구글 시트 전송 완료'))
               .catch(error => console.error('에러 발생:', error));
-            */
             // ==========================================
             
             // 커스텀 모달 또는 Alert (규칙에 따라 alert 대신 커스텀 UI 권장되나 단순화를 위해 화면 덮기 사용)
