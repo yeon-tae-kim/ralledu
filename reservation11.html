@@ -28,7 +28,7 @@
                     <span class="font-bold text-xl tracking-tight text-gray-900">스토리움</span>
                 </div>
                 <div>
-                    <button onclick="toggleAdminModal()" class="text-sm text-gray-500 hover:text-blue-600 transition font-medium">
+                    <button onclick="window.toggleAdminModal()" class="text-sm text-gray-500 hover:text-blue-600 transition font-medium">
                         <i class="fa-solid fa-lock mr-1"></i>관리자 보기
                     </button>
                 </div>
@@ -54,7 +54,7 @@
                 <h2 class="font-bold text-2xl text-gray-900 mb-2">스토리움 공간 예약 시스템</h2>
                 <p class="text-gray-600 text-sm mb-6 leading-relaxed">
                     쾌적하고 아늑한 모임 공간 스토리움입니다.<br>
-                    원하시는 날짜와 시간을 선택한 후 예약을 진행해주세요.
+                    원하시는 날짜와 시간을 선택한 후 예약을 진행해주세요. 실시간으로 예약 현황이 반영됩니다.
                 </p>
                 <div>
                     <a href="https://naver.me/FAALevRb" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow-sm whitespace-nowrap">
@@ -72,7 +72,6 @@
                     <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                         <i class="fa-regular fa-calendar-check text-blue-500"></i> 1. 날짜 선택
                     </h3>
-                    <!-- 날짜 선택 인풋: JS에서 오늘 이전 날짜는 비활성화 처리됨 -->
                     <input type="date" id="datePicker" class="w-full sm:w-1/2 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-700 font-medium">
                 </div>
 
@@ -90,9 +89,8 @@
                     
                     <!-- 시간 슬롯 렌더링 영역 -->
                     <div id="timeSlotsGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-                        <!-- JS로 자동 생성됨 -->
                         <div class="col-span-full py-10 text-center text-gray-400 text-sm">
-                            위에서 날짜를 먼저 선택해주세요.
+                            서버에서 예약 데이터를 불러오는 중이거나 날짜를 선택하지 않았습니다.
                         </div>
                     </div>
                 </div>
@@ -161,12 +159,12 @@
         </div>
     </main>
 
-    <!-- 관리자 모달 (테스트용) -->
+    <!-- 관리자 모달 -->
     <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
             <div class="p-5 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-                <h2 class="text-xl font-bold text-gray-800">관리자 예약 현황 (새로고침 시 초기화)</h2>
-                <button onclick="toggleAdminModal()" class="text-gray-500 hover:text-gray-800 text-xl"><i class="fa-solid fa-xmark"></i></button>
+                <h2 class="text-xl font-bold text-gray-800">관리자 예약 현황 (실시간 DB 연동)</h2>
+                <button onclick="window.toggleAdminModal()" class="text-gray-500 hover:text-gray-800 text-xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-5 overflow-y-auto flex-grow">
                 <div class="overflow-x-auto">
@@ -188,26 +186,37 @@
                 </div>
             </div>
             <div class="p-4 border-t bg-gray-50 text-right">
-                <button onclick="toggleAdminModal()" class="bg-gray-800 text-white px-5 py-2 rounded-lg text-sm hover:bg-gray-700">닫기</button>
+                <button onclick="window.toggleAdminModal()" class="bg-gray-800 text-white px-5 py-2 rounded-lg text-sm hover:bg-gray-700">닫기</button>
             </div>
         </div>
     </div>
 
-    <script>
-        /**
-         * 상태 관리 (메모리 기반 - 새로고침시 초기화됨)
-         * 실제 서비스 시 이 데이터를 Firebase 또는 데이터베이스에 저장합니다.
-         */
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase 설정 및 초기화
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'storium-reservation-app';
+        let firebaseConfig = {};
+        if (typeof __firebase_config !== 'undefined') {
+            try { firebaseConfig = JSON.parse(__firebase_config); } catch(e) { console.error("Firebase config parsing error", e); }
+        }
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+
+        // 전역 상태 변수
         let reservations = []; 
         let selectedDate = '';
         let selectedSlots = [];
         const PRICE_PER_HOUR = 12000;
-
-        // 시간 설정 (오전 9시 ~ 오후 10시까지 예약 가능하도록 설정)
         const START_HOUR = 9;
         const END_HOUR = 22;
 
-        // DOM 요소
+        // DOM 요소 가져오기
         const datePicker = document.getElementById('datePicker');
         const timeSlotsGrid = document.getElementById('timeSlotsGrid');
         const summaryDate = document.getElementById('summaryDate');
@@ -217,56 +226,116 @@
         const submitBtn = document.getElementById('submitBtn');
         const reservationForm = document.getElementById('reservationForm');
         
-        // 날짜 요일 구하기 헬퍼
+        // 유틸리티 함수: 요일 구하기
         const getDayName = (dateStr) => {
             const days = ['일', '월', '화', '수', '목', '금', '토'];
             return days[new Date(dateStr).getDay()];
         };
 
-        // 초기화 (오늘 이전 날짜 선택 불가 설정)
+        // 커스텀 에러 모달
+        function showErrorModal(message) {
+            const overlay = document.createElement('div');
+            overlay.className = "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100]";
+            overlay.innerHTML = `
+                <div class="bg-white rounded-xl p-8 max-w-sm w-full text-center shadow-2xl">
+                    <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">알림</h2>
+                    <p class="text-gray-600 mb-6 text-sm">${message}</p>
+                    <button onclick="this.parentElement.parentElement.remove()" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-900 transition">확인</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // 성공 모달
+        function showSuccessMessage() {
+            const overlay = document.createElement('div');
+            overlay.className = "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100]";
+            overlay.innerHTML = `
+                <div class="bg-white rounded-xl p-8 max-w-sm w-full text-center shadow-2xl">
+                    <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-check text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">예약 신청 완료!</h2>
+                    <p class="text-gray-600 mb-6 text-sm">신청이 정상적으로 접수되었습니다.<br>입금 전이시라면 아래 계좌로 입금 부탁드립니다.</p>
+                    <div class="bg-gray-50 p-3 rounded-lg mb-6 text-sm">
+                        <p class="font-bold text-gray-700">신한은행 110-341-053678</p>
+                        <p class="text-gray-500">예금주: 김0태</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">확인</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        async function initAuthAndDB() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+                
+                // 인증 성공 후 Firestore 예약 컬렉션 실시간 리스닝
+                const reservationsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reservations');
+                
+                onSnapshot(reservationsRef, (snapshot) => {
+                    reservations = [];
+                    snapshot.forEach((doc) => {
+                        reservations.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    // 데이터가 변경될 때마다 화면 갱신
+                    renderTimeSlots();
+                    if (!document.getElementById('adminModal').classList.contains('hidden')) {
+                        renderAdminTable();
+                    }
+                }, (error) => {
+                    console.error("데이터 로드 오류: ", error);
+                });
+
+            } catch (error) {
+                console.error("인증 오류:", error);
+                showErrorModal("서버에 연결할 수 없습니다. 예약 기능이 제한될 수 있습니다.");
+            }
+        }
+
+        // 초기 앱 설정
         function init() {
+            // 과거 날짜 비활성화 처리
             const today = new Date();
-            // KST 기준 날짜 포맷 맞추기 위해
             const offset = today.getTimezoneOffset() * 60000;
             const localISOTime = (new Date(today - offset)).toISOString().split('T')[0];
-            
             datePicker.min = localISOTime;
-            
-            // 데모용 가짜 예약 데이터 하나 추가 (시각적 확인용)
-            reservations.push({
-                id: Date.now().toString(),
-                date: localISOTime,
-                slots: [14, 15], // 14:00, 15:00
-                name: "김테스트",
-                phone: "010-9999-1234",
-                password: "1111",
-                depositStatus: "입금완료",
-                totalHours: 2,
-                totalPrice: 24000,
-                createdAt: new Date().toLocaleString()
-            });
 
-            // 날짜 선택 이벤트 리스너
             datePicker.addEventListener('change', (e) => {
                 selectedDate = e.target.value;
-                selectedSlots = []; // 날짜가 바뀌면 선택된 시간 초기화
+                selectedSlots = [];
                 updateSummary();
                 renderTimeSlots();
             });
+
+            // 인증 및 DB 리스너 시작
+            initAuthAndDB();
         }
 
-        // 시간 슬롯 렌더링 로직
         function renderTimeSlots() {
             timeSlotsGrid.innerHTML = '';
             
-            if(!selectedDate) return;
+            if(!selectedDate) {
+                timeSlotsGrid.innerHTML = '<div class="col-span-full py-10 text-center text-gray-400 text-sm">위에서 날짜를 먼저 선택해주세요.</div>';
+                return;
+            }
 
-            // 현재 날짜의 예약된 슬롯들 추출
+            // 선택된 날짜에 이미 예약된 슬롯들 추출 (모든 사용자의 데이터 기준)
             const bookedSlotsForDate = {};
             reservations.forEach(res => {
                 if(res.date === selectedDate) {
                     res.slots.forEach(slot => {
-                        bookedSlotsForDate[slot] = res.phone.slice(-4); // 전화번호 뒷 4자리 저장
+                        bookedSlotsForDate[slot] = res.phone.slice(-4);
                     });
                 }
             });
@@ -279,36 +348,34 @@
                 const btn = document.createElement('button');
                 btn.type = "button";
                 
-                // 시간 포맷팅 (예: 09:00)
                 const timeString = `${hour.toString().padStart(2, '0')}:00`;
-                
                 const isBooked = bookedSlotsForDate.hasOwnProperty(hour);
-                const isPast = isToday && hour <= currentHour; // 오늘 날짜면 지난 시간 예약 불가
+                const isPast = isToday && hour <= currentHour;
                 const isSelected = selectedSlots.includes(hour);
 
-                // 버튼 기본 스타일
                 btn.className = "py-3 px-2 rounded-lg text-sm font-medium transition duration-200 border flex flex-col items-center justify-center gap-1 relative overflow-hidden ";
 
                 if(isBooked) {
-                    // 예약 마감 상태
                     btn.className += "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed";
                     btn.innerHTML = `<span>${timeString}</span><span class="text-[10px] bg-gray-200 text-gray-500 px-1.5 rounded">마감(${bookedSlotsForDate[hour]})</span>`;
                     btn.disabled = true;
+                    // 사용자가 이미 선택한 상태에서 누군가 예약했다면 선택 목록에서 제외
+                    if (isSelected) {
+                        const idx = selectedSlots.indexOf(hour);
+                        selectedSlots.splice(idx, 1);
+                        updateSummary(); // 즉시 요약 정보 갱신
+                    }
                 } else if(isPast) {
-                    // 지난 시간
                      btn.className += "bg-gray-50 border-gray-200 text-gray-300 cursor-not-allowed";
                      btn.innerHTML = `<span>${timeString}</span><span class="text-[10px]">시간지남</span>`;
                      btn.disabled = true;
                 } else {
-                    // 예약 가능 상태
                     if(isSelected) {
                         btn.className += "bg-blue-50 border-blue-500 text-blue-700 shadow-inner";
                     } else {
                         btn.className += "bg-white border-gray-300 text-gray-700 hover:border-blue-400 hover:text-blue-600";
                     }
                     btn.innerHTML = `<span>${timeString}</span>`;
-                    
-                    // 클릭 이벤트
                     btn.onclick = () => toggleSlot(hour);
                 }
                 
@@ -316,7 +383,6 @@
             }
         }
 
-        // 시간 선택 토글
         function toggleSlot(hour) {
             const index = selectedSlots.indexOf(hour);
             if(index > -1) {
@@ -324,22 +390,18 @@
             } else {
                 selectedSlots.push(hour);
             }
-            // 시간순 정렬
             selectedSlots.sort((a, b) => a - b);
             
             renderTimeSlots();
             updateSummary();
         }
 
-        // 요약 및 결제 금액 업데이트
         function updateSummary() {
             if(selectedDate && selectedSlots.length > 0) {
                 const dayName = getDayName(selectedDate);
                 summaryDate.innerText = `${selectedDate} (${dayName})`;
                 
-                // 연속된 시간 문자열 만들기 (예: 14:00, 15:00)
                 const timeStrings = selectedSlots.map(h => `${h}:00`);
-                // UI가 길어지면 줄임표 처리
                 summaryTime.innerText = timeStrings.length > 3 
                     ? `${timeStrings[0]} 외 ${timeStrings.length - 1}시간` 
                     : timeStrings.join(', ');
@@ -363,7 +425,7 @@
             }
         }
 
-        // 자동 하이픈 생성 (전화번호)
+        // 전화번호 자동 하이픈
         document.getElementById('resPhone').addEventListener('input', function (e) {
             let val = e.target.value.replace(/[^0-9]/g, '');
             if(val.length > 3 && val.length <= 7) val = val.slice(0,3) + '-' + val.slice(3);
@@ -371,14 +433,22 @@
             e.target.value = val;
         });
 
-        // 폼 제출 (예약 처리)
-        reservationForm.addEventListener('submit', (e) => {
+        reservationForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            if(selectedSlots.length === 0) {
-                alert("예약할 시간을 선택해주세요.");
+            if(!currentUser) {
+                showErrorModal("서버 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.");
                 return;
             }
+
+            if(selectedSlots.length === 0) {
+                showErrorModal("예약할 시간을 선택해주세요.");
+                return;
+            }
+
+            // 버튼 비활성화로 중복 제출 방지
+            submitBtn.disabled = true;
+            submitBtn.innerText = "예약 진행 중...";
 
             const name = document.getElementById('resName').value;
             const phone = document.getElementById('resPhone').value;
@@ -388,11 +458,10 @@
             const totalHours = selectedSlots.length;
             const totalPrice = totalHours * PRICE_PER_HOUR;
             const dayName = getDayName(selectedDate);
-            
             const timeRangeStr = selectedSlots.map(h => `${h}:00`).join(', ');
 
+            // Firestore에 저장할 데이터 객체 (id 제외)
             const newReservation = {
-                id: Date.now().toString(),
                 date: selectedDate,
                 dayName: dayName,
                 slots: [...selectedSlots],
@@ -403,68 +472,44 @@
                 depositStatus: depositStatus,
                 totalHours: totalHours,
                 totalPrice: totalPrice,
-                createdAt: new Date().toLocaleString()
+                createdAt: new Date().toLocaleString(),
+                userId: currentUser.uid
             };
 
-            // 상태에 저장 (데이터베이스 역할)
-            reservations.push(newReservation);
+            try {
+                // Firestore에 문서 추가
+                const reservationsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reservations');
+                await addDoc(reservationsRef, newReservation);
 
-            // ==========================================
-            // [구글 스프레드시트 연동 실행 코드]
-            // 주석을 해제하고, 'application/json' 대신 'text/plain'을 사용하여 CORS 에러를 우회합니다.
-            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwH7NeAdkSyIVCwfpdolqsgg8ixjeiG1stq4M_2kWN4iAzK4rrzn5jlrn8gN6ujb7ngvg/exec';
-            
-            fetch(GOOGLE_SHEET_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    day: dayName,
-                    time: timeRangeStr,
-                    totalHours: totalHours,
-                    name: name,
-                    phone: phone,
-                    depositStatus: depositStatus
-                })
-            }).then(response => console.log('구글 시트 전송 완료'))
-              .catch(error => console.error('에러 발생:', error));
-            // ==========================================
-            
-            // 커스텀 모달 또는 Alert (규칙에 따라 alert 대신 커스텀 UI 권장되나 단순화를 위해 화면 덮기 사용)
-            showSuccessMessage();
-            
-            // 폼 초기화
-            reservationForm.reset();
-            selectedSlots = [];
-            updateSummary();
-            renderTimeSlots(); // 캘린더 새로고침(방금 예약된 곳 마감처리)
+                // 구글 시트 연동 (기존 코드 유지)
+                const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwH7NeAdkSyIVCwfpdolqsgg8ixjeiG1stq4M_2kWN4iAzK4rrzn5jlrn8gN6ujb7ngvg/exec';
+                fetch(GOOGLE_SHEET_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        date: selectedDate, day: dayName, time: timeRangeStr,
+                        totalHours: totalHours, name: name, phone: phone, depositStatus: depositStatus
+                    })
+                }).catch(e => console.log("구글 시트 로깅 실패", e));
+                
+                showSuccessMessage();
+                
+                // 폼 초기화
+                reservationForm.reset();
+                selectedSlots = [];
+                updateSummary();
+                // renderTimeSlots()는 Firestore의 onSnapshot 이벤트를 통해 자동으로 호출됩니다.
+
+            } catch(error) {
+                console.error("예약 저장 실패: ", error);
+                showErrorModal("예약 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "예약 신청하기";
+            }
         });
 
-        // 예약 완료 화면 렌더링
-        function showSuccessMessage() {
-            const overlay = document.createElement('div');
-            overlay.className = "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100]";
-            overlay.innerHTML = `
-                <div class="bg-white rounded-xl p-8 max-w-sm w-full text-center shadow-2xl">
-                    <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa-solid fa-check text-3xl"></i>
-                    </div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-2">예약 신청 완료!</h2>
-                    <p class="text-gray-600 mb-6 text-sm">신청이 정상적으로 접수되었습니다.<br>입금 전이시라면 아래 계좌로 입금 부탁드립니다.</p>
-                    <div class="bg-gray-50 p-3 rounded-lg mb-6 text-sm">
-                        <p class="font-bold text-gray-700">신한은행 110-341-053678</p>
-                        <p class="text-gray-500">예금주: 김0태</p>
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
-                        확인
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-        }
-
-        // 관리자 모달 제어 및 렌더링
-        function toggleAdminModal() {
+        // 관리자 모달 제어
+        window.toggleAdminModal = function() {
             const modal = document.getElementById('adminModal');
             if(modal.classList.contains('hidden')) {
                 renderAdminTable();
@@ -472,16 +517,20 @@
             } else {
                 modal.classList.add('hidden');
             }
-        }
+        };
 
-        // 입금 상태 변경 함수 (관리자용)
-        function changeDepositStatus(id, newStatus) {
-            const res = reservations.find(r => r.id === id);
-            if(res) {
-                res.depositStatus = newStatus;
-                renderAdminTable(); // 테이블 리렌더링
+        // 입금 상태 변경 (실시간 DB 업데이트)
+        window.changeDepositStatus = async function(docId, newStatus) {
+            if(!currentUser) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservations', docId);
+                await updateDoc(docRef, { depositStatus: newStatus });
+                // 업데이트 후 onSnapshot이 트리거되어 테이블이 다시 렌더링됩니다.
+            } catch (error) {
+                console.error("상태 업데이트 실패: ", error);
+                showErrorModal("입금 상태를 변경할 수 없습니다.");
             }
-        }
+        };
 
         function renderAdminTable() {
             const tbody = document.getElementById('adminTableBody');
@@ -492,37 +541,35 @@
                 return;
             }
 
-            // 최신 예약이 위로 오도록 정렬
+            // 최신 예약(생성일 기준 대략적 역순 정렬)이 위로 오도록 배열 복사 후 뒤집기
             const sortedReservations = [...reservations].reverse();
 
             sortedReservations.forEach(res => {
-                // 시간 포맷
                 const timeStr = res.slots.map(h => `${h}시`).join(', ');
-                
-                // 입금 상태 Select (관리자가 변경 가능하도록)
                 const isDeposited = res.depositStatus === '입금완료';
+                
                 const selectHtml = `
-                    <select onchange="changeDepositStatus('${res.id}', this.value)" class="text-xs border rounded p-1 font-medium ${isDeposited ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}">
+                    <select onchange="window.changeDepositStatus('${res.id}', this.value)" class="text-xs border rounded p-1 font-medium outline-none transition ${isDeposited ? 'bg-green-50 text-green-700 border-green-200 focus:ring-green-400' : 'bg-red-50 text-red-700 border-red-200 focus:ring-red-400'}">
                         <option value="입금전" ${!isDeposited ? 'selected' : ''}>입금 전</option>
                         <option value="입금완료" ${isDeposited ? 'selected' : ''}>입금 완료</option>
                     </select>
                 `;
 
                 const tr = document.createElement('tr');
-                tr.className = "border-b hover:bg-gray-50";
+                tr.className = "border-b hover:bg-gray-50 transition";
                 tr.innerHTML = `
                     <td class="px-4 py-3 whitespace-nowrap text-gray-500">${res.createdAt.split(' ')[0]}<br><span class="text-xs">${res.createdAt.split(' ').slice(1).join(' ')}</span></td>
-                    <td class="px-4 py-3 font-medium">${res.date}<br><span class="text-xs text-gray-500">(${res.dayName || getDayName(res.date)})</span></td>
+                    <td class="px-4 py-3 font-medium text-gray-900">${res.date}<br><span class="text-xs text-gray-500">(${res.dayName || getDayName(res.date)})</span></td>
                     <td class="px-4 py-3"><div class="max-w-[120px] truncate" title="${timeStr}">${timeStr}</div><span class="text-xs text-blue-600 font-bold">${res.totalHours}시간</span></td>
-                    <td class="px-4 py-3">${res.name}<br><span class="text-xs text-gray-500">${res.phone}</span></td>
-                    <td class="px-4 py-3 font-bold">${res.totalPrice.toLocaleString()}원</td>
+                    <td class="px-4 py-3 text-gray-800">${res.name}<br><span class="text-xs text-gray-500">${res.phone}</span></td>
+                    <td class="px-4 py-3 font-bold text-gray-800">${res.totalPrice.toLocaleString()}원</td>
                     <td class="px-4 py-3">${selectHtml}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // 앱 초기화 실행
+        // 스크립트 로드 완료 시 초기화
         init();
 
     </script>
