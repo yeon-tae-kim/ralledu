@@ -18,7 +18,6 @@
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
 
-    <!-- 네비게이션 바 -->
     <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
@@ -30,7 +29,6 @@
                     <button id="refreshBtn" onclick="loadReservationsFromSheet()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition font-medium flex items-center gap-1">
                         <i class="fa-solid fa-rotate-right"></i> 동기화
                     </button>
-                    <!-- 변경됨: 관리자 보기 클릭 시 로그인 모달 먼저 띄우기 -->
                     <button onclick="toggleLoginModal()" class="text-sm text-gray-500 hover:text-blue-600 transition font-medium">
                         <i class="fa-solid fa-lock mr-1"></i>관리자 보기
                     </button>
@@ -39,19 +37,16 @@
         </div>
     </nav>
 
-    <!-- 메인 컨텐츠 영역 -->
     <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         <!-- 공간 이미지 및 장소 안내 섹션 -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8 flex flex-col md:flex-row">
-            <!-- 이미지 영역 -->
             <div class="md:w-1/2 h-64 md:h-auto relative">
                 <img src="storium_main.jpg" 
                      onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=Storium+Space'" 
                      alt="스토리움 공간 이미지" 
                      class="w-full h-full object-cover absolute inset-0">
             </div>
-            <!-- 안내 텍스트 및 링크 영역 -->
             <div class="md:w-1/2 p-6 lg:p-8 flex flex-col justify-center bg-blue-50">
                 <div class="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-bold mb-4 w-max">Space Preview</div>
                 <h2 class="font-bold text-2xl text-gray-900 mb-2">스토리움 공간 예약 시스템</h2>
@@ -78,18 +73,22 @@
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <div class="flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold flex items-center gap-2">
-                            <i class="fa-regular fa-clock text-blue-500"></i> 2. 시간 선택
-                        </h3>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-4 gap-2">
+                        <div>
+                            <h3 class="text-lg font-bold flex items-center gap-2">
+                                <i class="fa-regular fa-clock text-blue-500"></i> 2. 시간 선택
+                            </h3>
+                            <p class="text-sm text-blue-600 mt-1 font-semibold bg-blue-50 inline-block px-2 py-1 rounded">
+                                <i class="fa-solid fa-circle-info mr-1"></i> 30분 단위 예약 가능 (30분당 6,000원)
+                            </p>
+                        </div>
                         <div class="text-xs text-gray-500 flex gap-3">
                             <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-white border border-gray-300 inline-block"></span> 예약가능</span>
                             <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-100 border border-blue-500 inline-block"></span> 선택됨</span>
-                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-gray-100 border border-gray-200 inline-block"></span> 예약마감</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-gray-100 border border-gray-200 inline-block"></span> 마감</span>
                         </div>
                     </div>
                     
-                    <!-- 시간 슬롯 렌더링 영역 -->
                     <div id="timeSlotsGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                         <div class="col-span-full py-10 text-center text-gray-400 text-sm">
                             위에서 날짜를 먼저 선택해주세요.
@@ -98,14 +97,12 @@
                 </div>
             </div>
 
-            <!-- 오른쪽: 예약 정보 입력 폼 -->
             <div class="lg:col-span-5">
                 <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-24">
                     <h3 class="text-lg font-bold mb-6 flex items-center gap-2 border-b pb-3">
                         <i class="fa-solid fa-pen-to-square text-blue-500"></i> 3. 예약자 정보
                     </h3>
                     
-                    <!-- 예약 요약 -->
                     <div class="bg-gray-50 rounded-lg p-4 mb-6 text-sm">
                         <div class="flex justify-between mb-2">
                             <span class="text-gray-500">선택한 날짜</span>
@@ -115,13 +112,12 @@
                             <span class="text-gray-500">선택한 시간</span>
                             <span id="summaryTime" class="font-medium text-gray-900">-</span>
                         </div>
-                        <div class="flex justify-between pt-2 border-t border-gray-200 mt-2">
-                            <span class="font-bold text-gray-700">총 결제금액 <span id="summaryHours" class="text-blue-600 font-normal text-xs">(0시간)</span></span>
+                        <div class="flex justify-between pt-2 border-t border-gray-200 mt-2 items-center">
+                            <span class="font-bold text-gray-700">총 결제금액 <span id="summaryHours" class="text-blue-600 font-normal text-xs">(0분)</span></span>
                             <span id="summaryPrice" class="font-bold text-xl text-blue-600">0원</span>
                         </div>
                     </div>
 
-                    <!-- 입력 폼 -->
                     <form id="reservationForm" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">예약자 성함 <span class="text-red-500">*</span></label>
@@ -135,17 +131,14 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">예약 비밀번호 <span class="text-red-500">*</span></label>
                             <input type="password" id="resPassword" required placeholder="숫자 4자리" maxlength="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                            <p class="text-xs text-gray-500 mt-1">추후 예약 확인 및 변경 시 필요합니다.</p>
                         </div>
                         
-                        <!-- 계좌 안내 및 입금 여부 -->
                         <div class="mt-6 border-t border-gray-200 pt-5">
                             <label class="block text-sm font-bold text-gray-800 mb-2">결제 정보 및 입금 확인</label>
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm mb-3">
                                 <p class="font-medium text-blue-900 mb-1">신한은행 110-341-053678 (예금주: 김0태)</p>
                                 <p class="text-red-500 font-bold text-xs mt-2">※ 입금자명과 예약자 성함 일치 필수</p>
                             </div>
-                            
                             <select id="resDeposit" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
                                 <option value="입금전">입금 전 (예약 후 바로 입금하겠습니다)</option>
                                 <option value="입금완료">입금 완료 (방금 입금했습니다)</option>
@@ -161,7 +154,20 @@
         </div>
     </main>
 
-    <!-- 관리자 로그인 모달 추가 -->
+    
+    <!-- 공통 알림 모달 (alert 대체용) -->
+    <div id="alertModal" class="fixed inset-0 bg-black bg-opacity-50 z-[80] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 relative text-center">
+            <div class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+            </div>
+            <h2 id="alertTitle" class="text-xl font-bold text-gray-800 mb-2">알림</h2>
+            <p id="alertMessage" class="text-gray-600 mb-6 text-sm"></p>
+            <button onclick="document.getElementById('alertModal').classList.add('hidden')" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-900 transition">확인</button>
+        </div>
+    </div>
+
+    <!-- 관리자 로그인 모달 -->
     <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 z-[70] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 relative">
             <button onclick="toggleLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -196,7 +202,7 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                             <tr>
                                 <th class="px-4 py-3">예약일(요일)</th>
-                                <th class="px-4 py-3">시간/총시간</th>
+                                <th class="px-4 py-3">시간/이용시간</th>
                                 <th class="px-4 py-3">예약자/연락처</th>
                                 <th class="px-4 py-3">결제금액</th>
                                 <th class="px-4 py-3">입금상태</th>
@@ -220,11 +226,12 @@
 
         let reservations = []; 
         let selectedDate = '';
-        let selectedSlots = [];
-        const PRICE_PER_HOUR = 12000;
-
+        let selectedSlots = []; 
+        
+        // 가격 변경: 30분 당 6,000원
+        const PRICE_PER_SLOT = 6000;
         const START_HOUR = 9;
-        const END_HOUR = 22;
+        const END_HOUR = 22; // 22:30 까지 생성되도록 처리
 
         const datePicker = document.getElementById('datePicker');
         const timeSlotsGrid = document.getElementById('timeSlotsGrid');
@@ -235,12 +242,18 @@
         const submitBtn = document.getElementById('submitBtn');
         const reservationForm = document.getElementById('reservationForm');
         
+        // 공통 알림 모달 함수
+        function customAlert(message, title = "알림") {
+            document.getElementById('alertTitle').innerText = title;
+            document.getElementById('alertMessage').innerText = message;
+            document.getElementById('alertModal').classList.remove('hidden');
+        }
+
         const getDayName = (dateStr) => {
             const days = ['일', '월', '화', '수', '목', '금', '토'];
             return days[new Date(dateStr).getDay()];
         };
 
-        // 스프레드시트에서 데이터 읽어오기 (GET)
         async function loadReservationsFromSheet() {
             try {
                 const response = await fetch(GOOGLE_SHEET_URL, { redirect: 'follow' });
@@ -252,10 +265,14 @@
                         let slots = [];
                         if (item.timeStr) {
                             const times = item.timeStr.split(',');
-                            times.forEach(t => {
-                                const hourMatch = t.match(/\d+/);
-                                if(hourMatch) slots.push(parseInt(hourMatch[0], 10));
-                            });
+                            slots = times.map(t => {
+                                let str = t.trim();
+                                // 과거 시간당 단위 호환성: ':'이 없으면 "HH:00"으로 변환
+                                if(str && !str.includes(':')) {
+                                    return `${str.padStart(2, '0')}:00`;
+                                }
+                                return str;
+                            }).filter(Boolean);
                         }
                         return {
                             date: item.date ? item.date.trim() : '', 
@@ -264,7 +281,7 @@
                             name: item.name,
                             phone: item.phone,
                             depositStatus: item.depositStatus,
-                            totalHours: item.totalHours || slots.length
+                            totalHours: item.totalHours || `${slots.length * 30}분`
                         };
                     });
                     
@@ -273,16 +290,14 @@
                         renderAdminTable();
                     }
                 } else {
-                    console.error("HTTP 에러:", response.status);
-                    alert("⚠️ 데이터를 불러오는 중 오류가 발생했습니다. (HTTP 에러)");
+                    customAlert("데이터를 불러오는 중 오류가 발생했습니다. (네트워크 에러)", "오류");
                 }
             } catch (err) {
-                console.error("데이터 로드 실패:", err);
-                alert("⚠️ 스프레드시트 연동 에러\n원인: Apps Script 배포 시 '모든 사용자'로 권한을 열지 않았거나, URL이 잘못되었습니다.");
+                console.error(err);
+                customAlert("스프레드시트 연동 에러가 발생했습니다.\n원인: Apps Script 배포 설정이나 URL을 확인해주세요.", "연결 오류");
             }
         }
 
-        // 초기화 (오늘 이전 날짜 선택 불가 설정)
         function init() {
             const today = new Date();
             const offset = today.getTimezoneOffset() * 60000;
@@ -292,20 +307,16 @@
 
             datePicker.addEventListener('change', (e) => {
                 selectedDate = e.target.value;
-                selectedSlots = []; // 날짜가 바뀌면 선택된 시간 초기화
+                selectedSlots = [];
                 updateSummary();
-                
-                // 날짜 변경 시 최신 데이터 한번 더 불러오기
                 loadReservationsFromSheet();
             });
 
-            // 웹페이지 로드 시 데이터 최초 로드 실행
             if (GOOGLE_SHEET_URL.includes('script.google.com')) {
                 loadReservationsFromSheet();
             }
         }
 
-        // 시간 슬롯 렌더링 로직
         function renderTimeSlots() {
             timeSlotsGrid.innerHTML = '';
             
@@ -314,35 +325,43 @@
                 return;
             }
 
-            // 현재 선택한 날짜에 해당하는 예약된 슬롯들 모두 추출
             const bookedSlotsForDate = {};
             reservations.forEach(res => {
                 if(res.date === selectedDate) {
-                    res.slots.forEach(slot => {
+                    res.slots.forEach(slotStr => {
                         const last4 = res.phone ? res.phone.slice(-4) : '예약';
-                        bookedSlotsForDate[slot] = last4; 
+                        bookedSlotsForDate[slotStr] = last4; 
                     });
                 }
             });
 
             const now = new Date();
             const isToday = selectedDate === now.toISOString().split('T')[0];
-            const currentHour = now.getHours();
+            const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
 
+            // 00분과 30분 슬롯 생성
+            const slotsToRender = [];
             for(let hour = START_HOUR; hour <= END_HOUR; hour++) {
+                slotsToRender.push(`${hour.toString().padStart(2, '0')}:00`);
+                slotsToRender.push(`${hour.toString().padStart(2, '0')}:30`);
+            }
+
+            slotsToRender.forEach(timeString => {
                 const btn = document.createElement('button');
                 btn.type = "button";
                 
-                const timeString = `${hour.toString().padStart(2, '0')}:00`;
-                const isBooked = bookedSlotsForDate.hasOwnProperty(hour);
-                const isPast = isToday && hour <= currentHour;
-                const isSelected = selectedSlots.includes(hour);
+                const [h, m] = timeString.split(':').map(Number);
+                const slotTotalMinutes = h * 60 + m;
+                
+                const isBooked = bookedSlotsForDate.hasOwnProperty(timeString);
+                const isPast = isToday && slotTotalMinutes <= currentTotalMinutes;
+                const isSelected = selectedSlots.includes(timeString);
 
                 btn.className = "py-3 px-2 rounded-lg text-sm font-medium transition duration-200 border flex flex-col items-center justify-center gap-1 relative overflow-hidden ";
 
                 if(isBooked) {
                     btn.className += "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed";
-                    btn.innerHTML = `<span>${timeString}</span><span class="text-[10px] bg-gray-200 text-gray-500 px-1.5 rounded">마감(${bookedSlotsForDate[hour]})</span>`;
+                    btn.innerHTML = `<span>${timeString}</span><span class="text-[10px] bg-gray-200 text-gray-500 px-1 rounded">마감(${bookedSlotsForDate[timeString]})</span>`;
                     btn.disabled = true;
                 } else if(isPast) {
                      btn.className += "bg-gray-50 border-gray-200 text-gray-300 cursor-not-allowed";
@@ -355,21 +374,21 @@
                         btn.className += "bg-white border-gray-300 text-gray-700 hover:border-blue-400 hover:text-blue-600";
                     }
                     btn.innerHTML = `<span>${timeString}</span>`;
-                    btn.onclick = () => toggleSlot(hour);
+                    btn.onclick = () => toggleSlot(timeString);
                 }
                 
                 timeSlotsGrid.appendChild(btn);
-            }
+            });
         }
 
-        function toggleSlot(hour) {
-            const index = selectedSlots.indexOf(hour);
+        function toggleSlot(timeString) {
+            const index = selectedSlots.indexOf(timeString);
             if(index > -1) {
                 selectedSlots.splice(index, 1);
             } else {
-                selectedSlots.push(hour);
+                selectedSlots.push(timeString);
             }
-            selectedSlots.sort((a, b) => a - b);
+            selectedSlots.sort(); // 시간 문자열(HH:MM)이라 기본 정렬로 오름차순 잘 됨
             
             renderTimeSlots();
             updateSummary();
@@ -380,13 +399,23 @@
                 const dayName = getDayName(selectedDate);
                 summaryDate.innerText = `${selectedDate} (${dayName})`;
                 
-                const timeStrings = selectedSlots.map(h => `${h}:00`);
-                summaryTime.innerText = timeStrings.length > 3 
-                    ? `${timeStrings[0]} 외 ${timeStrings.length - 1}시간` 
-                    : timeStrings.join(', ');
+                summaryTime.innerText = selectedSlots.length > 3 
+                    ? `${selectedSlots[0]} 외 ${selectedSlots.length - 1}타임` 
+                    : selectedSlots.join(', ');
 
-                const total = selectedSlots.length * PRICE_PER_HOUR;
-                summaryHours.innerText = `(${selectedSlots.length}시간)`;
+                // 30분 단위 총 시간 계산
+                const totalMinutes = selectedSlots.length * 30;
+                const hours = Math.floor(totalMinutes / 60);
+                const mins = totalMinutes % 60;
+                
+                let durationStr = '';
+                if(hours > 0) durationStr += `${hours}시간 `;
+                if(mins > 0) durationStr += `${mins}분`;
+                
+                summaryHours.innerText = `(${durationStr.trim()})`;
+                
+                // 가격 계산
+                const total = selectedSlots.length * PRICE_PER_SLOT;
                 summaryPrice.innerText = total.toLocaleString() + '원';
 
                 submitBtn.disabled = false;
@@ -395,7 +424,7 @@
             } else {
                 summaryDate.innerText = '-';
                 summaryTime.innerText = '-';
-                summaryHours.innerText = '(0시간)';
+                summaryHours.innerText = '(0분)';
                 summaryPrice.innerText = '0원';
 
                 submitBtn.disabled = true;
@@ -404,7 +433,7 @@
             }
         }
 
-        // 자동 하이픈 생성 (전화번호)
+        // 연락처 하이픈 처리
         document.getElementById('resPhone').addEventListener('input', function (e) {
             let val = e.target.value.replace(/[^0-9]/g, '');
             if(val.length > 3 && val.length <= 7) val = val.slice(0,3) + '-' + val.slice(3);
@@ -412,17 +441,16 @@
             e.target.value = val;
         });
 
-        // 폼 제출 (예약 처리 - POST)
         reservationForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             if(selectedSlots.length === 0) {
-                alert("예약할 시간을 선택해주세요.");
+                customAlert("예약할 시간을 선택해주세요.");
                 return;
             }
 
             if (!GOOGLE_SHEET_URL.includes('script.google.com')) {
-                alert("구글 스프레드시트 배포 URL이 입력되지 않았습니다. 코드에서 GOOGLE_SHEET_URL을 설정해주세요.");
+                customAlert("구글 스프레드시트 배포 URL이 설정되지 않았습니다.");
                 return;
             }
 
@@ -430,11 +458,11 @@
             const phone = document.getElementById('resPhone').value;
             const depositStatus = document.getElementById('resDeposit').value;
 
-            const totalHours = selectedSlots.length;
+            // 계산된 총 이용시간 문자열 추출 (예: "1시간 30분")
+            const totalHoursText = summaryHours.innerText.replace(/[()]/g, ''); 
             const dayName = getDayName(selectedDate);
-            const timeRangeStr = selectedSlots.map(h => `${h}:00`).join(', ');
+            const timeRangeStr = selectedSlots.join(', ');
 
-            // 제출 버튼 로딩 상태로 변경
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 예약 처리 중...';
 
@@ -442,14 +470,13 @@
                 date: selectedDate,
                 day: dayName,
                 time: timeRangeStr,
-                totalHours: totalHours,
+                totalHours: totalHoursText, // 문자열로 저장
                 name: name,
                 phone: phone,
                 depositStatus: depositStatus
             };
 
             try {
-                // 1. 스프레드시트에 저장 (POST)
                 await fetch(GOOGLE_SHEET_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -457,7 +484,6 @@
                     body: JSON.stringify(payload)
                 });
 
-                // 2. 예약 즉시 화면 마감 처리를 위해 로컬 메모리에도 추가
                 reservations.push({
                     date: selectedDate,
                     slots: [...selectedSlots],
@@ -465,32 +491,29 @@
                     name: name,
                     phone: phone,
                     depositStatus: depositStatus,
-                    totalHours: totalHours
+                    totalHours: totalHoursText
                 });
                 
                 showSuccessMessage();
                 
-                // 폼 초기화 및 캘린더 새로고침
                 reservationForm.reset();
                 selectedSlots = [];
                 updateSummary();
                 renderTimeSlots();
 
-                // 3. 1초 뒤 스프레드시트에서 최신 상태로 재동기화
                 setTimeout(() => {
                     loadReservationsFromSheet();
                 }, 1000);
 
             } catch (error) {
-                console.error("에러 발생:", error);
-                alert("예약 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                console.error(error);
+                customAlert("예약 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", "전송 오류");
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "예약 신청하기";
             }
         });
 
-        // 예약 완료 화면 렌더링
         function showSuccessMessage() {
             const overlay = document.createElement('div');
             overlay.className = "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100]";
@@ -513,12 +536,10 @@
             document.body.appendChild(overlay);
         }
 
-        // 로그인 모달 토글 함수
         function toggleLoginModal() {
             const modal = document.getElementById('loginModal');
             if(modal.classList.contains('hidden')) {
                 modal.classList.remove('hidden');
-                // 모달 열 때 입력값 및 에러 메시지 초기화
                 document.getElementById('adminId').value = '';
                 document.getElementById('adminPw').value = '';
                 document.getElementById('loginErrorMsg').classList.add('hidden');
@@ -527,7 +548,6 @@
             }
         }
 
-        // 로그인 처리 함수
         function handleLogin(e) {
             e.preventDefault();
             const id = document.getElementById('adminId').value;
@@ -535,18 +555,16 @@
             const errorMsg = document.getElementById('loginErrorMsg');
 
             if(id === 'admin' && pw === '1234') {
-                toggleLoginModal(); // 로그인 모달 닫기
-                toggleAdminModal(); // 관리자 모달 열기
+                toggleLoginModal(); 
+                toggleAdminModal(); 
             } else {
-                errorMsg.classList.remove('hidden'); // 에러 메시지 표시
+                errorMsg.classList.remove('hidden'); 
             }
         }
 
-        // 관리자 모달 토글
         function toggleAdminModal() {
             const modal = document.getElementById('adminModal');
             if(modal.classList.contains('hidden')) {
-                // 모달 열 때마다 최신 데이터 로드
                 if (GOOGLE_SHEET_URL.includes('script.google.com')) {
                     loadReservationsFromSheet();
                 }
@@ -556,7 +574,6 @@
             }
         }
 
-        // 테이블 렌더링
         function renderAdminTable() {
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
@@ -566,24 +583,24 @@
                 return;
             }
 
-            // 최신 예약이 위로 오도록 정렬
             const sortedReservations = [...reservations].reverse();
 
             sortedReservations.forEach(res => {
                 const tr = document.createElement('tr');
                 tr.className = "border-b hover:bg-gray-50";
+                const price = (res.slots.length * PRICE_PER_SLOT).toLocaleString() + '원';
+                
                 tr.innerHTML = `
                     <td class="px-4 py-3 whitespace-nowrap text-gray-500">${res.date || '-'}<br><span class="text-xs">(${res.date ? getDayName(res.date) : '-'})</span></td>
-                    <td class="px-4 py-3"><div class="max-w-[120px] truncate" title="${res.timeRangeStr}">${res.timeRangeStr}</div><span class="text-xs text-blue-600 font-bold">${res.totalHours}시간</span></td>
+                    <td class="px-4 py-3"><div class="max-w-[120px] truncate" title="${res.timeRangeStr}">${res.timeRangeStr}</div><span class="text-xs text-blue-600 font-bold">${res.totalHours}</span></td>
                     <td class="px-4 py-3">${res.name}<br><span class="text-xs text-gray-500">${res.phone}</span></td>
-                    <td class="px-4 py-3 font-bold">${(res.totalHours * PRICE_PER_HOUR).toLocaleString()}원</td>
+                    <td class="px-4 py-3 font-bold">${price}</td>
                     <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs ${res.depositStatus === '입금완료' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${res.depositStatus}</span></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // 앱 초기화 실행
         init();
     </script>
 </body>
