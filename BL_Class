@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>롤에듀 블럭동화 교실 - 상세 교육과정</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        /* Custom hover effect for the link buttons */
+        .curriculum-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .curriculum-link {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-400 selection:text-slate-900">
+
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-gradient-to-r from-teal-500 to-blue-500 text-white p-2.5 rounded-2xl shadow-md text-xl">🧱</span>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Ralledu 정규과정</span>
+                    <h1 class="text-lg sm:text-xl font-black text-slate-900">롤에듀 블럭동화 교실</h1>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#overview" class="hover:text-teal-600 transition">과정 개요</a>
+                <a href="#curriculum" class="hover:text-teal-600 transition">연간 교육과정</a>
+            </nav>
+            <div>
+                <a href="#overview" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition text-sm">
+                    과정 안내 보기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative overflow-hidden bg-gradient-to-b from-teal-50 via-white to-slate-50 py-16 sm:py-24">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <span class="inline-block bg-teal-100 text-teal-800 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-6 shadow-sm">
+                    ✨ 융합형 스토리텔링 블럭 프로그램
+                </span>
+                <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-6">
+                    동화 속 상상력을 현실로, <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-blue-600">스토리텔링 블럭동화</span>
+                </h2>
+                <p class="text-base sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-10">
+                    동화 속 이야기(전래·명작·창작)를 바탕으로 블럭 교구를 직접 조립하고 체험하며, 감정·인성적 가치와 과학·공학적 원리를 함께 체화합니다.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#overview" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-2xl shadow-lg transition">
+                        상세 내용 살펴보기 👇
+                    </a>
+                </div>
+            </div>
+            <!-- Decorative background blobs -->
+            <div class="absolute top-1/2 left-10 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+            <div class="absolute bottom-10 right-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        </section>
+
+        <section id="overview" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h3 class="text-teal-600 font-bold text-sm tracking-widest uppercase mb-2">COURSE OVERVIEW</h3>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">핵심 학습 특징 및 단계</h2>
+                    <p class="text-slate-600 mt-3">스토리텔링과 조립이 결합된 체계적인 3단계 학습으로 구성되어 있습니다.</p>
+                </div>
+
+                <!-- Intro / Process Flow -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-4 left-8 bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full">STEP 01</div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-2 mb-3">동화 몰입 & 인성 탐색</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            동화를 들으며 등장인물의 상황과 감정을 이해하고 주제별 인성 가치를 탐색합니다.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-4 left-8 bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full">STEP 02</div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-2 mb-3">블럭 조립 & 원리 탐구</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            동화 속 핵심 도구/구조물을 블럭으로 조립하고 과학·공학적 작동 원리를 이해합니다.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-4 left-8 bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full">STEP 03</div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-2 mb-3">체험 놀이 & 성취감</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            직접 만든 블럭으로 놀이 및 미션에 참여하고 발표하며 성취감을 완성합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 4 Learning Features & Monthly Common Curriculum -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Learning Features -->
+                    <div class="bg-teal-50/50 p-8 sm:p-10 rounded-3xl border border-teal-100">
+                        <h4 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                            <span class="mr-3 text-2xl">🌟</span> 핵심 학습 특징
+                        </h4>
+                        <ul class="space-y-4">
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="text-xl shrink-0 mt-0.5">🧩</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">스토리텔링과 조립의 결합</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">동화 속 스토리를 바탕으로 문제 해결에 필요한 블럭 모델 및 과학 원리(자석, 척력, 크레인, 투석기 등)를 직접 구현합니다.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="text-xl shrink-0 mt-0.5">❤️</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">인성 가치관 형성</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">매 차시 주제에 맞춘 핵심 인성 키워드(경청과 존중, 배려와 도움, 겸손과 공감 등)를 학습합니다.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="text-xl shrink-0 mt-0.5">💡</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">입체적 사고력 & 표현력</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">완성된 조립 모델을 작동시키고 놀이함으로써 과학적 원리 이해와 표현 자신감을 높입니다.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="text-xl shrink-0 mt-0.5">🗓️</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">체계적인 4차시 구성</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">월별로 4회의 단계적 스토리와 완성도 높은 블럭 조립 주제를 구성합니다.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Monthly Common Curriculum -->
+                    <div class="flex flex-col justify-center">
+                        <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-lg">
+                            <h4 class="text-xl font-bold mb-6 flex items-center">
+                                <span class="mr-2">📅</span> 한 달(총 4회차) 공통 수업 구조
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex items-center">
+                                    <strong class="text-teal-400 w-16 shrink-0 text-sm">1회차</strong>
+                                    <span class="text-sm">동화 속 상황 탐구 및 기본 블럭 모델 조립</span>
+                                </div>
+                                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex items-center">
+                                    <strong class="text-teal-400 w-16 shrink-0 text-sm">2회차</strong>
+                                    <span class="text-sm">인성 가치 적용 및 응용 블럭 만들기</span>
+                                </div>
+                                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex items-center">
+                                    <strong class="text-teal-400 w-16 shrink-0 text-sm">3회차</strong>
+                                    <span class="text-sm">심화/작동형 블럭 제작 및 원리 체험</span>
+                                </div>
+                                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex items-center">
+                                    <strong class="text-teal-400 w-16 shrink-0 text-sm">4회차</strong>
+                                    <span class="text-sm">종합 블럭 구조물 완성 및 성취 놀이</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="curriculum" class="py-20 bg-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h3 class="font-bold text-sm tracking-widest uppercase mb-2 text-teal-600">YEARLY CURRICULUM</h3>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">연간 학기별/월별 교육과정</h2>
+                    <p class="text-slate-600 mt-3">월 4회차, 체계적인 동화 스토리와 연계 블럭 모델을 확인해보세요.</p>
+                </div>
+
+                <!-- Semester Tabs Navigation -->
+                <div class="flex justify-center mb-10 overflow-x-auto pb-2">
+                    <div class="bg-white p-1.5 rounded-2xl shadow-sm inline-flex space-x-1 sm:space-x-2 border border-slate-200">
+                        <button onclick="switchSemester('spring')" id="btn-spring" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition bg-teal-500 text-white shadow-sm">
+                            🌸 봄 학기 (3~5월)
+                        </button>
+                        <button onclick="switchSemester('summer')" id="btn-summer" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                            ☀️ 여름 학기 (6~8월)
+                        </button>
+                        <button onclick="switchSemester('autumn')" id="btn-autumn" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                            🍁 가을 학기 (9~11월)
+                        </button>
+                        <button onclick="switchSemester('winter')" id="btn-winter" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                            ❄️ 겨울 학기 (12~2월)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Semester Content Panels -->
+                <!-- SPRING PANEL -->
+                <div id="panel-spring" class="semester-panel grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- 봄학기 일일특강 배너 (수정됨) -->
+                    <a href="https://youtu.be/yYFIXCDFBqM" target="_blank" class="md:col-span-3 group bg-gradient-to-r from-pink-50 to-white border border-pink-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <span class="flex items-center justify-center w-12 h-12 bg-pink-100 text-pink-600 rounded-xl font-bold shadow-sm group-hover:-translate-y-1 transition-transform shrink-0">
+                                🎬
+                            </span>
+                            <div>
+                                <span class="text-xs font-bold text-pink-500 uppercase tracking-wider block mb-0.5">Special Class</span>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                    <h5 class="text-lg font-bold text-slate-800">초스피드 생쥐</h5>
+                                    <span class="hidden sm:inline text-slate-300">|</span>
+                                    <span class="text-sm text-slate-600">연결모델 : <strong class="text-teal-600 font-medium">척력카</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-auto text-center sm:text-right">
+                            <span class="inline-flex items-center justify-center bg-white border border-slate-200 text-slate-600 font-medium text-sm px-4 py-2 rounded-xl group-hover:bg-slate-50 group-hover:text-slate-900 transition-colors w-full sm:w-auto">
+                                유튜브 영상 보기 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 3월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">3월 • 봄학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">3월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 집라인의 고수 라푼젤</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 라푼젤의 집라인</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 조심조심 개미와 베짱이</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 개미와 베짱이</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 달나라 옥토끼 여행</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 최신형 화살편지</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 여우의 포도따기</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 주사기로봇손</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 4월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">4월 • 봄학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">4월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 피노키오의 거짓말</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 피노키오 얼굴</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 히어로 돼지 삼형제</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 구조크레인</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 브레멘 음악대</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 브레멘 무대</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 사격 금메달 종우</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 리볼버</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 5월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">5월 • 봄학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">5월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 미녀와 야수</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 변신야수</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 요술 맷돌</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 회전 맷돌</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 노래왕 양치기 소년</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 방울</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 보물섬 탐험대</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 보물선</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Spring Image -->
+                    <div class="md:col-span-3 mt-4">
+                        <img src="23년 봄학기 강의계획서.jpg" alt="봄학기 교육과정 이미지" class="w-full h-auto rounded-2xl shadow-md border border-slate-200">
+                    </div>
+                </div>
+
+                <!-- SUMMER PANEL -->
+                <div id="panel-summer" class="semester-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- 여름학기 일일특강 배너 (수정됨) -->
+                    <a href="https://youtu.be/5uPjWq7kiAE" target="_blank" class="md:col-span-3 group bg-gradient-to-r from-sky-50 to-white border border-sky-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <span class="flex items-center justify-center w-12 h-12 bg-sky-100 text-sky-600 rounded-xl font-bold shadow-sm group-hover:-translate-y-1 transition-transform shrink-0">
+                                🎬
+                            </span>
+                            <div>
+                                <span class="text-xs font-bold text-sky-500 uppercase tracking-wider block mb-0.5">Special Class</span>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                    <h5 class="text-lg font-bold text-slate-800">미녀와 야수</h5>
+                                    <span class="hidden sm:inline text-slate-300">|</span>
+                                    <span class="text-sm text-slate-600">연결모델 : <strong class="text-teal-600 font-medium">고속회전 변신 야수</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-auto text-center sm:text-right">
+                            <span class="inline-flex items-center justify-center bg-white border border-slate-200 text-slate-600 font-medium text-sm px-4 py-2 rounded-xl group-hover:bg-slate-50 group-hover:text-slate-900 transition-colors w-full sm:w-auto">
+                                유튜브 영상 보기 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 6월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">6월 • 여름학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">6월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 아빠와의 추억</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 추억 카메라</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 만화영화 감독 토토</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 토토 영사기</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 아슬아슬 닐스의 모험</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 거위 비행선</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 반쪽이 도너츠</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 빙글빙글 쌩쌩</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 7월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">7월 • 여름학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">7월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 호랑이 뱃 속 탈출</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 간질간질 건</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 개와 고양이의 요술구슬</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 구슬 이동판</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 활 못 쏘는 명궁</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 석궁</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 견우직녀 움직다리</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 움직이는 다리</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 8월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">8월 • 여름학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">8월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 앨리스의 변신 그림자</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 그림자 크고 작게</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 토끼의 별자리</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 하늘 별자리</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 순간이동 마법사 댕댕이</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 닥터 스트레인저</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 무지개 끝 금 항아리</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 무지개 만들기</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Summer Image -->
+                    <div class="md:col-span-3 mt-4">
+                        <img src="블럭동화 여름학기 커리큘럼.jpg" alt="여름학기 교육과정 이미지" class="w-full h-auto rounded-2xl shadow-md border border-slate-200">
+                    </div>
+                </div>
+
+                <!-- AUTUMN PANEL -->
+                <div id="panel-autumn" class="semester-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- 가을학기 일일특강 배너 (수정됨) -->
+                    <a href="https://youtu.be/F9XHuooXFsE" target="_blank" class="md:col-span-3 group bg-gradient-to-r from-orange-50 to-white border border-orange-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <span class="flex items-center justify-center w-12 h-12 bg-orange-100 text-orange-600 rounded-xl font-bold shadow-sm group-hover:-translate-y-1 transition-transform shrink-0">
+                                🎬
+                            </span>
+                            <div>
+                                <span class="text-xs font-bold text-orange-500 uppercase tracking-wider block mb-0.5">Special Class</span>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                    <h5 class="text-lg font-bold text-slate-800">순간이동 마법사 댕댕이</h5>
+                                    <span class="hidden sm:inline text-slate-300">|</span>
+                                    <span class="text-sm text-slate-600">연결모델 : <strong class="text-teal-600 font-medium">닥터스트레인지</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-auto text-center sm:text-right">
+                            <span class="inline-flex items-center justify-center bg-white border border-slate-200 text-slate-600 font-medium text-sm px-4 py-2 rounded-xl group-hover:bg-slate-50 group-hover:text-slate-900 transition-colors w-full sm:w-auto">
+                                유튜브 영상 보기 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 9월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">9월 • 가을학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">9월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 무서운 계절변신</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 빙글뱅글 쌩쌩</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 토끼차 거북이차</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 위치레이싱</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 여우와 두루미의 손</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 공옮기기집게</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 할멈을 지켜준 투석기</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 무게추투석기</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 10월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">10월 • 가을학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">10월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 다람쥐 신발배달</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 종이컵농구</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 그림자 극장</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 그림자 크고 작게</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 하늘 별자리 이야기</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 하늘 별자리</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 초고속 쇠똥구리</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 골드버그</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 11월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">11월 • 가을학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">11월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 오즈의 신비한 마법</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 닥터 스트레인저</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 의 좋은 형제</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 공평저울</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 잭의 바람거인 탈출기</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 고무동력프로펠러</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 머리큰 허수아비</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 움직이는 허수아비</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Autumn Image -->
+                    <div class="md:col-span-3 mt-4">
+                        <img src="블럭동화 가을학기 정규수업.jpg" alt="가을학기 교육과정 이미지" class="w-full h-auto rounded-2xl shadow-md border border-slate-200">
+                    </div>
+                </div>
+
+                <!-- WINTER PANEL -->
+                <div id="panel-winter" class="semester-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- 겨울학기 일일특강 배너 (수정됨) -->
+                    <a href="https://youtu.be/CKMQDhDEVIs" target="_blank" class="md:col-span-3 group bg-gradient-to-r from-indigo-50 to-white border border-indigo-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <span class="flex items-center justify-center w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl font-bold shadow-sm group-hover:-translate-y-1 transition-transform shrink-0">
+                                🎬
+                            </span>
+                            <div>
+                                <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider block mb-0.5">Special Class</span>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                    <h5 class="text-lg font-bold text-slate-800">잭의 바람 거인 탈출기</h5>
+                                    <span class="hidden sm:inline text-slate-300">|</span>
+                                    <span class="text-sm text-slate-600">연결모델 : <strong class="text-teal-600 font-medium">고무동력 프로펠러</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-auto text-center sm:text-right">
+                            <span class="inline-flex items-center justify-center bg-white border border-slate-200 text-slate-600 font-medium text-sm px-4 py-2 rounded-xl group-hover:bg-slate-50 group-hover:text-slate-900 transition-colors w-full sm:w-auto">
+                                유튜브 영상 보기 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 12월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">12월 • 겨울학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">12월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 12시 탈출 신데렐라</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 비행기발사대</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 칭찬 자동차</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 오뚜기카</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 퐁당퐁당 금덩이</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 테이블테니스</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 시간아 멈춰라!</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 시간아 멈춰라</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 1월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">1월 • 겨울학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">1월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 크리스마스 편지</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 보드컬링</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 눈사람의 스키 여행</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 스키 타는 눈사람</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 얼음나라 펭귄 삼형제</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 얼음 미끄럼틀</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 알리바바와 40인의 도둑</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 매직카펫</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 2월 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">2월 • 겨울학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-4 mb-4 text-center">2월 교육과정</h4>
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">1차시: 초스피드 생쥐</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 척력카</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">2차시: 춘향이의 자석그네</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 자석공중그네</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">3차시: 해님 달님 이야기</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 동아줄 크레인</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="font-bold text-slate-800">4차시: 정월대보름 쥐불놀이</div>
+                                    <div class="text-teal-600 mt-1">연계 모델: 쥐불놀이 회전판</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Winter Image -->
+                    <div class="md:col-span-3 mt-4">
+                        <img src="블럭동화_겨울학기-커리큘럼-004.jpg" alt="겨울학기 교육과정 이미지" class="w-full h-auto rounded-2xl shadow-md border border-slate-200">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="bg-slate-900 text-slate-400 py-12">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-sm">
+                <div class="flex items-center space-x-2 mb-4 sm:mb-0">
+                    <span class="text-teal-500 font-bold text-lg">🎭 Ralledu</span>
+                    <span class="text-slate-600">|</span>
+                    <span>롤에듀 블럭동화 교실</span>
+                </div>
+                <p>© Ralledu. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        function switchSemester(semester) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.semester-panel');
+            panels.forEach(panel => panel.classList.add('hidden'));
+
+            // Remove active styles from all buttons
+            const buttons = document.querySelectorAll('.semester-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-teal-500', 'text-white', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'hover:text-slate-900');
+            });
+
+            // Show selected panel
+            const activePanel = document.getElementById('panel-' + semester);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+            }
+
+            // Highlight selected button
+            const activeBtn = document.getElementById('btn-' + semester);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:text-slate-900');
+                activeBtn.classList.add('bg-teal-500', 'text-white', 'shadow-sm');
+            }
+        }
+    </script>
+</body>
+</html>
