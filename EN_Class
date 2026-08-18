@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나도 뮤지컬 배우! 영어 인형극 - 상세 교육과정</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        /* Custom hover effect for the link buttons */
+        .curriculum-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .curriculum-link {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-amber-400 selection:text-slate-900">
+
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-gradient-to-r from-amber-500 to-rose-500 text-white p-2.5 rounded-2xl shadow-md text-xl">🎭</span>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Ralledu 정규과정</span>
+                    <h1 class="text-lg sm:text-xl font-black text-slate-900">나도 뮤지컬 배우! 영어 인형극</h1>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#overview" class="hover:text-amber-600 transition">과정 개요</a>
+                <a href="#curriculum" class="hover:text-amber-600 transition">연간 커리큘럼</a>
+                <a href="#achievement" class="hover:text-amber-600 transition">성취 순간</a>
+            </nav>
+            <div>
+                <a href="#overview" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition text-sm">
+                    과정 안내 보기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative overflow-hidden bg-gradient-to-b from-amber-50 via-white to-slate-50 py-16 sm:py-24">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <span class="inline-block bg-amber-100 text-amber-800 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-6 shadow-sm">
+                    ✨ 아이들의 발달 단계에 맞춘 놀이형 영어 뮤지컬 프로그램
+                </span>
+                <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-6">
+                    스스로 만드는 무대, <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-rose-600">자신감이 자라는 영어 인형극</span>
+                </h2>
+                <p class="text-base sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-10">
+                    매달 1개의 인형극을 4회차에 걸쳐 완성합니다. 노래와 율동, 직접 만드는 DIY 인형과 무대 경험을 통해 감정 중심의 영어를 자연스럽게 체화합니다.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#overview" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-2xl shadow-lg transition">
+                        상세 내용 살펴보기 👇
+                    </a>
+                </div>
+            </div>
+            <!-- Decorative background blobs -->
+            <div class="absolute top-1/2 left-10 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+            <div class="absolute bottom-10 right-10 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        </section>
+
+        <section id="overview" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h3 class="text-amber-600 font-bold text-sm tracking-widest uppercase mb-2">COURSE OVERVIEW</h3>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">프로그램 개요 및 학습 단계</h2>
+                    <p class="text-slate-600 mt-3">도입부터 전개, 마무리까지 체계적인 4단계 학습과 3가지 성취 포인트로 구성되어 있습니다.</p>
+                </div>
+
+                <!-- Intro / Process Flow -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-4 left-8 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full">STEP 01</div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-2 mb-3">캐릭터 선정</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            캐릭터를 선정하고 등장 인형을 직접 만들며 호기심을 극대화합니다. 감정 이해와 자기표현을 시작합니다.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-4 left-8 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full">STEP 02</div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-2 mb-3">영어 대사 익히기</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            영어 대사를 익히고 소품 제작 및 공연 연습을 진행합니다. 친구 관계, 배려, 소통 능력을 확장합니다.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-4 left-8 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full">STEP 03</div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-2 mb-3">공연 발표</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            공연 발표 및 영상 촬영을 통해 주도적 성취감을 맛봅니다. 가정에서도 QR코드로 복습하며 자신감을 키웁니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 4 Learning Steps & 3 Achievement Points -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Learning 4 Steps -->
+                    <div class="bg-amber-50/50 p-8 sm:p-10 rounded-3xl border border-amber-100">
+                        <h4 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                            <span class="mr-3 text-2xl">💡</span> 학습 4단계
+                        </h4>
+                        <ul class="space-y-4">
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="bg-amber-500 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">1</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">감정 이해와 자기표현</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">자신의 감정을 인식하고 간단한 영어 문장으로 표현하기</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="bg-amber-500 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">2</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">친구 관계, 배려, 소통</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">칭찬과 인사를 나누며 영어로 사회적 소통 능력 키우기</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="bg-amber-500 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">3</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">이야기 중심 표현 확장</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">상황에 맞는 표현을 선택해 상상력과 언어 능력 발전시키기</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-2xl shadow-sm flex items-start space-x-4">
+                                <span class="bg-amber-500 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">4</span>
+                                <div>
+                                    <strong class="text-slate-900 block text-sm sm:text-base">자율감과 성취감 키우기</strong>
+                                    <p class="text-xs sm:text-sm text-slate-600">주도적인 활동과 극복을 통한 긍정적 자기 인식 확립</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 3 Achievement Points & Monthly Common Curriculum -->
+                    <div class="flex flex-col justify-between space-y-8">
+                        <div class="bg-rose-50/50 p-8 sm:p-10 rounded-3xl border border-rose-100">
+                            <h4 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                                <span class="mr-3 text-2xl">🎯</span> 3가지 성취 포인트
+                            </h4>
+                            <ul class="space-y-4">
+                                <li class="bg-white p-4 rounded-2xl shadow-sm flex items-center space-x-4">
+                                    <span class="text-xl">✨</span>
+                                    <span class="text-slate-700 font-medium text-sm sm:text-base">단어 중심이 아닌 <strong>‘표현+말’</strong>로 체화하는 감정 중심 영어</span>
+                                </li>
+                                <li class="bg-white p-4 rounded-2xl shadow-sm flex items-center space-x-4">
+                                    <span class="text-xl">🎨</span>
+                                    <span class="text-slate-700 font-medium text-sm sm:text-base">눈으로 보고 손으로 만드는 <strong>인형극 + DIY 활동</strong></span>
+                                </li>
+                                <li class="bg-white p-4 rounded-2xl shadow-sm flex items-center space-x-4">
+                                    <span class="text-xl">🤝</span>
+                                    <span class="text-slate-700 font-medium text-sm sm:text-base">협동과 대사 연습을 통한 <strong>사회성 발달</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-lg">
+                            <h4 class="text-lg font-bold mb-3 flex items-center">
+                                <span class="mr-2">📅</span> 한 달(총 4회차) 공통 커리큘럼 구성
+                            </h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs sm:text-sm">
+                                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                                    <strong class="block text-amber-400 mb-1">1회차</strong>인형 만들기
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                                    <strong class="block text-amber-400 mb-1">2회차</strong>영어 뮤지컬 배우기
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                                    <strong class="block text-amber-400 mb-1">3회차</strong>소품 제작 및 연습
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                                    <strong class="block text-amber-400 mb-1">4회차</strong>공연 및 촬영
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="curriculum" class="py-20 bg-slate-100">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h3 class="amber-600 font-bold text-sm tracking-widest uppercase mb-2 text-amber-600">YEARLY CURRICULUM</h3>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">연간 학기별/월별 커리큘럼</h2>
+                    <p class="text-slate-600 mt-3">총 12개의 극을 통해 매달 새로운 이야기와 감정, 영어 표현을 배워갑니다.</p>
+                </div>
+
+                <!-- Semester Tabs Navigation -->
+                <div class="flex justify-center mb-10 overflow-x-auto pb-2">
+                    <div class="bg-white p-1.5 rounded-2xl shadow-sm inline-flex space-x-1 sm:space-x-2 border border-slate-200">
+                        <button onclick="switchSemester('spring')" id="btn-spring" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition bg-amber-500 text-white shadow-sm">
+                            🌸 봄 학기 (3~5월)
+                        </button>
+                        <button onclick="switchSemester('summer')" id="btn-summer" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                            ☀️ 여름 학기 (6~8월)
+                        </button>
+                        <button onclick="switchSemester('autumn')" id="btn-autumn" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                            🍁 가을 학기 (9~11월)
+                        </button>
+                        <button onclick="switchSemester('winter')" id="btn-winter" class="semester-btn px-5 py-2.5 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                            ❄️ 겨울 학기 (12~2월)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Semester Content Panels -->
+                <div id="panel-spring" class="semester-panel grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- March -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">3월 • 봄학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">콩쥐팥쥐</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "I’ll help you."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 협력, 도움</p>
+                                <p><strong>연계활동:</strong> 부모님께 감사 편지 쓰기</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=46yeOkjMhyw&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=6" target="_blank" rel="noopener noreferrer" class="mt-6 bg-amber-50 p-3 rounded-2xl text-xs text-amber-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>인형 제작 및 협동심 기르기</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                    <!-- April -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">4월 • 봄학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">의좋은 형제</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "I will share."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 나눔, 배려</p>
+                                <p><strong>연계활동:</strong> 돌멩이 마음 놀이</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=pvk0JqwALmE&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=5" target="_blank" rel="noopener noreferrer" class="mt-6 bg-amber-50 p-3 rounded-2xl text-xs text-amber-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>나눔의 기쁨과 영어 표현 습득</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                    <!-- May -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">5월 • 봄학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">피터팬</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "I can fly!"</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 우정, 용기, 상상력</p>
+                                <p><strong>연계활동:</strong> 상상해보기 놀이</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=Vk3Z7Mcm-OE&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=4" target="_blank" rel="noopener noreferrer" class="mt-6 bg-amber-50 p-3 rounded-2xl text-xs text-amber-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>상상력을 자극하는 스토리 인형극</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="panel-summer" class="semester-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- June -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">6월 • 여름학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">알라딘 요술램프</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "You’re amazing."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 존중, 예쁜 말</p>
+                                <p><strong>연계활동:</strong> 예쁜 말 카드 놀이</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=uYDotNI4irk&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=3" target="_blank" rel="noopener noreferrer" class="mt-6 bg-sky-50 p-3 rounded-2xl text-xs text-sky-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>긍정적인 칭찬과 존중 표현 학습</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                    <!-- July -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">7월 • 여름학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">미운 오리 새끼</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "I’m sorry."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 사과, 미안함</p>
+                                <p><strong>연계활동:</strong> “미안해요” 카드 놀이</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=RY-yyh3O-hM&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=2" target="_blank" rel="noopener noreferrer" class="mt-6 bg-sky-50 p-3 rounded-2xl text-xs text-sky-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>타인의 감정을 공감하고 사과하기</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                    <!-- August -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">8월 • 여름학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">오즈의 마법사</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "You are brave."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 용기, 감정 표현</p>
+                                <p><strong>연계활동:</strong> 협동 그림 그리기</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=yRnrljHlfkU&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=1" target="_blank" rel="noopener noreferrer" class="mt-6 bg-sky-50 p-3 rounded-2xl text-xs text-sky-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>두려움을 극복하는 용기 기르기</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="panel-autumn" class="semester-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- September -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">9월 • 가을학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">흥부와 놀부</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "Are you okay?"</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 나눔, 생명 존중</p>
+                                <p><strong>연계활동:</strong> 칭찬 카드 만들기</p>
+                            </div>
+                        </div>
+                        <!-- 링크가 없는 경우 빈 a 태그 유지하여 스타일 동일하게 적용 -->
+                        <a href="#" onclick="return false;" class="mt-6 bg-orange-50 p-3 rounded-2xl text-xs text-orange-800 font-bold text-center block curriculum-link flex items-center justify-center cursor-default">
+                            <span>배려와 이타심 배우기</span>
+                        </a>
+                    </div>
+                    <!-- October -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">10월 • 가을학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">토끼와 거북이</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "I keep going."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 노력, 도전</p>
+                                <p><strong>연계활동:</strong> 상상 속 장애물 건너기 놀이</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=dFp8K0o_YqQ&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=8" target="_blank" rel="noopener noreferrer" class="mt-6 bg-orange-50 p-3 rounded-2xl text-xs text-orange-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>끈기와 도전 정신 키우기</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                    <!-- November -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">11월 • 가을학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">시골쥐 서울쥐</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "I respect you."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 존중, 개성</p>
+                                <p><strong>연계활동:</strong> 손도장 인물 그림 및 노래</p>
+                            </div>
+                        </div>
+                        <a href="#" onclick="return false;" class="mt-6 bg-orange-50 p-3 rounded-2xl text-xs text-orange-800 font-bold text-center block curriculum-link flex items-center justify-center cursor-default">
+                            <span>다양성과 개성 존중하기</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="panel-winter" class="semester-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- December -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">12월 • 겨울학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">산타와의 모험</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "Don’t worry."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 배려, 도움</p>
+                                <p><strong>연계활동:</strong> 썰매 밀기(신체 놀이)</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=eQMiUZ2OBUI&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=9" target="_blank" rel="noopener noreferrer" class="mt-6 bg-indigo-50 p-3 rounded-2xl text-xs text-indigo-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>따뜻한 배려와 위로 표현하기</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                    <!-- January -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">1월 • 겨울학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">헨젤과 그레텔</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "Do you like it?"</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 나눔의 행복</p>
+                                <p><strong>연계활동:</strong> 상상 역할 놀이</p>
+                            </div>
+                        </div>
+                        <a href="#" onclick="return false;" class="mt-6 bg-indigo-50 p-3 rounded-2xl text-xs text-indigo-800 font-bold text-center block curriculum-link flex items-center justify-center cursor-default">
+                            <span>나누는 기쁨과 소통 연습</span>
+                        </a>
+                    </div>
+                    <!-- February -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">2월 • 겨울학기</span>
+                            <h4 class="text-xl font-black text-slate-900 mt-3 mb-1">아기돼지 삼형제</h4>
+                            <p class="text-sm font-semibold text-amber-600 mb-4">Key Expression: "Come and play."</p>
+                            <div class="space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-4">
+                                <p><strong>주제:</strong> 공동체, 협력</p>
+                                <p><strong>연계활동:</strong> 초대와 역할 놀이</p>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=Yzlg1KfD_Wo&list=PLHPiKGUGnuYJs3qngez-feWKg-NUHBgu1&index=7" target="_blank" rel="noopener noreferrer" class="mt-6 bg-indigo-50 p-3 rounded-2xl text-xs text-indigo-800 font-bold text-center block curriculum-link flex items-center justify-center">
+                            <span>공동체의 소중함과 협력 체험</span>
+                            <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="achievement" class="py-20 bg-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <span class="text-amber-600 font-bold text-sm tracking-widest uppercase mb-2 block">ACHIEVEMENT MOMENTS</span>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-6">성취 순간과 홈 리뷰 시스템</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto mb-12">
+                    수업에서 끝나는 것이 아니라, 가정에서도 영상과 QR 코드를 통해 복습하며 아이들의 성취감과 자신감이 완성됩니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="bg-amber-50/60 border border-amber-100 p-8 rounded-3xl">
+                        <div class="text-3xl mb-4">🎬</div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">무대 위 주인공이 되는 경험</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            매달 마지막 주차에는 직접 만든 인형과 소품을 가지고 친구들과 함께 공연을 올리고 영상으로 촬영합니다. 발표력과 표현력이 눈에 띄게 성장합니다.
+                        </p>
+                    </div>
+                    <div class="bg-rose-50/60 border border-rose-100 p-8 rounded-3xl">
+                        <div class="text-3xl mb-4">📱</div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">가정 연계 QR 복습 시스템</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            수업 시간에 배운 노래와 대사를 가정에서도 QR코드를 통해 손쉽게 복습할 수 있어 영어 노출 빈도를 높이고 자연스러운 습득을 유도합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-slate-900 text-slate-400 py-12">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-sm">
+                <div class="flex items-center space-x-2 mb-4 sm:mb-0">
+                    <span class="text-amber-500 font-bold text-lg">🎭 Ralledu</span>
+                    <span class="text-slate-600">|</span>
+                    <span>나도 뮤지컬 배우! 영어 인형극</span>
+                </div>
+                <p>© Ralledu. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        function switchSemester(semester) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.semester-panel');
+            panels.forEach(panel => panel.classList.add('hidden'));
+
+            // Remove active styles from all buttons
+            const buttons = document.querySelectorAll('.semester-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-white', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'hover:text-slate-900');
+            });
+
+            // Show selected panel
+            const activePanel = document.getElementById('panel-' + semester);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+            }
+
+            // Highlight selected button
+            const activeBtn = document.getElementById('btn-' + semester);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:text-slate-900');
+                activeBtn.classList.add('bg-amber-500', 'text-white', 'shadow-sm');
+            }
+        }
+    </script>
+</body>
+</html>
