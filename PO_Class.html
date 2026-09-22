@@ -56,11 +56,62 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* 스크롤 시 그림자가 생기게 하는 클래스 (자바스크립트에서 제어) */
+        .scrolled {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
     </style>
 </head>
 <!-- body 태그 안쪽이 실제로 사용자의 눈에 보이는 웹페이지 화면입니다. -->
 <!-- text-clay-900: 기본 글씨색을 진한 고동색으로, bg-clay-50: 배경색을 따뜻한 베이지로 설정 -->
-<body class="text-clay-900 bg-clay-50 antialiased leading-relaxed">
+<body class="text-clay-900 bg-clay-50 antialiased leading-relaxed pt-20">
+
+    <!-- 
+      상단 고정 메뉴바 (Navigation Bar)
+      fixed: 화면 상단에 고정
+      w-full: 너비를 100%로 꽉 채움
+      z-50: 다른 요소들보다 항상 위에 보이도록 설정
+    -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md z-50 transition-all duration-300 border-b border-clay-100">
+        <!-- max-w-7xl: 최대 너비 설정, mx-auto: 가운데 정렬, px-6: 양옆 여백 -->
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            
+            <!-- 왼쪽: 로고 및 프로그램 타이틀 영역 -->
+            <div class="flex items-center gap-4">
+                <!-- 도예 느낌을 내기 위해 둥근 찰흙 덩어리 같은 간단한 로고 아이콘을 만들었습니다. -->
+                <div class="w-12 h-12 bg-clay-100 rounded-full flex items-center justify-center text-clay-700 shadow-inner">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5zm0 0v7m-6-3h12"></path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-clay-500 font-bold text-xs tracking-wider mb-0.5">ROLLEDU 정규과정</p>
+                    <h2 class="text-xl font-extrabold text-clay-900 tracking-tight">1년 동안 쌓아가는 도예</h2>
+                </div>
+            </div>
+
+            <!-- 가운데: 메뉴 링크 (PC에서만 보임, 모바일에서는 숨김) -->
+            <!-- hidden md:flex : 기본적으로 숨기다가 화면이 중간 크기(태블릿) 이상일 때 보여줌 -->
+            <ul class="hidden md:flex gap-8 text-sm font-semibold text-gray-600">
+                <!-- 메뉴 항목들에 마우스를 올리면 색이 진해집니다(hover:text-clay-900) -->
+                <li><a href="#philosophy" class="hover:text-clay-900 transition-colors">과정 개요</a></li>
+                <li><a href="#curriculum" class="hover:text-clay-900 transition-colors">연간 커리큘럼</a></li>
+                <li><a href="#experience" class="hover:text-clay-900 transition-colors">성취 순간</a></li>
+            </ul>
+
+            <!-- 오른쪽: 주요 액션 버튼 -->
+            <div>
+                <!-- 버튼을 도예 테마에 맞는 색상(clay-500)으로 설정했습니다. -->
+                <a href="#register" class="bg-clay-500 hover:bg-clay-700 text-white font-bold py-2.5 px-6 rounded-full text-sm transition-all shadow-md hover:shadow-lg inline-block">
+                    과정 안내 보기
+                </a>
+            </div>
+            
+        </div>
+    </nav>
 
     <!-- 
       웹페이지의 첫인상인 '히어로 섹션(가장 위쪽 큰 화면)' 입니다. 
@@ -90,7 +141,7 @@
     <main class="max-w-4xl mx-auto px-6 pb-32">
         
         <!-- 1. 철학 소개 섹션 -->
-        <section class="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-20 fade-in text-center border border-clay-100">
+        <section id="philosophy" class="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-20 fade-in text-center border border-clay-100 scroll-mt-28">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 text-clay-900">단순히 작품 하나를 만드는 시간이 아닙니다</h2>
             <p class="text-gray-600 mb-6 leading-loose">
                 도예에서는 아이가 직접 흙을 만집니다.<br>
@@ -106,7 +157,7 @@
         </section>
 
         <!-- 2. 1년 커리큘럼 소개 -->
-        <section class="mb-24">
+        <section id="curriculum" class="mb-24 scroll-mt-28">
             <div class="text-center mb-16">
                 <h2 class="text-3xl font-bold mb-4">1년 동안 이렇게 경험을 넓혀갑니다</h2>
                 <p class="text-gray-600">매시간 새로운 작품을 만들지만, 이전 시간의 경험이 다음 작품의 바탕이 됩니다.</p>
@@ -176,7 +227,7 @@
         </section>
 
         <!-- 3. 도예를 하며 아이가 경험하는 3가지 -->
-        <section class="mb-24 bg-clay-900 text-white rounded-3xl p-8 md:p-12">
+        <section id="experience" class="mb-24 bg-clay-900 text-white rounded-3xl p-8 md:p-12 scroll-mt-28">
             <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center text-clay-50">도예를 하며 아이가 경험하는 3가지</h2>
             
             <!-- 내용들을 세로로 쌓는 컨테이너입니다. -->
@@ -303,7 +354,7 @@
         </section>
 
         <!-- 수강 정보 표 (박스 형태) -->
-        <section class="bg-clay-900 text-white rounded-3xl p-8 shadow-xl max-w-3xl mx-auto">
+        <section id="register" class="bg-clay-900 text-white rounded-3xl p-8 shadow-xl max-w-3xl mx-auto scroll-mt-28">
             <h3 class="text-2xl font-bold mb-8 text-center border-b border-clay-700 pb-4">수강 안내</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 text-sm mb-8">
@@ -346,5 +397,23 @@
         <p class="text-gray-400 text-sm">© 롤에듀. All rights reserved.</p>
     </footer>
 
+    <!-- 
+      자바스크립트(JavaScript) 영역:
+      화면을 스크롤할 때 상단 메뉴바에 그림자가 생기는 효과를 줍니다.
+    -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                // 스크롤을 조금이라도 내리면 'scrolled' 클래스를 추가하여 그림자를 만듭니다.
+                navbar.classList.add('scrolled');
+                navbar.classList.remove('bg-white/80');
+            } else {
+                // 맨 위로 올라오면 다시 원래 상태로 되돌립니다.
+                navbar.classList.remove('scrolled');
+                navbar.classList.add('bg-white/80');
+            }
+        });
+    </script>
 </body>
 </html>
